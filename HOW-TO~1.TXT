@@ -1,0 +1,16 @@
+KURUKSHETRA — INSTALL AS A MOBILE APP (PWA)
+===========================================
+A PWA must be served over http(s) (not opened as a file) for "install" to work.
+
+Quick test on your phone (same Wi-Fi as your computer):
+  1. Put this folder on your computer.
+  2. In a terminal inside this folder run ONE of:
+       npx serve .            (Node)
+       python3 -m http.server 8080   (Python)
+  3. Note your computer's local IP (e.g. 192.168.1.20).
+  4. On your phone's browser open:  http://192.168.1.20:8080
+  5. Chrome: menu (⋮) -> "Add to Home screen" / "Install app".
+     iOS Safari: Share -> "Add to Home Screen".
+  6. Launch from the home-screen icon — it runs fullscreen, landscape, offline.
+
+Or host the folder on any static host (GitHub Pages, Netlify, Vercel) and open the URL on your phone.

@@ -1,0 +1,55 @@
+BUILD AN APK WITH PWABUILDER  (https://www.pwabuilder.com)
+==========================================================
+PWABuilder turns this hosted PWA into a signed Android app — no Android SDK needed.
+It needs a PUBLIC HTTPS URL, so first put this folder online, then package it.
+
+------------------------------------------------------------------
+STEP 1 — Host the folder (pick ONE; all free)
+------------------------------------------------------------------
+Netlify Drop (easiest, no account needed to try):
+  1. Go to https://app.netlify.com/drop
+  2. Drag the WHOLE "Kurukshetra_PWA" folder onto the page.
+  3. You get a URL like https://kurukshetra-xyz.netlify.app  <-- copy it.
+
+GitHub Pages:
+  1. Create a repo, upload the contents of this folder.
+  2. Settings -> Pages -> deploy from main / root.
+  3. Your URL: https://<you>.github.io/<repo>/
+
+Vercel / Cloudflare Pages also work the same way (drag/connect, get HTTPS URL).
+
+Tip: open the URL on your phone first and confirm the game loads.
+
+------------------------------------------------------------------
+STEP 2 — Package with PWABuilder
+------------------------------------------------------------------
+  1. Go to https://www.pwabuilder.com
+  2. Paste your hosted HTTPS URL and click "Start".
+  3. It scores the PWA (manifest, service worker, icons are already set up here).
+  4. Click "Package For Stores" -> "Android".
+  5. Choose "Signed APK" (for sideloading/testing) or leave defaults for an
+     AAB (for the Play Store). Package ID e.g.  com.spidey.kurukshetra
+  6. Click "Generate Package" and download the ZIP.
+
+The ZIP contains:
+  - app-release-signed.apk  (install this on your phone to test)
+  - signing key + key info  (KEEP THIS SAFE — you need the same key for updates)
+  - assetlinks.json + instructions
+
+------------------------------------------------------------------
+STEP 3 — Remove the browser address bar (full-screen TWA)  [optional]
+------------------------------------------------------------------
+PWABuilder gives you an "assetlinks.json". Upload it to your host at:
+     <your-site>/.well-known/assetlinks.json
+This verifies your app owns the site so it runs full-screen with no URL bar.
+(Skip this and the app still works, just with a thin address bar on first launches.)
+
+------------------------------------------------------------------
+STEP 4 — Install on your phone
+------------------------------------------------------------------
+  Copy the .apk to your phone and tap it. Allow "install unknown apps" if asked.
+  It launches fullscreen, landscape, offline — splash screen included.
+
+This PWA is already configured for PWABuilder: rich manifest (id, icons 192/512 +
+maskable, screenshots, landscape, fullscreen), an offline service worker, and a
+theme colour — so it should score well with no extra edits.
