@@ -1,0 +1,43 @@
+# Online services milestone — implementation report
+
+This is a functional first online-services release, not full acceptance of every item in the specification. Direct Google/email providers, live-device QA, native in-app authentication, and securely verified Solo/Lore currency rewards remain outstanding. There is no fake browser-storage account, currency, leaderboard, or result backend.
+
+| Requested report item | Implementation |
+|---|---|
+| 1. Existing architecture | Cloudflare Worker with D1 rooms and signaling; reliable unordered WebRTC DataChannel; two deterministic rollback peers at 60 Hz; existing character/Counter selection, VS, best of three and presentation. Reused without changing attack/passive values. |
+| 2. Backend/auth | Existing Worker/D1 extended with modular services. Guest identity uses opaque random session tokens, SHA-256 hashes in D1 and Secure/HttpOnly/SameSite cookies. Registered identity uses platform-owned ChatGPT sign-in headers. |
+| 3. Existing files modified | db/schema.ts; migration journal; server/index.js; scripts/build.mjs and build-sw.mjs; web/index.html, online-ui.js, online.js, rtc-net.js, rollback-game.js and home-ui.js. |
+| 4. New modules | server/services/{core,config,auth,profile,friends,matchmaking,sessions,economy,index}.js; generated server/referee.js; scripts/build-referee.mjs; web/{online-services,service-session,service-screens}.js and online-services.css; focused service/referee/handshake tests; local-only dev/online-lab.mjs. |
+| 5. Account/profile | Immutable UUID internally; public AW- identifier; unique normalized name; warrior avatar; provider/identity/status, timestamps, region. Profile shows rank/progress, balance, wins/losses, rate, streaks, favorite warrior and friend count; history is a separate tab. |
+| 6. Sign-in providers | Guest and platform ChatGPT sign-in implemented. Guest linking preserves the same account and all associated records. Logout, session expiry and renewal implemented. Google and direct email are explicitly unavailable pending a supported provider integration. Existing-account collisions are rejected rather than silently merging or deleting progress. |
+| 7. Economy | currency_suvarna. Ranked win/loss: 40/15; Casual: 25/10; Friendly: 0/0. First eligible win per UTC day adds 100. Rewards are centralized configuration. No gameplay-stat purchases; cosmetic spending is reserved for future work. |
+| 8. Currency security | Atomic transaction ledger records before/after balances, amount, type, source and time. Match/user unique IDs and a settlement guard prevent duplicate awards. Abandoning player receives no loss currency. Browser-reported victories, wallet grants and arbitrary ratings are not accepted. |
+| 9. Friends | Exact/prefix name or public-ID search, normalized unique friend pair, recipient-only accept/decline, remove, block foundation and presence. Menu displays request notifications; friend list supports presence refresh. |
+| 10. Challenges | Online available friends may send 25-second challenges. Acceptance automatically reserves both accounts, creates private session and enters existing selection flow. Decline/expiry feedback included. |
+| 11. Room-code migration | Create/join/copy-code controls removed from the production UI. Internal 10-character rooms and seat-scoped tokens still carry SDP/ICE. Existing low-level endpoints remain for compatibility and do not grant ranked rewards. |
+| 12. Matchmaking | One queue row per account. Ranked range ±75/150/250 for 0–10/10–20/20–40 seconds, then progressively broader. Region preference and measured service RTT are relaxed with waiting time. This RTT is an estimate, not measured peer-to-peer ping. Match offers require both accepts within 12 seconds; accepted innocent player keeps queue age on timeout. |
+| 13. MMR | Starting 1000, Elo-like expected score, K=32, change bounded 8–40, floor 0. Friendly and Casual do not change ranked MMR. Completed ranked records alone qualify for leaderboard. |
+| 14. Rank thresholds | Rathi III: 0, II: 800, I: 900; Ati Rathi III/II/I: 1000/1100/1200; Maharathi: 1300/1400/1500; Ati Maharathi: 1600/1700/1800; Mahasenani: 1900/2000/2100; Divya Rathi: 2200/2300/2400; Chiranjivi: 2500+. Configured emblem hooks are null until final art is supplied. Promotion highlight and rating changes appear on result overlay. |
+| 15. Leaderboards | Current founders season; Global and Friends, 50 per page, deterministic tie order, own position. Season field/highest rating prepare later archiving/reset work; automatic seasons/reset are not enabled. |
+| 16. History/stats | Last 30 records, mode, opponent, warriors, score, rating delta, reward and reason. Ranked/Casual/Friendly wins/losses remain separate. Usage/streak counters update only through settlement. |
+| 17. Reconnect/abandonment | 30-second server-observed window. Recovery epoch invalidates old signaling and input batches. Both peers restart transport from the same server-generated checkpoint, replaying only authenticated inputs. Connected opponent wins after validated play and timeout; simultaneous disappearance/setup failures void the match. This is request-driven adjudication, not a background scheduler. Returning Home after a terminal local result drains final inputs before release. |
+| 18. Database | Appended Drizzle migration adds accounts, sessions, wallets, currency transactions, ratings, friend relations/blocks, presence, queue, matches, seats, input batches, challenges and history. Existing room schema and prior applied migrations preserved. |
+| 19. Protections | Same-origin JSON write requests, session authentication, role/recipient/seat checks, reserved-name rules, public-data projection, prepared SQL, rate limits, bounded input batches, immutable own-seat input timelines, server seed/loadouts, replay checkpoint CAS, atomic settlement and queue uniqueness. Does not claim bot-proof or collusion-proof anti-cheat. |
+| 20. Tests | Node SQLite backend integration: guest persistence/linking/rotation, names, friend search/request/accept, challenge accept/decline, queue duplication/cancel/timeout, loadouts, input verification, checkpoint recovery, stale epoch rejection, abandonment, reward deduplication/daily bonus, leaderboard/history and rejected client grants/results. Browser simulation parity across eight warriors. Managed-session handshake test. Full legal-input best-of-three replay through automatic Casual result/reward/history. Existing signaling, matchup, home/touch selection, stamina, victory presentation and audio tests. No live browser/two-phone QA was available. |
+| 21. Deployment configuration | D1 binding DB already exists; Sites applies appended migration. No new secret required for Guest/platform sign-in. Direct Google/email require provider setup before activation. WEBRTC_ICE_SERVERS supports existing TURN configuration; restrictive networks need a real TURN service. Current Android WebView blocks third-party cookies, so account-based Online opens the secure website in an external browser; no new signed APK/AAB supplied. |
+
+## Result authority
+
+Clients send their own confirmed inputs in batches of up to 120 frames. The existing combat sources are compiled into a Worker-safe referee function with inert presentation adapters and an isolated deterministic Math object. The server replays paired input batches from its own checkpoint, never a client snapshot. This preserves instant local prediction and direct P2P combat while making rewards dependent on the replay's best-of-three result. Profile/friend/leaderboard fetches are not part of the frame loop; active presence responses omit profile/stat queries. A reconnect may rewind up to the last verified batch.
+
+## Deferred acceptance items
+
+- Direct Google and email authentication, including linking those specific providers.
+- Solo Arcade and one-time Lore currency rewards: configuration exists, but unverified local outcomes do not award server currency.
+- Native in-app provider sign-in and a newly tested/signed Android release.
+- Live two-device testing of complete matches, mobile layout, NAT/TURN, background-tab suspension and provider redirects. Local automated tests cannot substitute for these.
+- Final rank-emblem artwork, cosmetic catalog/purchases, automatic season rollover, production scale/load testing and richer friend-accepted notifications.
+
+## Development lab
+
+`node dev/online-lab.mjs --mmr 2500 --grant 100` runs only against an in-memory SQLite database. It exercises test accounts, queues, challenges, results and reconnects, then displays a test rank/wallet ledger. It is excluded from production assets; there is no deployed admin-grant endpoint.

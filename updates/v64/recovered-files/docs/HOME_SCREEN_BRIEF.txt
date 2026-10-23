@@ -1,0 +1,488 @@
+Continue working inside my existing **Kurukshetra Astra Warfare** project.
+
+This milestone is ONLY for updating the HOME SCREEN layout using the supplied final PNG assets.
+
+Do NOT redesign the game.
+Do NOT create new features.
+Do NOT add profile, currency, inventory, achievements, shop, characters menu, or anything that does not currently exist.
+
+Use only the current home-screen features and the supplied PNG assets.
+
+==================================================
+SUPPLIED ASSETS
+==================================================
+
+I am providing these final UI PNGs:
+
+- SoloArcade.png
+- Local1V1.png
+- Online Friends.png
+- Lore Arjuna Vs Karna.png
+- Lore Narayanastra.png
+- Learn The Controls.png
+- Settings.png
+- How to Play.png
+
+I also have the current final home-screen background containing:
+
+- Kurukshetra battlefield
+- Lord Krishna
+- game title/logo already integrated into the background
+
+Use that background as the visual base.
+
+Do NOT redraw any of these assets.
+
+==================================================
+PRIMARY GOAL
+==================================================
+
+Overlay the supplied tappable PNG buttons onto the existing home-screen background and recreate the supplied reference layout.
+
+The layout must feel cinematic and premium while keeping all current game options immediately accessible.
+
+All PNGs should remain crisp and proportional.
+
+Do not stretch the artwork.
+
+==================================================
+MAIN MODE BUTTON LAYOUT
+==================================================
+
+Place the five large vertical mode cards in one horizontal row across the lower-middle section of the screen.
+
+LEFT TO RIGHT:
+
+1. Solo Arcade
+2. Local 1v1
+3. Online Friends
+4. Lore: Arjuna vs Karna
+5. Lore: Narayanastra Trial
+
+The cards should sit below the central game title and below Lord Krishna, without covering his face or flute.
+
+The five cards should occupy approximately:
+
+Y position:
+45% to 82% of screen height
+
+Horizontal safe area:
+roughly 3% to 97% of screen width
+
+Use equal spacing.
+
+All five cards should share the same displayed height.
+
+Preserve each PNG's original aspect ratio.
+
+Suggested desktop 16:9 sizing:
+
+card height:
+approximately 38–42% of viewport height
+
+gap:
+approximately 1–1.5% of viewport width
+
+==================================================
+CARD ALIGNMENT
+==================================================
+
+The five mode cards must visually align along:
+
+- top edge
+- text baseline region
+- lower icon section
+- bottom point
+
+Do not allow one card to appear noticeably larger unless its source proportions require a very small compensation.
+
+Use `object-fit: contain` or equivalent.
+
+No cropping.
+
+==================================================
+UTILITY BUTTONS
+==================================================
+
+Place the smaller horizontal utility buttons separately from the main cards.
+
+TOP RIGHT:
+
+SETTINGS
+HOW TO PLAY
+
+Place them side-by-side in the upper-right safe area.
+
+Suggested:
+
+top:
+2–3%
+
+right:
+2–3%
+
+They should be significantly smaller than the main mode cards.
+
+Suggested displayed width:
+approximately 9–12% of viewport width each.
+
+Do not cover Krishna or the game logo.
+
+==================================================
+LEARN THE CONTROLS
+==================================================
+
+Place `Learn The Controls.png` in the lower-left area.
+
+Suggested:
+
+left:
+2–3%
+
+bottom:
+3–5%
+
+Displayed width:
+approximately 16–20% of viewport width.
+
+Keep it separated from the five main cards.
+
+==================================================
+VISUAL HIERARCHY
+==================================================
+
+The home screen should read in this order:
+
+1. Lord Krishna / battlefield atmosphere
+2. Kurukshetra Astra Warfare title
+3. five primary game modes
+4. Settings / How to Play
+5. Learn the Controls
+
+Do not add extra labels outside the supplied PNGs unless needed for accessibility.
+
+==================================================
+REFERENCE 16:9 COMPOSITION
+==================================================
+
+For a 1920×1080 reference layout, approximate positions:
+
+Main cards container:
+X = 60 px
+Y = 480 px
+W = 1800 px
+H = 470 px
+
+Five cards:
+equal visual height around 430–460 px
+with even spacing
+
+Utility buttons:
+Settings near top-right
+How to Play immediately beside it
+
+Learn Controls:
+bottom-left
+
+The title and Lord Krishna are already part of the background and must remain unobstructed.
+
+==================================================
+BUTTON INTERACTION
+==================================================
+
+Every supplied button must be a real tappable/clickable UI element.
+
+Do NOT flatten all buttons into one background image.
+
+Each PNG should sit inside its own interactive button/container.
+
+Required interactions:
+
+Solo Arcade
+→ existing Solo Arcade flow
+
+Local 1v1
+→ existing Local 1v1 flow
+
+Online Friends
+→ existing Online Friends flow
+
+Lore: Arjuna vs Karna
+→ existing Arjuna vs Karna Lore flow
+
+Lore: Narayanastra Trial
+→ existing Narayanastra Lore flow
+
+Learn the Controls
+→ existing controls/tutorial screen
+
+Settings
+→ existing settings screen
+
+How to Play
+→ existing How to Play screen
+
+Do not change where these options currently lead.
+
+==================================================
+TOUCH TARGETS
+==================================================
+
+The full visible PNG area should be tappable.
+
+Do not make only the text or icon clickable.
+
+For mobile, ensure minimum practical tap target sizing.
+
+Prevent accidental overlap between neighbouring buttons.
+
+==================================================
+HOVER / PRESS FEEDBACK
+==================================================
+
+Do not generate separate hover images.
+
+Create lightweight interaction in code.
+
+Desktop hover:
+
+scale:
+1.00 → 1.035
+
+brightness:
+small increase
+
+optional:
+gold glow
+
+duration:
+100–160 ms
+
+Pressed:
+
+scale:
+approximately 0.97
+
+Mobile touch:
+
+brief glow or scale pulse.
+
+Do not distort the card.
+
+==================================================
+OPTIONAL IDLE MOTION
+==================================================
+
+Prepare the structure so subtle motion can be added later.
+
+Possible future effects:
+
+- slow card float
+- gold edge shimmer
+- battlefield embers
+- Krishna aura movement
+- moving clouds
+- banner movement
+
+Do NOT implement heavy animation in this milestone unless already easy to support.
+
+The current goal is layout and interaction.
+
+==================================================
+RESPONSIVE RULES
+==================================================
+
+Primary target:
+landscape.
+
+Support:
+
+1920×1080
+1600×900
+1366×768
+mobile landscape
+Android wrapper
+
+For standard/wide landscape:
+
+keep five cards in one row where they remain readable.
+
+For narrower landscape:
+
+reduce card size and gaps proportionally.
+
+Do not allow cards to overlap.
+
+If screen becomes too narrow, allow a horizontally scrollable mode-card row rather than shrinking them until unreadable.
+
+==================================================
+SAFE AREAS
+==================================================
+
+Respect notches and mobile safe areas.
+
+Do not place:
+
+Settings
+How to Play
+Learn Controls
+
+under device cutouts.
+
+==================================================
+BACKGROUND
+==================================================
+
+The home-screen background should fill the viewport.
+
+Use:
+
+cover
+
+or equivalent.
+
+Maintain center composition.
+
+Do not crop Lord Krishna's face or the main title.
+
+If necessary, use per-aspect-ratio background positioning.
+
+==================================================
+Z-ORDER
+==================================================
+
+Recommended:
+
+background image
+→ subtle optional dark gradient behind cards if required
+→ main mode cards
+→ Learn Controls
+→ Settings / How to Play
+
+Do not place new graphics over the existing title.
+
+==================================================
+READABILITY
+==================================================
+
+If the bright battlefield makes any card harder to read:
+
+add a very subtle local shadow behind the card row.
+
+Do not darken the entire artwork heavily.
+
+The supplied card artwork should remain the main visual element.
+
+==================================================
+ASSET PRELOAD
+==================================================
+
+Preload:
+
+background
+all five mode cards
+Settings
+How To Play
+Learn Controls
+
+before revealing the home screen if practical.
+
+Avoid visible image pop-in.
+
+==================================================
+DO NOT ADD
+==================================================
+
+Do NOT add:
+
+profile
+level
+currency
+gems
+coins
+mail
+friends icon
+inventory
+achievements
+character menu
+Astra menu
+daily rewards
+battle pass
+shop
+
+Those features do not exist yet.
+
+The home screen must only display current working options.
+
+==================================================
+DEBUG / ALIGNMENT
+==================================================
+
+If development tools exist, add a simple layout debug toggle:
+
+- show button bounds
+- show safe area
+- show screen center
+- show card-row bounds
+
+Optional tweak values:
+
+mainRowY
+mainCardHeight
+mainCardGap
+utilityButtonScale
+learnControlsScale
+
+Keep these centralized.
+
+==================================================
+DEFINITION OF DONE
+==================================================
+
+Complete when:
+
+1. Existing Krishna/title battlefield background is used.
+2. Five supplied primary mode PNGs display in a clean row.
+3. Cards are evenly aligned.
+4. Settings button works.
+5. How to Play button works.
+6. Learn Controls button works.
+7. All primary modes navigate to existing flows.
+8. Full PNG surface is tappable.
+9. Hover/touch feedback works.
+10. Desktop 16:9 looks close to supplied reference composition.
+11. Mobile landscape remains usable.
+12. No nonexistent features have been added.
+13. Existing game flow is unchanged.
+
+==================================================
+FINAL REPORT
+==================================================
+
+After implementation report:
+
+FILES MODIFIED
+
+HOME SCREEN COMPONENT
+
+BACKGROUND ASSET PATH
+
+BUTTON ASSET PATHS
+
+BUTTON POSITIONING
+
+RESPONSIVE RULES
+
+TOUCH / HOVER BEHAVIOR
+
+CURRENT NAVIGATION MAPPING
+
+MOBILE TEST RESULT
+
+DESKTOP TEST RESULT
+
+KNOWN ISSUES
+
+Do not begin another milestone.
+
+Proceed with this home-screen UI overlay only.

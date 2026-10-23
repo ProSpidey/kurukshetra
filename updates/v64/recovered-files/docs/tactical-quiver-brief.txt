@@ -1,0 +1,1573 @@
+CONTINUE WORKING INSIDE MY EXISTING
+“KURUKSHETRA ASTRA WARFARE” PROJECT.
+
+NEW COMBAT MILESTONE:
+
+TACTICAL QUIVER SYSTEM
++
+HISTORICALLY INSPIRED PHYSICAL ARROW TYPES
++
+COMMON POWER / BATTLEFIELD ARROWS
+
+IMPORTANT:
+
+DO NOT rebuild the combat system.
+
+The game already has:
+
+- normal arrows
+- hit-location damage
+- characters with different base archery stats
+- chariots
+- Spirit Charge
+- Astra Stability / interruption
+- Signature Astras
+- Counter Astras
+- field transformations
+- Rage
+- Ultimates
+- Legendary Fate Passives
+- online multiplayer
+
+Extend the existing normal-arrow architecture.
+
+The purpose of this milestone is to make NORMAL ARCHERY strategically interesting enough that players do not simply wait for Astras.
+
+====================================================
+1. DESIGN PHILOSOPHY
+====================================================
+
+The combat hierarchy should become:
+
+PHYSICAL ARCHERY
+↓
+TACTICAL / POWER ARROWS
+↓
+SIGNATURE ASTRA
+↓
+SPIRIT ASTRA
+↓
+ULTIMATE
+
+Normal/tactical arrows must remain useful throughout the entire match.
+
+However:
+
+Physical Arrow != Astra.
+
+Physical arrows cannot:
+
+- cancel Ultimates
+- overpower Spirit fields by raw damage
+- create huge supernatural battlefield effects
+- replace Counter Astras
+
+Their strengths are:
+
+precision
+pressure
+equipment targeting
+chariot damage
+Spirit interruption
+positioning
+resource management
+
+====================================================
+2. AUDIT FIRST
+====================================================
+
+Inspect:
+
+normal projectile class
+arrow pooling
+draw/release system
+aiming
+perfect release
+hit zones
+critical hits
+armor calculations
+chariot damage
+Spirit Stability damage
+projectile clashes
+input system
+HUD
+character configs
+AI
+local multiplayer
+online multiplayer
+round reset
+
+Reuse existing systems.
+
+Do NOT create separate physics systems for each arrow.
+
+====================================================
+3. CREATE PHYSICAL ARROW DEFINITION
+====================================================
+
+Create a central:
+
+PhysicalArrowDefinition
+
+Suggested fields:
+
+id
+displayName
+
+weightClass
+arrowheadClass
+
+damageMultiplier
+projectileSpeedMultiplier
+drawTimeMultiplier
+
+accuracyMultiplier
+gravityMultiplier
+
+armorPenetration
+staggerPower
+
+criticalChanceModifier
+criticalDamageModifier
+
+headshotModifier
+
+equipmentDamage
+bowDamage
+chariotDamage
+horseHarnessDamage
+
+stabilityDamage
+
+bleedDamage
+bleedDuration
+
+effectiveRangeMin
+effectiveRangeMax
+
+ammoPerRound
+isUnlimited
+
+cooldown
+
+allowedCharacters[]
+
+VFX
+trailVFX
+impactVFX
+
+SFX
+
+aiUsageTags[]
+
+====================================================
+4. WEIGHT CLASSES
+====================================================
+
+Represent the historically inspired structural categories internally:
+
+PUM_BANA
+
+heavy / impact-oriented
+
+Suggested tendencies:
+
++ impact
++ stagger
++ hard-target damage
+
+- velocity
+- draw speed
+
+--------------------------------
+
+STRI_BANA
+
+precision/range-oriented
+
+Suggested tendencies:
+
++ velocity
++ accuracy
++ long-range efficiency
+
+- stagger
+
+--------------------------------
+
+NAPUMSAKA_BANA
+
+balanced/training construction.
+
+Primarily use for:
+
+Learn Controls
+training/tutorial
+
+Do not clutter competitive selection with this unless needed.
+
+====================================================
+5. GOPUCCHA
+====================================================
+
+ID:
+
+arrow_gopuccha
+
+ROLE:
+
+BALANCED / GENERAL COMBAT
+
+This becomes the standard/default physical arrow.
+
+Baseline approximately:
+
+Damage:
+100%
+
+Velocity:
+100%
+
+Draw:
+100%
+
+Accuracy:
+100%
+
+Armor penetration:
+medium
+
+Stagger:
+medium
+
+Equipment damage:
+medium-low
+
+Stability damage:
+medium-low
+
+Ammo:
+
+UNLIMITED
+
+or effectively unlimited according to the existing normal-arrow system.
+
+This should always remain viable.
+
+====================================================
+6. NARACHA
+====================================================
+
+ID:
+
+arrow_naracha
+
+ROLE:
+
+HEAVY PENETRATOR
+
+Weight tendency:
+
+PUM_BANA
+
+Suggested starting balance:
+
+Damage:
+120–130%
+
+Velocity:
+80–88%
+
+Draw time:
+120–130%
+
+Accuracy:
+90–95%
+
+Armor penetration:
+very high
+
+Stagger:
+high
+
+Chariot damage:
+140–160%
+
+Spirit Stability damage:
+high
+
+Critical chance:
+lower than precision arrows
+
+Best against:
+
+armor
+chariot body
+heavy defensive states
+Spirit Charge shield/stability
+
+Weakness:
+
+slow preparation
+easier to dodge at long range
+
+====================================================
+7. SHILIMUKHA
+====================================================
+
+ID:
+
+arrow_shilimukha
+
+ROLE:
+
+PRECISION PIERCER
+
+Weight tendency:
+
+STRI_BANA
+
+Suggested:
+
+Damage:
+85–95%
+
+Velocity:
+115–125%
+
+Draw:
+90–100%
+
+Accuracy:
+120–130%
+
+Armor penetration:
+high
+
+Stagger:
+low
+
+Headshot multiplier:
+high
+
+Weak-point damage:
+high
+
+Spirit Stability damage:
+high on precision hit
+
+Best for:
+
+headshots
+armor gaps
+equipment weak points
+long-range shots
+
+====================================================
+8. ARDHACHANDRA
+====================================================
+
+ID:
+
+arrow_ardhachandra
+
+ROLE:
+
+SEVERING / EQUIPMENT TARGETING
+
+Do NOT implement graphic dismemberment.
+
+Convert its cutting identity into tactical equipment damage.
+
+Suggested:
+
+HP Damage:
+75–85%
+
+Velocity:
+90–100%
+
+Armor penetration:
+low
+
+Equipment damage:
+VERY HIGH
+
+Bowstring damage:
+VERY HIGH
+
+Harness/rope damage:
+HIGH
+
+Potential targets:
+
+bow
+bowstring
+quiver
+chariot harness
+wheel fittings
+banner ropes
+future battlefield equipment
+
+A successful precision equipment hit should produce a temporary mechanical penalty rather than permanently removing the opponent's weapon.
+
+Example:
+
+Bowstring Hit
+
+→ DRAW DISRUPTED
+
+Draw speed:
+-15%
+
+Duration:
+3–5 sec
+
+Do not make players unable to attack for long periods.
+
+====================================================
+9. VATSADANTA
+====================================================
+
+ID:
+
+arrow_vatsadanta
+
+ROLE:
+
+DISRUPTION
+
+Suggested:
+
+HP damage:
+70–80%
+
+Velocity:
+100–110%
+
+Accuracy:
+high
+
+Equipment damage:
+extremely high
+
+Bow damage:
+extremely high
+
+On successful precision bow/equipment hit:
+
+possible temporary effects:
+
+DRAW SPEED DOWN
+
+ACCURACY STABILITY DOWN
+
+PERFECT WINDOW REDUCED
+
+Duration approximately:
+
+2.5–4 sec
+
+Do not permanently destroy the bow.
+
+====================================================
+10. KARNIKA
+====================================================
+
+ID:
+
+arrow_karnika
+
+ROLE:
+
+BARBED PRESSURE
+
+Suggested:
+
+Initial damage:
+75–85%
+
+Velocity:
+90–100%
+
+Armor penetration:
+medium-low
+
+Apply:
+
+BARBED
+
+Short bleed/pressure effect.
+
+Example:
+
+small damage ticks over:
+3–5 sec
+
+Do not make bleed extremely strong.
+
+BARBED may also slightly reduce:
+
+movement comfort
+or
+draw stability
+
+but NEVER hard-lock the player.
+
+====================================================
+11. VAITAMHIKA
+====================================================
+
+ID:
+
+arrow_vaitamhika
+
+ROLE:
+
+MASTER CLOSE-RANGE QUICKSHOT
+
+This should feel like an elite archery technique.
+
+Suggested:
+
+Damage:
+90–100%
+
+Velocity:
+125–135%
+
+Draw time:
+65–75%
+
+Accuracy close range:
+high
+
+Long-range accuracy:
+reduced
+
+Optimal range:
+short-medium
+
+Critical potential:
+high
+
+Ammo:
+limited
+
+Suggested:
+3–4 per round
+
+This should create dangerous close-range chariot exchanges.
+
+Do not give every warrior identical proficiency.
+
+====================================================
+12. ANJALIKA
+====================================================
+
+DO NOT add Anjalika to the standard shared quiver.
+
+Treat it as:
+
+LORE / SIGNATURE SPECIAL
+
+primarily associated with Arjuna where appropriate.
+
+It should not become a common selectable normal arrow because it would weaken its narrative importance and overlap with Signature Astras/Ultimate mechanics.
+
+Prepare data hooks only.
+
+====================================================
+13. COMMON POWER ARROWS
+====================================================
+
+Create a separate class:
+
+TACTICAL_POWER_ARROW
+
+These are stronger/specialized than ordinary physical ammunition but much weaker than Astras.
+
+Support:
+
+RAPID VOLLEY
+
+FIRE-POT / BOMB ARROW
+
+FLARE ARROW
+
+GUARD ARROW
+
+====================================================
+14. RAPID VOLLEY
+====================================================
+
+ID:
+
+power_arrow_rapid
+
+Fire:
+
+3 arrows rapidly.
+
+Suggested:
+
+individual damage:
+45–55%
+
+Accuracy:
+reduced progressively
+
+Stability damage:
+good through repeated hits
+
+Useful for:
+
+pressure
+interrupting charge
+forcing movement
+finishing very low-health opponent
+
+Do not allow all three arrows to automatically converge perfectly on the head.
+
+Player aim still matters.
+
+====================================================
+15. FIRE-POT / BOMB ARROW
+====================================================
+
+ID:
+
+power_arrow_fire_pot
+
+Player-facing name may be:
+
+FIRE-POT ARROW
+
+or
+
+BOMB ARROW
+
+depending current UI terminology.
+
+This is NOT Agneya Astra.
+
+Suggested:
+
+slow projectile
+longer preparation
+
+Direct damage:
+moderate
+
+Small physical blast radius.
+
+Strong against:
+
+chariot components
+clustered battlefield objects
+
+Creates:
+
+small short-lived burning patch.
+
+Fire patch:
+
+low/moderate DOT
+small radius
+short duration
+
+It CAN participate in basic FIRE environmental interactions.
+
+It CANNOT create:
+
+Agneya Fire Prison
+large Spirit fields
+Level-5 control
+
+Ammo:
+
+1–2 per round.
+
+====================================================
+16. FLARE ARROW
+====================================================
+
+ID:
+
+power_arrow_flare
+
+Damage:
+very low
+
+Utility:
+
+illuminates battlefield zone.
+
+Can:
+
+reduce Steam concealment
+reduce Mist concealment
+reveal enemy silhouette
+improve trajectory readability
+
+Duration:
+short.
+
+This gives players a non-Astra answer to battlefield visibility problems without deleting the actual field.
+
+====================================================
+17. GUARD ARROW
+====================================================
+
+ID:
+
+power_arrow_guard
+
+This is a common defensive technique.
+
+On activation/create impact:
+
+produce a VERY SHORT defensive projectile ward.
+
+Suggested:
+
+duration:
+1–1.5 sec
+
+Can stop/deflect:
+
+normal physical arrows
+possibly Rapid Volley arrows
+
+Cannot stop:
+
+Signature Astras
+Spirit Astras
+Counter Astras where rules say otherwise
+Ultimates
+
+Do not turn Guard Arrow into a magical universal shield.
+
+Limit ammunition/cooldown heavily.
+
+====================================================
+18. QUIVER LOADOUT
+====================================================
+
+Do NOT put 10 arrow buttons permanently on the HUD.
+
+Recommended combat loadout:
+
+STANDARD SLOT
+
+Gopuccha
+always available.
+
+TACTICAL SLOT 1
+
+player selects one:
+
+Naracha
+Shilimukha
+Ardhachandra
+Vatsadanta
+Karnika
+Vaitamhika if eligible
+
+TACTICAL SLOT 2
+
+select another compatible arrow.
+
+POWER SLOT
+
+select one:
+
+Rapid Volley
+Fire-Pot
+Flare
+Guard
+
+Therefore the player enters battle with:
+
+1 default arrow
++
+2 chosen tactical arrows
++
+1 chosen Power Arrow
+
+Astras remain in their own system.
+
+====================================================
+19. PRE-MATCH FLOW
+====================================================
+
+Current flow approximately:
+
+Choose Warrior
+→ Counter Astra
+→ VS
+→ Battle
+
+Extend to:
+
+Choose Warrior
+→ Tactical Quiver
+→ Counter Astra
+→ VS
+→ Battle
+
+If this creates too many separate screens:
+
+integrate Tactical Quiver selection into the existing Astra/Counter loadout screen.
+
+Keep it fast.
+
+====================================================
+20. QUICK ARROW SELECTION
+====================================================
+
+During combat provide a compact:
+
+QUIVER SELECTOR
+
+Desktop:
+
+number keys / mouse wheel / radial selection according to existing controls.
+
+Mobile:
+
+tap current arrow icon
+→ small radial/compact overlay
+→ choose arrow.
+
+Do NOT pause online match.
+
+Selection should be fast.
+
+====================================================
+21. ARROW READINESS HUD
+====================================================
+
+Show:
+
+arrow icon
+ammo
+cooldown if applicable
+
+Example:
+
+NARACHA
+3
+
+or:
+
+FLARE
+1
+
+Do not show huge text over combat.
+
+====================================================
+22. LIMITED AMMO
+====================================================
+
+Recommended:
+
+Gopuccha:
+unlimited
+
+Tactical specialized arrows:
+
+approximately 3–6 each per round depending strength.
+
+Power arrows:
+
+1–2 per round.
+
+Reset according to Best-of-Three round rules.
+
+Do not allow Bomb/Guard/Rapid spam.
+
+====================================================
+23. CHARACTER PROFICIENCY
+====================================================
+
+Characters should NOT feel identical with the same ammunition.
+
+Create:
+
+ArrowProficiencyModifier
+
+Fields:
+
+damage
+drawSpeed
+velocity
+accuracy
+equipmentDamage
+stabilityDamage
+
+Keep bonuses modest:
+
+approximately 5–15%.
+
+Suggested identities:
+
+ARJUNA
+
+excellent:
+Shilimukha
+Vaitamhika
+Rapid Volley
+
+precision specialist.
+
+--------------------------------
+
+KARNA
+
+excellent:
+Naracha
+heavy Pum-bana arrows
+
+high impact/chariot penetration.
+
+--------------------------------
+
+BHISHMA
+
+excellent:
+Naracha
+Gopuccha
+
+extremely heavy deliberate archery.
+
+Keep his slower draw identity.
+
+--------------------------------
+
+DRONA
+
+excellent:
+Ardhachandra
+Vatsadanta
+
+equipment disruption and tactical knowledge.
+
+--------------------------------
+
+ABHIMANYU
+
+excellent:
+Vaitamhika
+Rapid Volley
+
+aggressive close-range archery.
+
+--------------------------------
+
+ASHWATTHAMA
+
+excellent:
+Karnika
+Naracha
+
+pressure/aggressive damage.
+
+--------------------------------
+
+SATYAKI
+
+excellent:
+Rapid Volley
+Gopuccha
+Vaitamhika
+
+fast pursuit archery.
+
+--------------------------------
+
+EKALAVYA
+
+excellent:
+Shilimukha
+precision arrows
+
+highest weak-point precision potential.
+
+Do not make proficiency differences overpower player skill.
+
+====================================================
+24. HIT LOCATION
+====================================================
+
+Preserve:
+
+HEAD
+BODY
+LOW
+
+Then extend targeting where currently supported:
+
+BOW
+QUIVER
+CHARIOT BODY
+WHEEL
+HARNESS
+
+Do NOT fully implement the future precision chariot destruction system if it does not yet exist.
+
+Prepare clean hooks.
+
+====================================================
+25. EQUIPMENT HITS
+====================================================
+
+Equipment hitboxes should be smaller than body hitboxes.
+
+High reward requires precision.
+
+Examples:
+
+Ardhachandra hitting bowstring:
+
+temporary Draw Disruption.
+
+Vatsadanta hitting bow:
+
+temporary accuracy/draw penalty.
+
+Naracha hitting chariot body:
+
+high structural damage.
+
+Shilimukha hitting armor gap/head:
+
+high critical potential.
+
+====================================================
+26. NORMAL ARROW CLASHES
+====================================================
+
+Retain projectile-vs-projectile arrow collision.
+
+Different arrow mass can affect clash outcome.
+
+Example:
+
+Naracha
+vs
+Gopuccha
+
+Naracha has higher clash power.
+
+But do not make heavy arrows automatically win every collision.
+
+Consider:
+
+relative velocity
+mass
+angle
+perfect release
+
+====================================================
+27. PERFECT RELEASE
+====================================================
+
+Perfect release should meaningfully affect physical arrows.
+
+Suggested:
+
+velocity bonus
+accuracy bonus
+small damage bonus
+Stability damage bonus
+
+Precision arrows get especially strong benefits.
+
+Heavy arrows get smaller accuracy benefit but significant penetration benefit.
+
+====================================================
+28. ASTRA STABILITY CONNECTION
+====================================================
+
+Normal tactical arrows become important anti-charge tools.
+
+Suggested relative Stability pressure:
+
+Gopuccha:
+low-medium
+
+Naracha:
+high
+
+Shilimukha precision hit:
+high
+
+Ardhachandra:
+medium
+
+Vatsadanta:
+medium
+
+Karnika:
+low-medium
+
+Vaitamhika:
+medium-high at close range
+
+Rapid Volley:
+high only if multiple arrows land
+
+Bomb Arrow:
+high from direct hit
+
+Do not let one ordinary body shot instantly break a full Spirit Charge.
+
+====================================================
+29. CHARGE SHIELD
+====================================================
+
+Respect the existing Charge Shield.
+
+Some arrows may specialize in:
+
+shield integrity
+or
+Stability
+
+Example:
+
+Naracha:
+
+strong Shield Integrity damage.
+
+Shilimukha:
+
+lower shield damage
+but strong Stability damage if precision interaction succeeds.
+
+====================================================
+30. CHARIOT GAMEPLAY
+====================================================
+
+Physical arrows should begin making chariots tactically relevant.
+
+Naracha:
+
+high chariot structure damage.
+
+Ardhachandra:
+
+high harness/rope damage.
+
+Shilimukha:
+
+precise weak-point hit.
+
+Fire-Pot:
+
+small area chariot pressure.
+
+Do NOT allow one lucky shot to instantly destroy a healthy chariot.
+
+====================================================
+31. HORSES
+====================================================
+
+Avoid encouraging graphic animal damage.
+
+For gameplay, focus on:
+
+HARNESS
+REINS
+CHARIOT EQUIPMENT
+
+rather than explicit horse injury.
+
+A harness hit may temporarily reduce:
+
+turn response
+chariot acceleration
+
+without depicting animal injury.
+
+====================================================
+32. NO HARD STUN FROM PHYSICAL ARROWS
+====================================================
+
+Physical arrows may cause:
+
+micro-stagger
+draw disruption
+movement pressure
+
+but:
+
+NO long hard-lock.
+
+Level-5 movement control remains reserved for appropriate Spirit mechanics.
+
+====================================================
+33. DAMAGE BALANCE
+====================================================
+
+Do not simply make specialized arrows stronger versions of Gopuccha.
+
+Every arrow needs a tradeoff.
+
+Example:
+
+Naracha:
+
++damage
++penetration
+
+BUT:
+
+-slow draw
+-slow flight
+
+Shilimukha:
+
++speed
++precision
+
+BUT:
+
+-lower stagger
+-lower raw body damage
+
+Ardhachandra:
+
++equipment damage
+
+BUT:
+
+-low armor penetration
+
+This is mandatory.
+
+====================================================
+34. AI
+====================================================
+
+Update AI to understand:
+
+enemy distance
+enemy armor/chariot state
+Spirit Charge
+equipment vulnerability
+available ammunition
+
+Examples:
+
+enemy charging Spirit:
+AI may use Naracha.
+
+enemy long distance:
+Shilimukha.
+
+enemy chariot damaged:
+Naracha/Fire-Pot.
+
+enemy in Mist:
+Flare.
+
+close range:
+Vaitamhika/Rapid.
+
+AI must respect ammo.
+
+====================================================
+35. ONLINE MULTIPLAYER
+====================================================
+
+Arrow selection and projectile results must remain authoritative.
+
+Synchronize:
+
+arrowTypeId
+shotId
+releaseTimestamp
+position
+velocity
+hit result
+equipment result
+ammo consumption
+
+Do not trust client-reported damage.
+
+Do not network cosmetic particle frames.
+
+====================================================
+36. LOADOUT VALIDATION
+====================================================
+
+Server/authority validates:
+
+character
+allowed arrow types
+ammo
+Power Arrow selection
+
+Prevent clients from equipping:
+
+unlimited Bomb arrows
+
+or invalid arrows.
+
+====================================================
+37. ROUND RESET
+====================================================
+
+Reset:
+
+tactical ammo
+Power Arrow ammo
+temporary bow penalties
+barbed effects
+flare vision effects
+guard effects
+
+according to round rules.
+
+No temporary effect survives accidentally into next round.
+
+====================================================
+38. AUDIO / VFX
+====================================================
+
+Each arrow needs distinct readability.
+
+Gopuccha:
+standard whistle.
+
+Naracha:
+heavy deep flight sound.
+
+Shilimukha:
+sharp high-speed whistle.
+
+Ardhachandra:
+cutting metallic sound.
+
+Karnika:
+barbed impact.
+
+Vaitamhika:
+fast snap.
+
+Rapid:
+multiple quick releases.
+
+Fire-Pot:
+small ignition/explosion.
+
+Flare:
+bright ignition.
+
+Guard:
+metallic/divine defensive ping.
+
+Keep effects much smaller than Astra VFX.
+
+====================================================
+39. IMPORTANT VISUAL HIERARCHY
+====================================================
+
+Physical Arrow:
+
+subtle trail.
+
+Power Arrow:
+
+stronger but compact VFX.
+
+Signature Astra:
+
+clearly supernatural.
+
+Spirit Astra:
+
+large battlefield-changing VFX.
+
+Ultimate:
+
+cinematic.
+
+Players must understand the power level immediately from visuals.
+
+====================================================
+40. TRAINING / LEARN CONTROLS
+====================================================
+
+Update Learn Controls with:
+
+Arrow Types
+
+Show:
+
+Gopuccha
+Naracha
+Shilimukha
+Ardhachandra
+Vatsadanta
+Karnika
+Vaitamhika
+
+Explain concise tactical purpose.
+
+Include the structural terms:
+
+Pum-bana
+Stri-bana
+Napumsaka-bana
+
+under a:
+
+HISTORICALLY INSPIRED ARCHERY
+
+section.
+
+Do not present uncertain interpretations as undisputed historical fact.
+
+====================================================
+41. DEBUG PANEL
+====================================================
+
+Add:
+
+select arrow
+infinite ammo
+set ammo
+force perfect release
+force head hit
+force bow hit
+force chariot hit
+force harness hit
+
+show:
+
+damage
+velocity
+armor penetration
+equipment damage
+Stability damage
+proficiency modifier
+
+====================================================
+42. IMPORTANT TESTS
+====================================================
+
+Test:
+
+Gopuccha vs body
+
+Naracha vs armor
+
+Naracha vs chariot
+
+Shilimukha headshot
+
+Ardhachandra bowstring hit
+
+Vatsadanta bow hit
+
+Karnika pressure effect
+
+Vaitamhika close-range
+
+Vaitamhika long-range penalty
+
+Rapid Volley
+
+Fire-Pot
+
+Flare vs Steam
+
+Flare vs Mist
+
+Guard vs normal arrow
+
+Guard vs Rapid
+
+Guard vs Signature Astra
+
+Guard vs Spirit Astra
+
+Guard vs Ultimate
+
+Normal arrows vs charging Spirit
+
+ammo depletion
+
+round reset
+
+AI arrow choice
+
+host shooting tactical arrow
+
+joined client shooting tactical arrow
+
+projectile clash
+
+high latency
+
+====================================================
+43. ACCEPTANCE CRITERIA
+====================================================
+
+Complete when:
+
+- normal archery is tactically varied
+- all physical arrows use common projectile architecture
+- Gopuccha remains viable
+- every specialized arrow has a disadvantage
+- precision/equipment targeting works
+- chariot interaction hooks work
+- Spirit Stability integration works
+- Power Arrows remain below Astra strength
+- ammo works
+- mobile selection works
+- AI uses arrows intelligently
+- multiplayer remains deterministic
+- no duplicate damage
+- no broken round reset
+- Ultimates remain Ultimate-only counterable
+
+====================================================
+44. DO NOT IMPLEMENT YET
+====================================================
+
+Do not expand this milestone into:
+
+full chariot component destruction
+horse injury system
+army events
+new Astras
+new Ultimates
+new passives
+
+Prepare hooks for the future precision-chariot milestone only.
+
+====================================================
+45. FINAL REPORT
+====================================================
+
+After implementation report:
+
+1. Files inspected
+2. Files changed
+3. Arrow data architecture
+4. Physical arrow types implemented
+5. Power arrows implemented
+6. Character proficiencies
+7. Ammo/loadout system
+8. Hit-zone/equipment system
+9. Astra Stability connection
+10. Chariot interaction
+11. AI updates
+12. Multiplayer authority
+13. Balance values
+14. Tests performed
+15. Remaining balance concerns

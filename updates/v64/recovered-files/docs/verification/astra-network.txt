@@ -1,0 +1,9 @@
+PASS 50ms one-way, roles normal, reordered delivery, duplicates, simultaneous casts, full-state hashes
+PASS 50ms one-way, roles swapped, reordered delivery, duplicates, simultaneous casts, full-state hashes
+PASS 100ms one-way, roles normal, reordered delivery, duplicates, simultaneous casts, full-state hashes
+PASS 100ms one-way, roles swapped, reordered delivery, duplicates, simultaneous casts, full-state hashes
+PASS 150ms one-way, roles normal, reordered delivery, duplicates, simultaneous casts, full-state hashes
+PASS 150ms one-way, roles swapped, reordered delivery, duplicates, simultaneous casts, full-state hashes
+PASS 250ms one-way, roles normal, reordered delivery, duplicates, simultaneous casts, full-state hashes
+PASS 250ms one-way, roles swapped, reordered delivery, duplicates, simultaneous casts, full-state hashes
+PASS automatic checkpoint recovery without restarting room.

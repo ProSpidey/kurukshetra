@@ -1,0 +1,1550 @@
+CONTINUE WORKING INSIDE MY EXISTING “KURUKSHETRA ASTRA WARFARE” PROJECT.
+
+THIS IS THE NEXT COMBAT MILESTONE:
+
+ASTRA STABILITY
++
+SPIRIT CHARGE INTERRUPTION
++
+EARLY / UNSTABLE RELEASE SYSTEM
+
+IMPORTANT:
+
+The Counter Astra system is ALREADY IMPLEMENTED.
+
+DO NOT rebuild it.
+DO NOT create another Counter Slot.
+DO NOT replace the current Astra Arsenal database.
+DO NOT rebuild Spirit Charge.
+DO NOT rebuild projectiles.
+DO NOT change unrelated UI.
+DO NOT rebalance the entire roster in this milestone.
+
+Extend the EXISTING systems.
+
+The goal is to make charging and deploying powerful Astras feel dangerous, tactical and interruptible rather than guaranteed.
+
+====================================================
+1. AUDIT FIRST
+====================================================
+
+Before changing anything inspect:
+
+- current Spirit Charge state machine
+- Astra charge duration
+- charge shield
+- AstraDefinition / Astra registry
+- normal arrow projectiles
+- charged normal arrows
+- special Astra projectiles
+- hit-zone system
+- critical hits
+- stagger / hit reaction
+- damage system
+- Counter Astra system
+- direct/sky release
+- Astra fields
+- passives
+- Rage
+- Ultimate system
+- chariot movement
+- AI
+- Local 1v1
+- Online Friend multiplayer
+- current input system
+- current debug tools
+
+Reuse existing states.
+
+Do not create competing charge systems.
+
+====================================================
+2. CORE IDEA
+====================================================
+
+Every Spirit Astra has:
+
+CHARGE PROGRESS
+and
+ASTRA STABILITY
+
+These are DIFFERENT.
+
+CHARGE PROGRESS:
+
+determines how close the Astra is to Spirit Ready.
+
+ASTRA STABILITY:
+
+determines whether the player can maintain that charge while under attack.
+
+Example:
+
+Charge = 82%
+Stability = 37%
+
+The Astra is almost ready but becoming unstable because the opponent is applying pressure.
+
+====================================================
+3. DO NOT USE NORMAL HP AS STABILITY
+====================================================
+
+Astra Stability is not player health.
+
+Damage to the player may affect both:
+
+PLAYER HP
+
+and
+
+ASTRA STABILITY
+
+but they remain separate systems.
+
+The purpose is to allow interruption without requiring huge HP damage.
+
+====================================================
+4. STABILITY CLASSES
+====================================================
+
+Use the metadata prepared in the Astra database:
+
+FRAGILE
+NORMAL
+STABLE
+VERY_STABLE
+
+Each class should provide configurable values.
+
+Suggested starting values:
+
+FRAGILE
+Max Stability: 70
+Recovery: fast
+Interrupt Threshold: easier
+
+NORMAL
+Max Stability: 100
+
+STABLE
+Max Stability: 125
+
+VERY_STABLE
+Max Stability: 150
+
+Do NOT hardcode these values throughout gameplay code.
+
+Use centralized balance configuration.
+
+====================================================
+5. STABILITY DAMAGE
+====================================================
+
+Different attacks cause different Stability damage.
+
+Suggested starting direction:
+
+NORMAL BODY ARROW
+small Stability damage
+
+NORMAL HEAD / PRECISION HIT
+moderate Stability damage
+
+PERFECT SHOT
+moderate-high Stability damage
+
+CHARGED NORMAL ARROW
+high Stability damage
+
+SPECIAL ASTRA
+high Stability damage
+
+VALID COUNTER ASTRA
+very high Stability pressure where appropriate
+
+ULTIMATE
+does not use this normal interruption system;
+preserve Ultimate rules.
+
+Suggested relative values:
+
+Body normal arrow:
+8–12
+
+Head/precision:
+15–20
+
+Perfect shot:
+18–25
+
+Charged normal:
+25–35
+
+Special Astra:
+30–50
+
+Heavy/counter-specific attack:
+40–70
+
+These are starting values only.
+
+Expose them in config.
+
+====================================================
+6. CHARGE SHIELD INTERACTION
+====================================================
+
+The existing Spirit Charge shield remains useful.
+
+DO NOT remove it.
+
+The shield should protect the player from ordinary direct HP damage according to current rules.
+
+BUT:
+
+normal attacks can still apply some Stability pressure.
+
+Example:
+
+normal arrow hits Charge Shield:
+
+HP damage:
+0 or strongly reduced
+
+Stability damage:
+small amount
+
+This means the shield prevents cheap interruption spam while still allowing sustained pressure.
+
+====================================================
+7. SHIELD INTEGRITY
+====================================================
+
+If the current charge shield already has integrity, connect it to Stability carefully.
+
+Preferred design:
+
+SHIELD INTEGRITY
+protects from direct HP/stagger.
+
+ASTRA STABILITY
+protects charge concentration.
+
+Do NOT merge these unless the current architecture makes a separate shield meter unreasonable.
+
+Example:
+
+Normal arrow:
+
+Shield Integrity -10
+Stability -5
+
+Charged arrow:
+
+Shield Integrity -25
+Stability -20
+
+Special Astra:
+
+Shield Integrity -large
+Stability -large
+
+====================================================
+8. STABILITY STATES
+====================================================
+
+Add clear states:
+
+STABLE
+
+SHAKING
+
+UNSTABLE
+
+CRITICAL
+
+BROKEN
+
+Suggested thresholds:
+
+75–100%
+STABLE
+
+50–75%
+SHAKING
+
+25–50%
+UNSTABLE
+
+1–25%
+CRITICAL
+
+0
+BROKEN
+
+Use normalized percentages so different Stability classes work consistently.
+
+====================================================
+9. VISUAL FEEDBACK
+====================================================
+
+Do NOT require the player to constantly watch another large HUD bar.
+
+Use restrained feedback.
+
+STABLE:
+normal charge visuals
+
+SHAKING:
+small flickers / unstable particles
+
+UNSTABLE:
+energy arcs, sprite tremble, louder charge instability
+
+CRITICAL:
+strong flicker, intermittent distortion, warning pulse
+
+BROKEN:
+Astra collapses / dissipates
+
+Optionally show a small Stability ring around the Spirit Charge icon or charge meter.
+
+Keep it readable on mobile.
+
+====================================================
+10. INTERRUPTION
+====================================================
+
+If Stability reaches 0 while Spirit charging:
+
+do NOT instantly fire the Astra.
+
+Trigger:
+
+ASTRA_INTERRUPTED
+
+Result:
+
+- cancel Spirit Charge
+- collapse current Spirit VFX
+- remove charge shield
+- short recovery animation
+- prevent immediate re-charge
+- play interruption SFX
+- apply configurable recovery delay
+- do NOT consume the Astra as though it successfully fired unless existing resource rules explicitly require partial cost
+
+Suggested interruption recovery:
+
+0.6–1.0 sec
+
+Keep configurable.
+
+====================================================
+11. DO NOT OVER-PUNISH
+====================================================
+
+Interruption should create an opening, not a guaranteed death.
+
+Do NOT:
+
+freeze the player for multiple seconds,
+remove all input for too long,
+cause massive HP damage automatically.
+
+Recommended:
+
+short stagger/recovery.
+
+Player can defend again quickly.
+
+====================================================
+12. EARLY RELEASE
+====================================================
+
+This is an important tactical option.
+
+While charging, allow the player to release BEFORE full Spirit Ready.
+
+Instead of always cancelling:
+
+release a PARTIAL ASTRA.
+
+Use charge thresholds.
+
+Suggested:
+
+0–24%
+cancel / very weak failed release
+
+25–49%
+Minor Release
+
+50–74%
+Partial Release
+
+75–99%
+Empowered Release
+
+100%
+Full Spirit
+
+This gives the player a decision:
+
+continue risking interruption
+
+OR
+
+release early with reduced power.
+
+====================================================
+13. PARTIAL RELEASE SCALING
+====================================================
+
+Do NOT simply scale damage linearly.
+
+Different mechanics may scale independently.
+
+Example:
+
+50% Agneya charge:
+
+damage:
+~65% Spirit damage
+
+field duration:
+~50%
+
+field radius:
+~65%
+
+control:
+reduced
+
+No Level-5 hard lock until required threshold.
+
+====================================================
+14. HARD CONTROL RESTRICTIONS
+====================================================
+
+Very important:
+
+PARTIAL SPIRIT RELEASES MUST NOT automatically gain full Level-5 control.
+
+Examples:
+
+AGNEYA FIRE CIRCLE
+
+Full Level-5 Fire Prison only if charge reaches:
+
+recommended:
+90–100%
+
+Earlier release:
+
+creates smaller Fire Ring / burning hazard
+
+but DOES NOT fully immobilize.
+
+--------------------------------
+
+NAGASTRA SERPENT BIND
+
+Hard movement bind only at:
+
+high/full charge.
+
+Partial release:
+
+tracking serpent + slow / brief pull
+
+not full Level-5 lock.
+
+This prevents players from exploiting instant partial hard-control attacks.
+
+====================================================
+15. STABILITY RECOVERY
+====================================================
+
+During Spirit Charge:
+
+if the player stops taking Stability damage for a short delay,
+Stability may recover slowly.
+
+Example:
+
+Recovery delay:
+0.5–0.8 sec
+
+Recovery rate:
+8–15 Stability/sec
+
+Different Astras can vary.
+
+FRAGILE:
+may recover quickly but break easily.
+
+VERY_STABLE:
+high maximum but slower recovery.
+
+Keep configurable.
+
+====================================================
+16. MOVEMENT EFFECT
+====================================================
+
+Charging while moving should affect Stability slightly if appropriate.
+
+Do NOT make charging impossible while moving.
+
+Suggested:
+
+Standing/stable chariot:
+100% Stability recovery
+
+Moving slowly:
+90%
+
+Moving fast / damaged chariot:
+70–85%
+
+This connects Astra use to battlefield positioning.
+
+====================================================
+17. CHARIOT DAMAGE CONNECTION
+====================================================
+
+Prepare an interaction with the current chariot damage state.
+
+Do not implement precision wheel targeting yet.
+
+But use existing chariot condition if available.
+
+Example:
+
+Healthy chariot:
+normal Stability.
+
+Damaged chariot:
+small penalty to Stability recovery.
+
+Critically damaged chariot:
+increased charge sway / slightly reduced recovery.
+
+This makes chariot damage matter before the later precision-targeting milestone.
+
+====================================================
+18. HIT LOCATION EFFECT
+====================================================
+
+If the project has hit zones, use them.
+
+HEAD / PRECISION HIT:
+
+higher Stability damage.
+
+BODY HIT:
+
+standard Stability damage.
+
+LOW HIT:
+
+lower Stability damage.
+
+This rewards accurate archery during enemy Spirit Charge.
+
+Example:
+
+base arrow stability:
+
+Low:
+x0.7
+
+Body:
+x1.0
+
+Head:
+x1.5
+
+Critical:
+additional multiplier.
+
+Keep configurable.
+
+====================================================
+19. PERFECT SHOT
+====================================================
+
+A Perfect Shot should become a strong anti-charge tool.
+
+If a player lands a Perfect Shot against an opponent charging an Astra:
+
+deal:
+
+normal combat damage according to existing system
+
+PLUS
+
+significant Stability damage.
+
+This creates a skilled answer to Spirit Charge without requiring Counter Astra use every time.
+
+====================================================
+20. ASTRA-SPECIFIC STABILITY PERSONALITY
+====================================================
+
+Give each Astra meaningful Stability identity.
+
+Suggested starting direction:
+
+ARJUNA
+
+Aindrastra:
+NORMAL
+
+Gandiva Gale:
+STABLE
+
+Pashupata Radiance:
+VERY_STABLE
+but very long charge
+
+--------------------------------
+
+KARNA
+
+Surya Shaft:
+NORMAL
+
+Nagastra:
+FRAGILE/NORMAL
+because tracking + bind is powerful
+
+Vasavi Shakti:
+VERY_STABLE
+but slow charge
+
+--------------------------------
+
+BHISHMA
+
+Ganga’s Guard:
+VERY_STABLE
+
+Kuru Thunder:
+NORMAL
+
+Prabhasa Radiance:
+STABLE
+
+--------------------------------
+
+DRONA
+
+Agneya Astra:
+NORMAL
+
+Brahmastra:
+VERY_STABLE
+
+Acharya’s Judgment:
+STABLE
+
+--------------------------------
+
+ABHIMANYU
+
+Chakra Volley:
+FRAGILE
+
+Rudra Rush:
+STABLE
+
+Subhadra Tempest:
+NORMAL
+
+--------------------------------
+
+ASHWATTHAMA
+
+Rudra Ember:
+NORMAL
+
+Narayana Burst:
+VERY_STABLE
+
+Brahmashira:
+VERY_STABLE
+but extremely long preparation
+
+--------------------------------
+
+SATYAKI
+
+Vrishni Wind:
+STABLE
+
+Varuna’s Tide:
+NORMAL
+
+Yuyudhana Storm:
+NORMAL
+
+--------------------------------
+
+EKALAVYA
+
+Forest Fang:
+STABLE
+
+Nishada Flame:
+NORMAL
+
+Aranya Cyclone:
+NORMAL/STABLE
+
+Treat these as initial tuning, not immutable rules.
+
+====================================================
+21. POWER VS STABILITY TRADEOFF
+====================================================
+
+Generally:
+
+fast / oppressive Astras
+→ lower Stability
+
+slow / legendary Astras
+→ higher Stability but longer charge
+
+High Stability does NOT mean guaranteed release.
+
+Opponents should still be able to interrupt through:
+
+accurate sustained pressure
+charged arrows
+special attacks
+proper counters
+
+====================================================
+22. CATASTROPHIC ASTRAS
+====================================================
+
+Pashupata Radiance
+Brahmashira
+Brahmastra
+Vasavi Shakti
+
+should feel difficult to stop once nearly fully formed.
+
+Suggested behavior:
+
+early charge:
+normal Stability rules
+
+after reaching ~80–90%:
+gain temporary Stability reinforcement.
+
+Example:
+
+FINAL FORMATION
+
+Stability damage reduction:
+20–35%
+
+Do NOT make them completely uninterruptible.
+
+The opponent should feel:
+
+“Stop this now.”
+
+====================================================
+23. INTERRUPTION WINDOW
+====================================================
+
+At high charge, provide a clear visual cue.
+
+Example:
+
+75%:
+energy pulse
+
+90%:
+distinct Spirit formation event
+
+100%:
+SPIRIT READY
+
+This lets the opponent understand how much time remains to interrupt.
+
+No hidden charge completion.
+
+====================================================
+24. COUNTER ASTRA CONNECTION
+====================================================
+
+The existing Counter Astra system must interact naturally.
+
+DO NOT replace its rules.
+
+A valid Counter Astra can:
+
+- heavily damage Stability during charge
+- disrupt Astra formation
+- counter after release according to existing system
+
+But these are separate opportunities.
+
+BEFORE RELEASE:
+interruption
+
+AFTER RELEASE:
+counter
+
+This distinction is important.
+
+====================================================
+25. COUNTERING DURING CHARGE
+====================================================
+
+Example:
+
+Enemy begins Agneya Spirit Charge.
+
+Player has Varuna Counter Astra.
+
+Player can choose:
+
+OPTION A:
+fire Varuna early
+
+→ large Stability damage
+→ possibly interrupt Agneya before release
+
+OPTION B:
+save Varuna
+
+→ let Agneya release
+→ counter/transform Fire Circle afterward
+
+This creates meaningful decision-making.
+
+====================================================
+26. STABILITY VS ELEMENTAL ADVANTAGE
+====================================================
+
+Matching counter elements may apply Stability bonuses.
+
+Example:
+
+Water attack against charging Fire Astra:
+
+Stability damage multiplier:
+1.2–1.5
+
+Strong opposing element can interfere with formation.
+
+Do NOT make every elemental weakness automatically interrupt.
+
+====================================================
+27. SIGNATURE ASTRA DESIGN
+====================================================
+
+When using character Signature Astras, optional small stability bonuses may apply.
+
+Example concept:
+
+ownerAffinityMultiplier
+
+Native character:
+100%
+
+Future borrowed/counter Astra:
+90–95%
+
+Do not introduce this unless the current counter-Astra architecture uses cross-character Astras.
+
+If it does, use it to make native Astras feel more natural.
+
+====================================================
+28. ULTIMATES ARE SEPARATE
+====================================================
+
+DO NOT apply normal Astra Stability interruption rules to Ultimates unless the existing Ultimate architecture explicitly uses them.
+
+Ultimate rule remains:
+
+ULTIMATE
+can only be properly countered by
+ULTIMATE.
+
+Do not allow normal Stability damage to cancel an Ultimate cinematic after its committed state.
+
+If Ultimate has a pre-cast startup phase, preserve existing logic.
+
+====================================================
+29. PASSIVE COMPATIBILITY
+====================================================
+
+Do not break Legendary Fate Passives.
+
+Special considerations:
+
+KARNA
+
+After Wheel Repair:
+
+Karna cannot use Special Astras according to current design.
+
+Therefore Spirit Stability is irrelevant while his Astras are disabled.
+
+Do not accidentally restore them.
+
+--------------------------------
+
+BHISHMA
+
+During Ichhamrityu:
+
+Bhishma’s increased attack threat remains.
+
+If current balance allows Astra charging during Final Stand, consider:
+
++small Stability bonus
+
+but do not make him unstoppable.
+
+--------------------------------
+
+ASHWATTHAMA
+
+Respect current Ultimate restrictions.
+
+Do not let Astra Stability bypass Curse/Mani stage rules.
+
+--------------------------------
+
+DRONA
+
+Drona’s Learning Passive may eventually improve interruption knowledge.
+
+For now optional:
+
+Mastered enemy Astra:
+slightly increased Stability damage against that Astra.
+
+Only add if this cleanly fits the existing Learning passive.
+
+====================================================
+30. STABILITY DAMAGE EVENT
+====================================================
+
+Create a reusable event/API.
+
+Example:
+
+ApplyAstraStabilityDamage({
+ targetPlayerId,
+ targetAstraId,
+ sourcePlayerId,
+ sourceAttackId,
+ amount,
+ damageType,
+ hitZone,
+ elementalTags,
+ eventId
+})
+
+Do not directly manipulate Stability from random projectile classes.
+
+====================================================
+31. STATE MACHINE
+====================================================
+
+Recommended charge states:
+
+IDLE
+
+ASTRA_SELECTED
+
+CHARGE_START
+
+CHARGING_STABLE
+
+CHARGING_SHAKING
+
+CHARGING_UNSTABLE
+
+CHARGING_CRITICAL
+
+SPIRIT_READY
+
+PARTIAL_RELEASE
+
+FULL_RELEASE
+
+INTERRUPTED
+
+RECOVERY
+
+COOLDOWN
+
+Integrate with the existing state machine instead of duplicating equivalent states.
+
+====================================================
+32. NETWORKING
+====================================================
+
+This system must be authoritative online.
+
+AUTHORITATIVE STATE decides:
+
+chargeStart
+chargeProgress
+currentStability
+maxStability
+stabilityState
+stabilityDamage events
+interruption
+partial release
+full release
+recovery
+Spirit Ready
+
+Use:
+
+castId
+eventId
+stateVersion
+authoritativeTimestamp
+
+Do NOT trust a client saying:
+
+“I was not interrupted.”
+
+====================================================
+33. DO NOT NETWORK EVERY FRAME
+====================================================
+
+Charge/Stability UI may interpolate locally.
+
+Network meaningful state/events:
+
+CHARGE_STARTED
+
+STABILITY_DAMAGED
+
+STABILITY_STATE_CHANGED
+
+SPIRIT_READY
+
+PARTIAL_RELEASED
+
+FULL_RELEASED
+
+ASTRA_INTERRUPTED
+
+Do not send particle/sprite updates every frame.
+
+====================================================
+34. CLIENT PREDICTION
+====================================================
+
+Allow local cosmetic prediction for:
+
+charge animation
+meter movement
+screen pulse
+
+But gameplay outcome remains authoritative.
+
+If server/host says:
+
+INTERRUPTED
+
+client must reconcile cleanly.
+
+Do not allow duplicate release after reconciliation.
+
+====================================================
+35. SIMULTANEOUS RELEASE / INTERRUPT
+====================================================
+
+Handle edge case:
+
+Player releases Spirit at same moment opponent hits Stability 0.
+
+Use authoritative timestamp/order.
+
+Suggested rule:
+
+If valid release committed BEFORE interruption timestamp:
+release wins.
+
+If Stability reaches 0 first:
+interruption wins.
+
+Never resolve differently for host and joined client.
+
+====================================================
+36. AI
+====================================================
+
+AI must recognize enemy charging state.
+
+Give AI choices:
+
+pressure with normal arrows
+
+attempt precision shot
+
+use charged arrow
+
+use special attack
+
+use Counter Astra early
+
+save Counter for released field
+
+reposition
+
+AI decision factors:
+
+enemy charge %
+enemy Stability %
+AI Counter availability
+distance
+health
+Rage
+current battlefield field
+
+Do not let AI read future release input.
+
+====================================================
+37. AI PERSONALITIES
+====================================================
+
+Optional:
+
+aggressive AI:
+tries to break Stability early.
+
+defensive AI:
+saves Counter Astra.
+
+skilled AI:
+waits until Stability becomes vulnerable.
+
+Do not make every AI behave identically.
+
+====================================================
+38. HUD
+====================================================
+
+When opponent begins Spirit Charge:
+
+show a readable but compact indication.
+
+Examples:
+
+enemy charge aura
+small Spirit icon
+visible instability feedback
+
+Do NOT expose exact enemy Stability number unless desired.
+
+Recommended:
+
+own player sees exact Stability meter.
+
+opponent sees:
+
+STABLE
+UNSTABLE
+CRITICAL
+
+through visual effects.
+
+====================================================
+39. AUDIO
+====================================================
+
+Add hooks:
+
+stability hit
+stability cracking
+critical instability
+interrupted collapse
+partial release
+full Spirit Ready
+
+As Stability drops:
+
+charge sound can become less clean/stable.
+
+Do not make the audio irritating through constant repeated alerts.
+
+====================================================
+40. CAMERA / HIT FEEDBACK
+====================================================
+
+When a strong precision hit heavily damages Stability:
+
+small screen impulse
+energy disruption
+Spirit sprite distortion
+
+Do NOT trigger cinematic camera for ordinary Stability hits.
+
+When charge breaks:
+
+brief stronger feedback acceptable.
+
+====================================================
+41. NO INFINITE INTERRUPTION
+====================================================
+
+After Astra interruption:
+
+give a very short:
+
+FOCUS RECOVERY
+
+Suggested:
+0.6–1 sec
+
+Then player returns to combat.
+
+Optionally provide:
+
+0.5 sec Stability-pressure immunity
+
+ONLY to avoid repeated network/hit events causing multiple interruption callbacks.
+
+Do not grant major invulnerability.
+
+====================================================
+42. RESOURCE COST ON INTERRUPTION
+====================================================
+
+Use fair resource handling.
+
+Recommended initial rule:
+
+If interrupted before 50%:
+small/no special resource penalty beyond cooldown/recovery.
+
+If interrupted after 50%:
+partial cooldown.
+
+If interrupted near full:
+meaningful cooldown.
+
+Do NOT consume an entire rare Astra permanently merely because it was interrupted unless current game design requires charges.
+
+====================================================
+43. PARTIAL RELEASE RESOURCE COST
+====================================================
+
+Partial release should consume the Astra use normally enough that players cannot spam:
+
+charge 25%
+release
+charge 25%
+release
+
+Use cooldown scaling.
+
+Example:
+
+Minor:
+60–70% cooldown
+
+Partial:
+75–85%
+
+Empowered:
+90–100%
+
+Full:
+100%
+
+Tune from testing.
+
+====================================================
+44. SPIRIT FIELD SCALING
+====================================================
+
+Create generic field scaling based on Spirit strength.
+
+SpiritPower = normalized charge strength.
+
+Scale:
+
+damage
+radius
+duration
+DOT
+projectile disruption
+push/pull
+
+But control level has explicit thresholds.
+
+Do NOT linearly scale hard-lock duration from zero.
+
+====================================================
+45. EXAMPLE: AGNEYA
+====================================================
+
+0–24%
+failed/minor flame release.
+
+25–49%
+fire impact + small burning patch.
+
+50–74%
+larger fire hazard.
+
+75–89%
+Fire Circle appears but acts as containment/strong slow.
+
+90–100%
+FULL FIRE CIRCLE PRISON.
+
+Level 5.
+
+Valid counter input remains available.
+
+====================================================
+46. EXAMPLE: NAGASTRA
+====================================================
+
+0–49%
+serpent projectile.
+
+50–74%
+improved tracking + slow.
+
+75–89%
+brief bind / Level 3–4 control.
+
+90–100%
+Full Serpent Bind.
+
+Level 5 for configured short duration.
+
+====================================================
+47. EXAMPLE: PASHUPATA
+====================================================
+
+Partial releases should still feel dangerous.
+
+25–49%
+divine blast.
+
+50–74%
+large impact.
+
+75–99%
+multiple radiance pillars.
+
+100%
+full Divine Annihilation Field.
+
+No hard lock.
+
+====================================================
+48. EXAMPLE: VARUNA
+====================================================
+
+Partial:
+
+water wave.
+
+Mid charge:
+
+strong flood + fire suppression.
+
+Full:
+
+full Flood Zone / Tidal response.
+
+A partial Varuna may WEAKEN Agneya.
+
+A full Spirit Varuna may completely transform a full Fire Field into Steam according to current counter rules.
+
+====================================================
+49. BALANCE PHILOSOPHY
+====================================================
+
+The intended interaction is:
+
+FAST ASTRA
+
+easy to deploy
+easier to interrupt
+lower battlefield impact
+
+VERSUS
+
+HEAVY ASTRA
+
+long charge
+harder to interrupt
+large battlefield impact
+
+No Astra should have:
+
+very fast charge
++
+very high Stability
++
+very high damage
++
+strong control
+
+without a major drawback.
+
+====================================================
+50. DEBUG PANEL
+====================================================
+
+Add:
+
+set charge %
+set Stability %
+apply Stability damage
+force Stable
+force Unstable
+force Critical
+force interrupt
+force partial release
+force full release
+toggle charge shield
+simulate head hit
+simulate charged-arrow hit
+simulate Counter Astra hit
+show network authority
+show castId
+show event ordering
+
+Also display:
+
+Charge
+Stability
+Max Stability
+Stability Class
+Current State
+Last Stability Damage Source
+
+====================================================
+51. TEST MATRIX
+====================================================
+
+Test:
+
+normal arrow vs charging Astra
+
+head hit vs charging Astra
+
+perfect shot vs charging Astra
+
+charged normal arrow vs charging Astra
+
+special Astra vs charging Astra
+
+valid Counter Astra vs charge
+
+invalid counter vs charge
+
+partial release
+
+full release
+
+interrupt at 10%
+
+interrupt at 49%
+
+interrupt at 90%
+
+release + interrupt same network tick
+
+charge shield depletion
+
+field created from partial release
+
+Level-5 restriction threshold
+
+round ends during charge
+
+character dies during charge
+
+Karna Wheel passive interaction
+
+Bhishma Final Stand interaction
+
+Ashwatthama cursed state interaction
+
+host charging
+
+joined client charging
+
+host interrupting client
+
+client interrupting host
+
+latency simulation
+
+====================================================
+52. ACCEPTANCE CRITERIA
+====================================================
+
+This milestone is complete when:
+
+- every Spirit Astra has Stability data
+- Stability is separate from HP
+- normal pressure affects Stability correctly
+- charge shield still works
+- precision hits are meaningful
+- charge can be interrupted
+- interruption is fair
+- early release works
+- partial Spirit power scales correctly
+- Level-5 effects require high/full charge
+- all 24 Astras remain functional
+- Counter Astra works before AND after release
+- Ultimates are unaffected by normal Astra interruption rules
+- AI understands interruption
+- online outcomes are deterministic
+- Local 1v1 works
+- no duplicate interruption events
+- no duplicate projectile releases
+- no match freeze
+- VFX clean up correctly
+
+====================================================
+53. FINAL REPORT
+====================================================
+
+After implementation report:
+
+1. Files inspected
+2. Files changed
+3. New Stability modules/classes
+4. Stability classes for all 24 Astras
+5. Stability damage calculation
+6. Hit-zone multipliers
+7. Charge Shield integration
+8. Partial Release implementation
+9. Hard-control thresholds
+10. Counter Astra integration
+11. AI changes
+12. Multiplayer authority approach
+13. Debug tools added
+14. Tests performed
+15. Balance concerns discovered
+16. Any unresolved issues
+
+DO NOT proceed to battlefield events yet.
+
+Complete and verify Astra Stability / Interruption first.

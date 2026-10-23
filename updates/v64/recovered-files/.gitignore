@@ -1,0 +1,12 @@
+node_modules/
+dist/
+android/local.properties
+android/.gradle/
+android/app/build/
+android/keys/
+*.jks
+android/app/src/main/assets/www/
+
+# Transient file-transfer staging artifacts are not source assets.
+web/**/.*
+production/**/.*

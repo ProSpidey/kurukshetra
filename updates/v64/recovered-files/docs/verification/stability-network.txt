@@ -1,0 +1,16 @@
+PASS 50ms target seat 0: release before contact, duplicates/reordering and matching hashes
+PASS 50ms target seat 0: interruption before release, duplicates/reordering and matching hashes
+PASS 50ms target seat 1: release before contact, duplicates/reordering and matching hashes
+PASS 50ms target seat 1: interruption before release, duplicates/reordering and matching hashes
+PASS 100ms target seat 0: release before contact, duplicates/reordering and matching hashes
+PASS 100ms target seat 0: interruption before release, duplicates/reordering and matching hashes
+PASS 100ms target seat 1: release before contact, duplicates/reordering and matching hashes
+PASS 100ms target seat 1: interruption before release, duplicates/reordering and matching hashes
+PASS 150ms target seat 0: release before contact, duplicates/reordering and matching hashes
+PASS 150ms target seat 0: interruption before release, duplicates/reordering and matching hashes
+PASS 150ms target seat 1: release before contact, duplicates/reordering and matching hashes
+PASS 150ms target seat 1: interruption before release, duplicates/reordering and matching hashes
+PASS 250ms target seat 0: release before contact, duplicates/reordering and matching hashes
+PASS 250ms target seat 0: interruption before release, duplicates/reordering and matching hashes
+PASS 250ms target seat 1: release before contact, duplicates/reordering and matching hashes
+PASS 250ms target seat 1: interruption before release, duplicates/reordering and matching hashes

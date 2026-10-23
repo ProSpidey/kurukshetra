@@ -1,0 +1,90 @@
+[
+  {
+    "name": "Arjun",
+    "hp": 160,
+    "base": 9.5,
+    "perfect": true,
+    "damage": 12.540000000000001,
+    "period": 0.9714285714285714,
+    "hitProbability": 0.65,
+    "dps": 8.390735294117649,
+    "arrowsToKill": 13
+  },
+  {
+    "name": "Karna",
+    "hp": 160,
+    "base": 11,
+    "perfect": false,
+    "damage": 8.8,
+    "period": 1.096774193548387,
+    "hitProbability": 0.65,
+    "dps": 5.21529411764706,
+    "arrowsToKill": 19
+  },
+  {
+    "name": "Bhishma",
+    "hp": 176,
+    "base": 12,
+    "perfect": false,
+    "damage": 9.600000000000001,
+    "period": 1.3076923076923075,
+    "hitProbability": 0.65,
+    "dps": 4.7717647058823545,
+    "arrowsToKill": 17
+  },
+  {
+    "name": "Drona",
+    "hp": 163,
+    "base": 9.5,
+    "perfect": false,
+    "damage": 7.6000000000000005,
+    "period": 1.0625,
+    "hitProbability": 0.65,
+    "dps": 4.649411764705882,
+    "arrowsToKill": 22
+  },
+  {
+    "name": "Abhimanyu",
+    "hp": 147,
+    "base": 8.8,
+    "perfect": false,
+    "damage": 7.040000000000001,
+    "period": 0.8500000000000001,
+    "hitProbability": 0.65,
+    "dps": 5.383529411764706,
+    "arrowsToKill": 23
+  },
+  {
+    "name": "Ashwatthama",
+    "hp": 160,
+    "base": 10.3,
+    "perfect": false,
+    "damage": 8.24,
+    "period": 1.0625,
+    "hitProbability": 0.65,
+    "dps": 5.040941176470589,
+    "arrowsToKill": 20
+  },
+  {
+    "name": "Satyaki",
+    "hp": 154,
+    "base": 9,
+    "perfect": false,
+    "damage": 7.2,
+    "period": 0.9107142857142856,
+    "hitProbability": 0.65,
+    "dps": 5.138823529411766,
+    "arrowsToKill": 23
+  },
+  {
+    "name": "Ekalavya",
+    "hp": 150,
+    "base": 8.2,
+    "perfect": true,
+    "damage": 12.463999999999999,
+    "period": 0.9714285714285714,
+    "hitProbability": 0.65,
+    "dps": 8.339882352941176,
+    "arrowsToKill": 13
+  }
+]

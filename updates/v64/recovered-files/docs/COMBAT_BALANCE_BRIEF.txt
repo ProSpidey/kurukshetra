@@ -1,0 +1,1768 @@
+Continue working inside my existing **Kurukshetra Astra Warfare** project.
+
+This milestone is ONLY for the **Combat Balance Rework**.
+
+Do NOT rebuild the game.
+
+Do NOT redesign the current combat architecture unless a small refactor is necessary for clean balance data.
+
+Do NOT add new characters, new passives, new Astras, new menus, or unrelated systems.
+
+The goal is to rebalance the existing 8-character roster so every warrior feels powerful in a different way without one character being consistently superior.
+
+==================================================
+PRIMARY DESIGN PHILOSOPHY
+==================================================
+
+DO NOT make every warrior numerically equal.
+
+Instead, balance around:
+
+STRONG ADVANTAGE
++
+CLEAR TRADE-OFF
+
+Examples:
+
+High damage
+→ slower draw/movement or lower accuracy
+
+Low damage
+→ better accuracy, critical potential, speed, or consistency
+
+Strong passive
+→ weaker base stats or restricted resources
+
+Strong comeback
+→ loss of other combat options
+
+Extremely powerful Ultimate
+→ conditional access
+
+Each warrior should have a recognizable combat identity.
+
+==================================================
+IMPORTANT — INSPECT CURRENT VALUES FIRST
+==================================================
+
+Before changing ANY balance value:
+
+inspect the actual current implementation and locate:
+
+- max HP
+- base arrow damage
+- draw speed
+- draw charge timing
+- projectile velocity
+- aim/accuracy variables
+- critical system
+- movement/chariot speed
+- dodge/recovery
+- Rage generation
+- Astra damage
+- Spirit Astra modifiers
+- passive modifiers
+- Ultimate damage
+- Ultimate availability rules
+- passive heal values
+- passive duration values
+- cooldowns
+
+Produce an internal comparison between:
+
+CURRENT VALUE
+and
+TARGET BALANCE DIRECTION
+
+Do NOT assume the target values below must be copied literally.
+
+They are balance targets / relative ratios.
+
+Preserve existing systems wherever practical.
+
+==================================================
+CORE BALANCE METRIC
+==================================================
+
+Do not balance only around damage-per-shot.
+
+Consider:
+
+EFFECTIVE DPS
+
+roughly based on:
+
+base damage
+× realistic hit probability
+× fire rate
+× critical contribution
+× passive uptime
+
+Also consider:
+
+- survivability
+- movement
+- comeback potential
+- Astra access
+- Ultimate threat
+- control effects
+- ease of execution
+
+Two characters may have different base damage but similar overall match power.
+
+==================================================
+TARGET CHARACTER IDENTITIES
+==================================================
+
+The roster should feel approximately like this:
+
+BHISHMA
+Highest consistent base damage.
+Slowest major warrior.
+Strong accuracy.
+Extremely dangerous final stand.
+
+KARNA
+Heavy damage.
+Moderate/slightly reduced accuracy.
+Strong comeback.
+After Wheel Fate repair, becomes a pure powerful archer but loses special Astra access.
+
+ASHWATTHAMA
+Moderately strong normal combat.
+Dangerous passive.
+Ultimate restricted before curse.
+Cursed-stage Ultimate becomes execution threat.
+
+ARJUNA
+Best consistency / precision.
+High projectile velocity.
+Good draw speed.
+Lower raw damage than Bhishma/Karna.
+
+DRONA
+Adaptive tactical fighter.
+Average raw damage.
+Becomes increasingly effective against repeated enemy Astras.
+
+ABHIMANYU
+Fastest/rushdown character.
+Lower damage and durability.
+Wins through tempo and aggression.
+
+SATYAKI
+Momentum character.
+Average-low starting damage.
+Scales through successful consecutive pressure.
+
+EKALAVYA
+Lowest raw base damage.
+Highest precision and critical potential.
+Rewards skilled/perfect shots.
+
+==================================================
+REFERENCE BALANCE TARGETS
+==================================================
+
+Use these as RELATIVE TARGETS.
+
+Do not automatically overwrite the game's current scale if it uses different units.
+
+--------------------------------------------------
+BHISHMA
+--------------------------------------------------
+
+Target relative identity:
+
+HP:
+110% of baseline
+
+Base arrow damage:
+120%
+
+Draw speed:
+78%
+
+Arrow velocity:
+100%
+
+Accuracy:
+100%
+
+Critical chance:
+~8%
+
+Critical multiplier:
+~1.50x
+
+Movement/chariot speed:
+80%
+
+Rage generation:
+90%
+
+Ultimate:
+approximately 72% max-health equivalent outside passive
+
+Bhishma should have the HIGHEST normal-arrow base damage in the roster.
+
+Do NOT make his weakness poor accuracy.
+
+His weakness is:
+
+slow draw
+slow movement
+slow recovery
+high commitment
+
+==================================================
+BHISHMA — ICHHAMRITYU REWORK
+==================================================
+
+When Bhishma reaches the existing passive trigger around 1% HP:
+
+activate Icchamrityu.
+
+Target duration:
+
+approximately 8 seconds.
+
+During Icchamrityu:
+
+- cannot die until timer ends
+- cannot heal
+- base arrow damage approximately +40%
+- draw speed approximately +25%
+- arrow velocity approximately +15%
+- very high stagger resistance
+- Rage becomes full or Ultimate becomes available according to current Rage architecture
+
+Bhishma should become the strongest temporary normal-combat character in the game.
+
+Example if normalized base damage is 12:
+
+Final Stand damage:
+approximately 16.8
+
+Do not allow permanent Final Stand.
+
+At timer end:
+Bhishma dies as already designed.
+
+==================================================
+BHISHMA ULTIMATE DURING PASSIVE
+==================================================
+
+Normal Ultimate:
+
+target approximately 70–75% max-health damage.
+
+During Icchamrityu:
+
+Ultimate should become dramatically stronger.
+
+Target:
+
+approximately 88–92% max-health damage.
+
+Do NOT make this automatically guaranteed one-shot from full health.
+
+A damaged opponent may still die immediately.
+
+The Ultimate should visually and mechanically feel much stronger during Icchamrityu.
+
+Expose separate multiplier/config such as:
+
+normalUltimateDamage
+icchamrityuUltimateDamageMultiplier
+
+or equivalent.
+
+==================================================
+KARNA
+==================================================
+
+Target normal identity:
+
+HP:
+100%
+
+Base arrow damage:
+110%
+
+Draw speed:
+93%
+
+Arrow velocity:
+108%
+
+Accuracy:
+approximately 90%
+
+Critical chance:
+approximately 10%
+
+Critical multiplier:
+approximately 1.60x
+
+Movement:
+95%
+
+Rage:
+100%
+
+Ultimate:
+approximately 80–82% max-health equivalent
+
+Karna should be the second-highest consistent raw base-damage archer after Bhishma.
+
+His weakness should include slightly lower precision and slower execution than Arjuna.
+
+==================================================
+KARNA — KAVACHA
+==================================================
+
+Keep Kavacha as a defensive passive.
+
+Do not make Kavacha and Wheel Fate combine into excessive survivability.
+
+Inspect current values.
+
+If current Kavacha damage reduction is too high relative to the rest of his kit:
+
+reduce carefully.
+
+Target general range:
+
+55–65% temporary damage reduction
+
+rather than near-total protection.
+
+Preserve clear cracking/breaking feedback.
+
+==================================================
+KARNA — WHEEL FATE REBALANCE
+==================================================
+
+Karna is currently too powerful after successfully repairing the chariot wheel.
+
+Modify this phase.
+
+On first lethal event:
+
+existing Wheel Fate still activates.
+
+Karna remains vulnerable during repair.
+
+If killed during repair:
+normal death.
+
+If repair succeeds:
+
+restore approximately:
+
+20% max HP
+
+rather than excessive healing.
+
+Then activate a new comeback state conceptually called:
+
+SURYA'S LAST STAND
+
+or reuse the existing comeback state.
+
+IMPORTANT:
+
+After successful Wheel repair:
+
+Karna permanently loses access to his ordinary special Astras for the remainder of that ROUND.
+
+Disable:
+
+Surya Shaft
+Nagastra
+Vasavi Shakti / equivalent normal special slot if it is currently treated as a regular special Astra
+
+Use the project's actual Astra structure.
+
+Do NOT accidentally disable the Ultimate if it is a separate system.
+
+==================================================
+KARNA POST-REPAIR BUFF
+==================================================
+
+After remount:
+
+increase pure archery power.
+
+Target:
+
+Base arrow damage:
+approximately +20–25% relative to Karna's normal base damage
+
+Draw speed:
+approximately +15–20%
+
+Arrow velocity:
+approximately +8–10%
+
+Critical chance:
+small increase, e.g. ~10% → ~14%
+
+This mode should make Karna a stronger PURE ARCHER.
+
+He loses tactical special-Astra versatility in exchange.
+
+==================================================
+KARNA ULTIMATE AFTER WHEEL FATE
+==================================================
+
+Use this strategic rule:
+
+IF Karna's Ultimate was already fully READY when Wheel Fate triggered:
+
+he may retain that one Ultimate after successful repair.
+
+IF Ultimate was NOT ready at the moment Wheel Fate triggered:
+
+after repair, Karna can no longer build/unlock a new Ultimate during that round.
+
+This makes pre-Wheel Rage management meaningful.
+
+Do not allow him to lose Astras but immediately rebuild another giant offensive resource without trade-off.
+
+Store/replicate the Ultimate-ready state at Wheel Fate activation.
+
+==================================================
+ASHWATTHAMA
+==================================================
+
+Target normal stats:
+
+HP:
+100%
+
+Base damage:
+103%
+
+Draw speed:
+96%
+
+Arrow velocity:
+100%
+
+Accuracy:
+92%
+
+Critical chance:
+~9%
+
+Critical multiplier:
+~1.60x
+
+Movement:
+100%
+
+Rage:
+105%
+
+Ashwatthama's power should come primarily from his passive and Ultimate rules rather than huge normal stats.
+
+==================================================
+ASHWATTHAMA — ULTIMATE ACCESS REWORK
+==================================================
+
+Before Mani Shatter / Curse Stage:
+
+Ashwatthama may NOT freely use his Ultimate offensively.
+
+His Ultimate is available ONLY as a counter to an incoming enemy Ultimate.
+
+Normal state rule:
+
+enemy launches Ultimate
+→ existing counter opportunity/puzzle occurs
+→ Ashwatthama may use his Ultimate as the counter if requirements are met
+
+Outside this counter opportunity:
+
+Ashwatthama cannot offensively launch his Ultimate.
+
+UI should clearly communicate:
+
+COUNTER ONLY
+
+or equivalent.
+
+Do not confuse the player by showing a normal offensive-ready Ultimate button when it cannot be used.
+
+==================================================
+ASHWATTHAMA — MANI / CURSED STATE
+==================================================
+
+When Mani Shatter occurs:
+
+transition Ashwatthama into permanent CURSED STATE for the remainder of the round.
+
+Keep existing temporary death-protection behavior if already implemented, but rebalance as necessary.
+
+After Curse Stage begins:
+
+Ashwatthama's Ultimate becomes offensively available.
+
+This is the only state where he may initiate his Ultimate without responding to another Ultimate.
+
+==================================================
+ASHWATTHAMA — CURSED BRAHMASHIRA
+==================================================
+
+In Cursed State:
+
+his offensive Ultimate becomes an EXECUTION-CLASS Ultimate.
+
+If the enemy:
+
+- has no counter Ultimate available
+- fails the Ultimate puzzle
+- does not successfully launch the correct counter Ultimate
+- otherwise fails the existing counter rules
+
+then Ashwatthama's Cursed Ultimate should:
+
+KILL THE OPPONENT REGARDLESS OF REMAINING HP.
+
+Mechanically:
+
+100% / execution damage.
+
+Do NOT bypass successful Ultimate counters.
+
+If enemy successfully counters:
+
+use existing Ultimate-vs-Ultimate clash mechanics.
+
+==================================================
+ASHWATTHAMA EXECUTION LIMIT
+==================================================
+
+The offensive cursed Ultimate should be ONE USE.
+
+After Ashwatthama fires it:
+
+mark it consumed for that round.
+
+Do not allow repeated one-hit Ultimates.
+
+==================================================
+ASHWATTHAMA CURSE TRADE-OFF
+==================================================
+
+After Mani breaks:
+
+Ashwatthama becomes more vulnerable.
+
+Target:
+
+incoming damage approximately +15%
+
+or equivalent reduced defense.
+
+This creates:
+
+extreme offensive danger
++
+fragility
+
+So opponent has a real chance to kill Ashwatthama before he executes Brahmashira.
+
+==================================================
+ARJUNA
+==================================================
+
+Target identity:
+
+HP:
+100%
+
+Base damage:
+95%
+
+Draw speed:
+105%
+
+Arrow velocity:
+112%
+
+Accuracy:
+115%
+
+Critical chance:
+~12%
+
+Critical multiplier:
+~1.65x
+
+Movement:
+105%
+
+Rage:
+100%
+
+Ultimate:
+approximately 78–82% max-health equivalent depending on current Pashupata balance
+
+Arjuna should be one of the most accurate and consistent characters.
+
+Do not give him Bhishma-level raw arrow damage.
+
+His advantages:
+
+accuracy
+velocity
+consistency
+Perfect Shot reliability
+Krishna's Guidance
+
+==================================================
+DRONA
+==================================================
+
+Target:
+
+HP:
+102%
+
+Base damage:
+95%
+
+Draw speed:
+96%
+
+Arrow velocity:
+100%
+
+Accuracy:
+108%
+
+Critical:
+~10%
+
+Critical multiplier:
+~1.60x
+
+Movement:
+95%
+
+Rage:
+95%
+
+Ultimate:
+~72–75%
+
+Keep raw damage average.
+
+His Master of Weapons passive provides tactical scaling.
+
+Against a MASTERED enemy Astra, target roughly:
+
+incoming damage from that Astra:
+-20%
+
+counter window:
++25%
+
+counter invocation:
+~20% faster
+
+puzzle assistance:
+one hint / equivalent existing system support
+
+Do not globally buff Drona because one Astra was mastered.
+
+==================================================
+ABHIMANYU
+==================================================
+
+Target:
+
+HP:
+92%
+
+Base damage:
+88%
+
+Draw speed:
+120%
+
+Arrow velocity:
+105%
+
+Accuracy:
+93%
+
+Critical chance:
+~11%
+
+Critical multiplier:
+~1.55x
+
+Movement:
+120%
+
+Rage:
+115%
+
+Ultimate:
+~68–72%
+
+Abhimanyu should have the fastest pressure game.
+
+His weakness:
+
+lower HP
+lower per-shot damage
+slightly lower moving accuracy
+
+His advantage:
+
+fire rate
+movement
+Rage generation
+Last Warrior aggression
+
+Do not increase his raw damage enough to erase this trade-off.
+
+==================================================
+SATYAKI
+==================================================
+
+Target:
+
+HP:
+96%
+
+Base damage:
+90%
+
+Draw speed:
+112%
+
+Arrow velocity:
+108%
+
+Accuracy:
+96%
+
+Critical:
+~12%
+
+Critical multiplier:
+~1.60x
+
+Movement:
+112%
+
+Rage:
+110%
+
+Ultimate:
+~70–74%
+
+His strength comes from Pursuit stacks.
+
+Suggested stack behavior:
+
+each stack:
+
++3% draw speed
++2% movement speed
++2% projectile velocity
+
+Max:
+5 stacks
+
+At x5:
+Vrishni Fury activates using current passive rules.
+
+Penalty:
+
+miss:
+lose 2 stacks
+
+receive critical hit:
+reset all stacks
+
+Tune if current passive already uses similar values.
+
+==================================================
+EKALAVYA
+==================================================
+
+Target:
+
+HP:
+94%
+
+Base damage:
+82%
+
+Draw speed:
+105%
+
+Arrow velocity:
+110%
+
+Accuracy:
+120%
+
+Base critical chance:
+20%
+
+Critical multiplier:
+1.90x
+
+Movement:
+105%
+
+Rage:
+100%
+
+Ultimate:
+~72–75%
+
+Ekalavya should have the LOWEST normal raw arrow damage.
+
+His compensation is:
+
+highest precision
+highest natural crit potential
+Focus / Perfect Shot scaling
+
+==================================================
+EKALAVYA FOCUS / CRITICAL BALANCE
+==================================================
+
+During maximum Focus / Instinctive Archery:
+
+Target:
+
+Crit chance:
+approximately 30%
+
+Perfect-shot critical probability:
+significantly higher, potentially ~50% where appropriate
+
+Critical multiplier:
+approximately 2.10–2.15x
+
+Do not simply increase his base damage.
+
+Ekalavya's identity must remain:
+
+precision creates burst damage.
+
+Example normalized:
+
+base arrow:
+8.2
+
+normal crit at 1.9:
+~15.6
+
+high-Focus crit at 2.15:
+~17.6
+
+Use equivalent ratios in the project's actual number scale.
+
+==================================================
+ULTIMATE GLOBAL REBALANCE
+==================================================
+
+All Ultimates should feel significantly stronger than before.
+
+The Ultimate system already requires:
+
+- Rage
+- decision timing
+- counter opportunity
+- counter Ultimate
+- puzzle interaction
+- cinematic presentation
+
+Therefore Ultimate damage should justify the investment.
+
+Create general damage tiers.
+
+STANDARD ULTIMATE:
+approximately 68–75% max HP
+
+HEAVY ULTIMATE:
+approximately 78–85%
+
+CONDITIONAL ENHANCED ULTIMATE:
+approximately 88–92%
+
+EXECUTION ULTIMATE:
+100%, only under strict conditions
+
+==================================================
+ULTIMATE TARGETS
+==================================================
+
+Approximate direction:
+
+BHISHMA NORMAL:
+~72%
+
+BHISHMA ICHHAMRITYU:
+~90%
+
+KARNA:
+~82%
+
+ARJUNA:
+~80–85% depending on Pashupata classification
+
+DRONA:
+~74%
+
+ABHIMANYU:
+~68–70%
+
+SATYAKI:
+~70–72%
+
+EKALAVYA:
+~72%
+
+ASHWATTHAMA:
+normal/counter state uses regular clash values
+
+ASHWATTHAMA CURSED OFFENSIVE BRAHMASHIRA:
+execution kill on failed/no counter
+
+==================================================
+ULTIMATE COUNTER RULE MUST REMAIN
+==================================================
+
+Preserve:
+
+Ultimate can only be countered by Ultimate.
+
+Do NOT allow:
+
+normal arrow
+normal Astra
+Spirit Astra
+ordinary defensive field
+
+to completely negate an Ultimate unless current game design specifically already has an approved exception.
+
+Puzzle requirement remains.
+
+If puzzle fails:
+
+counter Ultimate is not successfully launched.
+
+Preserve existing resource-consumption rules unless this milestone explicitly needs adjustment.
+
+==================================================
+ACCURACY SYSTEM
+==================================================
+
+Do not implement "accuracy" as random arbitrary misses if the game is skill-based.
+
+Prefer character accuracy differences through mechanics such as:
+
+- aim stability
+- reticle spread
+- perfect-release window
+- movement accuracy penalty
+- projectile deviation
+- aim assist where appropriate
+- draw stability
+
+High accuracy:
+Arjuna
+Ekalavya
+Drona
+
+Lower accuracy:
+Karna
+Abhimanyu while moving
+Ashwatthama moderate
+
+Do not make shots randomly miss in a way that feels unfair.
+
+==================================================
+DRAW SPEED
+==================================================
+
+Draw speed should affect:
+
+time to reach intended normal arrow power
+
+without breaking:
+
+Spirit Charge
+Astra charge
+Ultimate charge
+
+unless explicitly intended.
+
+Keep separate multipliers where systems are different.
+
+==================================================
+PROJECTILE VELOCITY
+==================================================
+
+Projectile velocity differences should affect:
+
+lead prediction
+dodging difficulty
+trajectory
+
+Do not accidentally alter damage just because projectile velocity changes unless the existing physics system intentionally links them.
+
+==================================================
+CRITICAL SYSTEM
+==================================================
+
+Inspect current critical system first.
+
+If crits already exist:
+
+extend them cleanly.
+
+If they do not:
+
+implement a minimal reusable crit layer only if necessary for this balance pass.
+
+Critical result should be authoritative in online play.
+
+Do not let host and client independently roll random critical results.
+
+Use deterministic / authoritative critical resolution.
+
+==================================================
+OPTIONAL PRECISION CRIT RULE
+==================================================
+
+Prefer skilled critical triggers where possible.
+
+For example:
+
+perfect release
+weak-point hit
+high Focus
+specific passive state
+
+may increase crit chance.
+
+Do not make the entire system pure RNG.
+
+==================================================
+PASSIVE POWER BUDGET
+==================================================
+
+When evaluating balance, remember:
+
+a character with a very strong passive should not also dominate:
+
+base damage
+speed
+accuracy
+HP
+
+Examples:
+
+Karna:
+strong base damage + comeback
+therefore loses special Astras after comeback.
+
+Ashwatthama:
+execution-class cursed Ultimate
+therefore offensive Ultimate is restricted before Mani break and defense decreases afterward.
+
+Bhishma:
+highest damage + Final Stand
+therefore slowest major fighter.
+
+==================================================
+SPIRIT ASTRA INTERACTION
+==================================================
+
+Do NOT rebalance every Spirit Astra in this milestone unless existing numbers clearly break character balance.
+
+The current focus is:
+
+base combat
+passives
+Ultimate power
+
+If an Astra is obviously causing a character to dominate regardless of base stats:
+
+report it and make only the smallest necessary adjustment.
+
+Do not redesign the Two-Phase Astra system.
+
+==================================================
+RAGE BALANCE
+==================================================
+
+Ensure Rage gain reflects character identity.
+
+Do not let high-damage characters also build Ultimates disproportionately fast without reason.
+
+Target direction:
+
+Bhishma:
+slightly slower Rage gain
+
+Karna:
+normal
+
+Ashwatthama:
+slightly faster
+
+Arjuna:
+normal
+
+Drona:
+slightly slower
+
+Abhimanyu:
+fastest/high
+
+Satyaki:
+high
+
+Ekalavya:
+normal
+
+Check actual combat pacing before finalizing.
+
+==================================================
+HP NORMALIZATION
+==================================================
+
+Do not make HP differences enormous.
+
+Target roster range roughly:
+
+92–110% baseline
+
+Most character survivability differences should come from:
+
+movement
+passives
+defense
+accuracy
+tempo
+
+rather than extreme HP inflation.
+
+==================================================
+MATCH LENGTH TARGET
+==================================================
+
+Do not turn normal combat into very short matches just because Ultimates are stronger.
+
+Normal arrows should still require meaningful exchanges.
+
+Ultimates should create late-match threat.
+
+Review:
+
+average arrows-to-kill
+average match duration
+Ultimate availability timing
+
+Preserve tactical match pacing.
+
+==================================================
+BEST-OF-THREE CONSIDERATION
+==================================================
+
+Balance should work across best-of-three.
+
+Round-based passives reset correctly.
+
+Match-based passives must keep current match restrictions.
+
+Especially verify:
+
+Arjuna once-per-match Krishna intervention if currently match-based
+
+Bhishma Icchamrityu once-per-match/round according to current implementation
+
+Karna Wheel Fate correct reset policy
+
+Ashwatthama Mani correct reset policy
+
+Do NOT accidentally change lifecycle semantics.
+
+==================================================
+NETWORK AUTHORITY
+==================================================
+
+Critical gameplay values must remain authoritative.
+
+Synchronize:
+
+damage
+critical result
+passive activation
+post-passive stat state
+Astra access restrictions
+Ultimate availability
+Ultimate damage
+execution result
+Rage
+HP
+
+Do not calculate lethal/execution outcomes independently on both clients.
+
+==================================================
+ASHWATTHAMA ONLINE EXECUTION SAFETY
+==================================================
+
+For Cursed Brahmashira:
+
+server/authoritative state must determine:
+
+- cursed state active
+- Ultimate available
+- Ultimate consumed
+- defender counter available
+- puzzle result
+- counter success
+- execution result
+
+Do not let network latency create situations where:
+
+one client sees a kill
+and the other sees a successful counter.
+
+==================================================
+KARNA ONLINE STATE SAFETY
+==================================================
+
+Replicate:
+
+Wheel Fate activation
+Ultimate-ready-at-wheel-trigger flag
+repair success
+post-repair Astra lock
+post-repair stat modifiers
+Ultimate availability
+
+On reconnect:
+
+correct post-repair restrictions must be restored.
+
+==================================================
+BHISHMA TIMER AUTHORITY
+==================================================
+
+Icchamrityu timer must use authoritative time.
+
+Both clients must agree on:
+
+Final Stand start
+damage modifiers
+Ultimate multiplier
+automatic death time
+
+Do not run independent client timers that drift.
+
+==================================================
+BALANCE CONFIGURATION
+==================================================
+
+Externalize all important balance values.
+
+Create/extend a balance data/config structure.
+
+Per character include approximately:
+
+maxHp
+baseArrowDamage
+drawSpeedMultiplier
+projectileSpeedMultiplier
+accuracyModifier
+criticalChance
+criticalMultiplier
+movementSpeedMultiplier
+rageGainMultiplier
+ultimateDamage
+
+Character-specific passive balance:
+
+Bhishma:
+finalStandDuration
+finalStandDamageMultiplier
+finalStandDrawMultiplier
+finalStandProjectileMultiplier
+finalStandUltimateMultiplier
+
+Karna:
+kavachaReduction
+wheelRepairHeal
+postRepairDamageMultiplier
+postRepairDrawMultiplier
+postRepairProjectileMultiplier
+postRepairCritChance
+disableSpecialAstrasAfterRepair
+retainReadyUltimate
+
+Ashwatthama:
+maniProtection values
+cursedIncomingDamageMultiplier
+counterOnlyUltimateBeforeCurse
+cursedUltimateExecution
+cursedUltimateUses
+
+etc.
+
+Do not scatter these values across combat files.
+
+==================================================
+DEBUG BALANCE PANEL
+==================================================
+
+Extend development tools if possible.
+
+Display per warrior:
+
+HP
+Base damage
+Draw multiplier
+Velocity
+Accuracy modifier
+Crit chance
+Crit multiplier
+Movement
+Rage gain
+Ultimate damage
+
+Add test actions:
+
+Set HP
+Trigger passive
+Fill Rage
+Clear Rage
+Force Ultimate
+Apply normal arrow damage
+Apply crit
+Enable/disable post-repair Karna
+Trigger Ashwatthama curse
+Trigger Bhishma Final Stand
+
+Also show:
+
+current effective modifiers
+current passive state
+Ultimate restriction state
+
+Development builds only.
+
+==================================================
+BALANCE TELEMETRY / TEST OUTPUT
+==================================================
+
+If practical, add a lightweight development combat-summary report.
+
+For test matches capture:
+
+shots fired
+shots hit
+hit percentage
+normal damage dealt
+critical hits
+Astra damage
+Ultimate damage
+passive healing
+time alive
+match duration
+winner
+
+This is for balancing only.
+
+Do not ship intrusive telemetry unless already supported.
+
+==================================================
+TEST METHODOLOGY
+==================================================
+
+Do not judge balance from one match.
+
+Run controlled tests.
+
+Test equivalent skill scenarios where possible.
+
+Important matchups:
+
+Bhishma vs Arjuna
+Bhishma vs Abhimanyu
+Karna vs Arjuna
+Karna post-repair vs Ekalavya
+Ashwatthama vs Arjuna
+Ashwatthama cursed vs Bhishma
+Drona vs Arjuna
+Satyaki vs Abhimanyu
+Ekalavya vs Bhishma
+
+==================================================
+BHISHMA TESTS
+==================================================
+
+Verify:
+
+- highest base damage
+- slow draw is noticeable
+- movement is slow
+- accuracy still feels reliable
+- Final Stand starts correctly
+- Final Stand damage multiplier works
+- normal Ultimate uses normal value
+- Icchamrityu Ultimate uses enhanced value
+- Bhishma still automatically dies at end
+
+Ensure Final Stand feels terrifying but survivable with good play.
+
+==================================================
+KARNA TESTS
+==================================================
+
+Verify:
+
+- normal Karna remains powerful but not dominant
+- Kavacha does not make him effectively unkillable
+- Wheel Fate still works
+- repair heal is correct
+- post-repair Astras are disabled
+- base arrow damage increases
+- draw speed increases
+- velocity increases
+- no infinite comeback
+- Ultimate retention rule works
+
+Test:
+
+Ultimate ready before Wheel
+→ retained
+
+Ultimate not ready before Wheel
+→ cannot build a new one after remount
+
+==================================================
+ASHWATTHAMA TESTS
+==================================================
+
+NORMAL STATE:
+
+attempt offensive Ultimate
+→ must be denied
+
+enemy Ultimate incoming
+→ counter Ultimate becomes available
+
+CURSED STATE:
+
+offensive Ultimate becomes available
+
+failed/no enemy counter
+→ execution kill
+
+successful Ultimate counter
+→ no execution; clash resolves normally
+
+after cursed Ultimate used:
+→ cannot use again
+
+verify increased vulnerability after Mani break.
+
+==================================================
+EFFECTIVE DPS TEST
+==================================================
+
+Measure practical damage output over a representative combat window.
+
+Do not require identical DPS.
+
+But avoid situations where one character has:
+
+higher damage
+higher fire rate
+higher accuracy
+higher survival
+
+simultaneously.
+
+Each high-performing dimension needs a cost elsewhere.
+
+==================================================
+AI UPDATE
+==================================================
+
+If Solo AI uses character stats/behavior:
+
+make minimal changes so AI understands the rebalanced identities.
+
+Examples:
+
+Bhishma AI:
+patient, fewer but stronger shots
+
+Abhimanyu:
+aggressive, rapid pressure
+
+Ekalavya:
+precision-focused
+
+Satyaki:
+tries to preserve Pursuit stacks
+
+Ashwatthama:
+preserves Ultimate strategically after curse
+
+Karna:
+uses pure archery after Wheel repair
+
+Do not let AI cheat.
+
+==================================================
+UI FEEDBACK
+==================================================
+
+Update UI only where required to communicate new restrictions.
+
+Examples:
+
+Karna post-repair:
+SPECIAL ASTRAS DISABLED
+or clear disabled buttons
+
+Ashwatthama pre-curse:
+Ultimate indicates COUNTER ONLY
+
+Ashwatthama cursed:
+Ultimate visibly unlocks
+
+Bhishma Final Stand:
+Ultimate receives enhanced-state visual indicator
+
+Do not redesign the entire HUD.
+
+==================================================
+REGRESSION REQUIREMENTS
+==================================================
+
+After balance changes verify:
+
+normal arrows
+draw system
+critical system
+Astra selection
+Spirit Charge
+Spirit field effects
+Rage
+Ultimate counter puzzle
+Ultimate clash
+Legendary Passives
+Fate Event cinematics
+VS intro
+Character Select
+Solo
+Local 1v1
+Online Friend
+best-of-three
+touch
+keyboard
+audio/dialogue
+
+All must remain functional.
+
+==================================================
+DO NOT DO
+==================================================
+
+Do NOT:
+
+rebuild combat
+
+change every Astra unnecessarily
+
+make every character deal similar damage
+
+add arbitrary random misses
+
+turn criticals into excessive RNG
+
+give Bhishma high speed
+
+let Karna retain his entire pre-repair toolkit after comeback
+
+allow Ashwatthama offensive Ultimate before curse
+
+allow repeated cursed execution Ultimates
+
+make every Ultimate one-shot
+
+remove Ultimate counterplay
+
+change unrelated visual systems
+
+==================================================
+IMPLEMENTATION PROCESS
+==================================================
+
+Proceed in this order:
+
+1. Inspect existing balance values.
+2. Map current values against target identities.
+3. Identify actual overpowered/underpowered sources.
+4. Centralize/configure balance values where needed.
+5. Rebalance base combat.
+6. Rework Bhishma.
+7. Rework Karna.
+8. Rework Ashwatthama.
+9. Adjust remaining five characters.
+10. Rebalance Ultimates.
+11. Update AI minimally.
+12. Update HUD indicators where required.
+13. Run controlled tests.
+14. Run online tests.
+15. Run regression suite.
+16. Make one additional tuning pass if test results show obvious imbalance.
+
+Do NOT stop after providing a plan.
+
+Implement and test the balancing milestone.
+
+==================================================
+FINAL ENGINEERING REPORT
+==================================================
+
+When complete return:
+
+CURRENT VALUES FOUND
+
+FILES CREATED
+
+FILES MODIFIED
+
+BALANCE CONFIG ARCHITECTURE
+
+FINAL CHARACTER STAT TABLE
+
+For EACH character report:
+
+HP
+Base damage
+Draw speed
+Projectile velocity
+Accuracy implementation/value
+Crit chance
+Crit multiplier
+Movement speed
+Rage gain
+Ultimate damage
+Passive modifiers
+
+Then specifically report:
+
+BHISHMA CHANGES
+
+NORMAL DAMAGE
+
+SPEED TRADE-OFF
+
+ICHHAMRITYU VALUES
+
+NORMAL ULTIMATE
+
+FINAL-STAND ULTIMATE
+
+KARNA CHANGES
+
+KAVACHA
+
+WHEEL HEAL
+
+POST-REPAIR DAMAGE
+
+POST-REPAIR SPEED
+
+ASTRAS DISABLED
+
+ULTIMATE RETENTION RULE
+
+ASHWATTHAMA CHANGES
+
+NORMAL ULTIMATE RESTRICTION
+
+COUNTER-ONLY LOGIC
+
+CURSE STATE
+
+EXECUTION ULTIMATE
+
+CURSE DEFENSE PENALTY
+
+EFFECTIVE DPS TEST RESULTS
+
+MATCHUP TEST RESULTS
+
+ULTIMATE TEST RESULTS
+
+AI CHANGES
+
+UI CHANGES
+
+ONLINE TEST RESULTS
+
+REGRESSION RESULTS
+
+KNOWN BALANCE CONCERNS
+
+RECOMMENDED VALUES TO WATCH DURING PLAYTESTING
+
+Do NOT automatically start another feature milestone after this.
+
+==================================================
+FINAL DESIGN GOAL
+==================================================
+
+The completed roster should feel like:
+
+BHISHMA
+Highest consistent raw damage, slowest execution.
+
+KARNA
+Heavy attacker who transforms into a stronger pure archer after surviving Wheel Fate.
+
+ASHWATTHAMA
+Normal tactical fighter who becomes an extremely dangerous execution threat after Mani destruction.
+
+ARJUNA
+Most consistent precision fighter.
+
+DRONA
+Adaptive counter specialist.
+
+ABHIMANYU
+Fast rushdown fighter.
+
+SATYAKI
+Momentum fighter.
+
+EKALAVYA
+Precision-critical specialist.
+
+Every character should feel powerful.
+
+No character should feel objectively best in every situation.
+
+Proceed with the full Combat Balance Rework now.

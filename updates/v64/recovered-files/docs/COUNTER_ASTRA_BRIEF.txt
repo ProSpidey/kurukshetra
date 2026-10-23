@@ -1,0 +1,1387 @@
+Continue working inside my existing **Kurukshetra Astra Warfare** project.
+
+STEP 1 has already created or extended:
+
+- Astra Arsenal / Codex
+- stable Astra IDs
+- Astra families
+- Astra tags
+- counter relationships
+- counteredBy relationships
+- transform recipe metadata
+- data validation
+
+This milestone is ONLY:
+
+==================================================
+STEP 2 — COUNTER ASTRA LOADOUT SYSTEM
+==================================================
+
+Build a pre-match system where each player can equip ONE additional Counter Astra before battle.
+
+Do NOT redesign the existing 3 Signature Astra system.
+
+Final combat loadout concept:
+
+NORMAL ARROW
++
+3 CHARACTER SIGNATURE ASTRAS
++
+1 EQUIPPED COUNTER ASTRA
++
+ULTIMATE
+
+The Counter Astra is an additional tactical slot.
+
+==================================================
+IMPORTANT
+==================================================
+
+Do NOT start Step 3 systems yet.
+
+Do NOT implement:
+
+- Astra Stability
+- advanced invocation interruption
+- battlefield war events
+- new chariot targeting
+- large-scale field transformation overhaul
+- new progression/unlock economy
+- new characters
+- new Ultimates
+
+Only implement the Counter Astra loadout system and the minimum combat integration required to use it.
+
+==================================================
+AUDIT CURRENT SYSTEM FIRST
+==================================================
+
+Before changing code, inspect:
+
+- current character selection flow
+- current match setup
+- current Astra selection
+- current 3-Astra loadout architecture
+- current mobile Astra controls
+- keyboard controls
+- Rage / Ultimate UI
+- Spirit Charge
+- online selected-character sync
+- existing ready/lock state
+- existing Codex/database from Step 1
+- current save/config system
+- AI loadout handling
+
+Do not duplicate systems unnecessarily.
+
+==================================================
+DESIGN GOAL
+==================================================
+
+A Counter Astra should create strategic preparation.
+
+Example:
+
+Opponent chooses Drona.
+
+Player knows Drona has:
+
+Agneya Astra
+Brahmastra
+Acharya's Judgment
+
+The player may choose a WATER-type Counter Astra to prepare for Agneya.
+
+But only ONE Counter Astra can be equipped.
+
+Therefore the player cannot prepare for everything.
+
+This creates:
+
+prediction
+matchup knowledge
+risk
+counterplay
+
+without cluttering combat.
+
+==================================================
+PRE-MATCH FLOW
+==================================================
+
+Target flow:
+
+CHARACTER SELECT
+→ CHARACTER LOCK
+→ COUNTER ASTRA SELECT
+→ COUNTER LOCK
+→ ALL READY
+→ VS INTRO
+→ MATCH
+
+Do not interrupt the existing character-select and VS systems more than necessary.
+
+==================================================
+COUNTER ASTRA SELECTION SCREEN
+==================================================
+
+After a player locks their warrior:
+
+open a compact Counter Astra selection overlay/screen.
+
+Display:
+
+SELECT COUNTER ASTRA
+
+Show:
+
+- selected warrior
+- opponent warrior if known
+- compatible Counter Astra options
+- Astra icon
+- Astra name
+- family
+- key tags
+- what it counters
+- short description
+
+Do NOT display huge lore paragraphs.
+
+This is a tactical pre-match screen.
+
+==================================================
+RECOMMENDED COUNTERS
+==================================================
+
+Use the Step-1 database to identify relevant counter choices.
+
+If opponent is known:
+
+mark useful weapons with:
+
+RECOMMENDED
+
+or a subtle icon.
+
+Example:
+
+Opponent has FIRE signature Astra.
+
+A WATER Counter Astra may be marked:
+
+RECOMMENDED VS FIRE
+
+Do NOT automatically choose it in PvP.
+
+The player decides.
+
+==================================================
+DO NOT REVEAL EVERYTHING
+==================================================
+
+The player may know the enemy character and their normal Signature Astra set.
+
+But do NOT show which Counter Astra the opponent selected.
+
+That Counter choice remains hidden until used in battle.
+
+This creates mind games.
+
+==================================================
+COUNTER POOL
+==================================================
+
+A character should NOT automatically be able to equip every weapon in the entire Arsenal.
+
+Create compatibility metadata.
+
+Example:
+
+counterEligibility:
+[
+ characterId...
+]
+
+or equivalent.
+
+The Step-1 Astra data should support:
+
+isCounterEligible
+counterEligibleCharacters
+
+Use a centralized system.
+
+==================================================
+INITIAL COMPATIBILITY PHILOSOPHY
+==================================================
+
+Keep the first implementation relatively permissive but lore-aware.
+
+Each warrior should have approximately:
+
+3–6 reasonable Counter Astra choices
+
+not 20+.
+
+The exact list should be data-driven and easily editable.
+
+==================================================
+IMPORTANT — SIGNATURE IDENTITY
+==================================================
+
+Counter Astras must NOT replace Signature Astras.
+
+Example:
+
+ARJUNA
+
+Signature slots:
+1. Aindrastra
+2. Gandiva Gale
+3. Pashupata Radiance
+
+Counter slot:
+1 selected compatible Counter Astra
+
+ULTIMATE:
+separate
+
+Do the same structure for all warriors.
+
+==================================================
+COUNTER ASTRA STRENGTH
+==================================================
+
+A Counter Astra used by a non-signature owner should generally be slightly less powerful offensively than a Signature Astra.
+
+Its primary role is COUNTERPLAY.
+
+Suggested concept:
+
+counter Astra offensive damage:
+~80–90% of equivalent signature usage
+
+but:
+
+counter effectiveness:
+100%
+
+Example:
+
+A player equips Varuna-type Counter Astra primarily to extinguish Agneya.
+
+It should not simultaneously become their best damaging attack.
+
+==================================================
+COUNTER MASTERY
+==================================================
+
+Support metadata:
+
+signatureOwner
+counterUser
+
+If Astra is being used as Signature:
+
+full character-specific modifiers apply.
+
+If used as Counter:
+
+use neutral/counter configuration.
+
+Do NOT accidentally inherit another character's signature passive bonuses.
+
+==================================================
+COUNTER RESOURCE MODEL
+==================================================
+
+Do not make the Counter Astra infinitely spammable.
+
+Recommended first version:
+
+ONE COUNTER CHARGE PER ROUND
+
+This makes the choice important.
+
+Once used:
+
+COUNTER ASTRA:
+CONSUMED
+
+It resets next round.
+
+==================================================
+OPTIONAL SECOND USE
+==================================================
+
+Do NOT enable this by default.
+
+But make configuration support:
+
+counterUsesPerRound
+
+Default:
+1
+
+This lets future balancing change specific weapons to 2 uses if needed.
+
+==================================================
+ACTIVATION DURING COMBAT
+==================================================
+
+Add a dedicated:
+
+COUNTER ASTRA BUTTON
+
+or slot.
+
+It should remain visually distinct from:
+
+- Signature Astras
+- Ultimate
+
+Suggested presentation:
+
+small shield / opposing-arrows symbol
++
+selected Astra icon
+
+Do not create another giant button.
+
+==================================================
+MOBILE HUD
+==================================================
+
+The Counter Astra must be usable on phone.
+
+Use a compact circular button consistent with current transparent-overlay combat HUD.
+
+Position it near the Signature Astra controls but clearly separated.
+
+Avoid covering:
+
+aim area
+fire input
+Ultimate
+health UI
+
+==================================================
+KEYBOARD INPUT
+==================================================
+
+Add one dedicated configurable key.
+
+Do not reuse keys that conflict with existing combat.
+
+Use current input mapping/config system.
+
+Do NOT hard-code only one keyboard key if the project already supports key mappings.
+
+==================================================
+COUNTER BUTTON STATES
+==================================================
+
+Support:
+
+READY
+
+RECOMMENDED NOW
+
+CHARGING if Counter Astra supports charging
+
+USED
+
+DISABLED
+
+INVALID
+
+Use visual states.
+
+Example:
+
+READY:
+normal icon
+
+when a counterable enemy Astra is active:
+gold/blue pulse
+
+USED:
+desaturated / empty
+
+==================================================
+SMART COUNTER PROMPT
+==================================================
+
+When the opponent invokes an Astra that the equipped Counter Astra can interact with:
+
+the Counter button should subtly highlight.
+
+Example:
+
+Enemy:
+Agneya Astra
+
+Player equipped:
+Varuna counter
+
+UI:
+
+COUNTER AVAILABLE
+
+Do not pause the game automatically.
+
+Do not force use.
+
+The player still chooses whether to spend the one Counter charge.
+
+==================================================
+NO PERFECT AUTO-COUNTER
+==================================================
+
+Equipping the correct Counter Astra must NOT automatically cancel the enemy attack.
+
+The player must:
+
+recognize
+aim if required
+charge if required
+fire at the correct time
+
+This remains skill-based.
+
+==================================================
+COUNTER TIMING WINDOW
+==================================================
+
+Reuse current projectile/Astra interaction timing.
+
+Do not create a huge forgiving auto-cancel window.
+
+Suggested:
+
+counter opportunity exists while enemy Astra is:
+
+being invoked
+in flight
+or field active
+
+depending on that interaction's metadata.
+
+Add future-compatible fields:
+
+counterWindowType
+
+Possible values:
+
+INVOCATION
+PROJECTILE
+FIELD
+ANY_VALID_PHASE
+
+==================================================
+DIRECT / SKY COUNTERS
+==================================================
+
+Respect current aiming system.
+
+Some counters may require:
+
+direct cast
+
+others:
+sky cast
+
+Example:
+
+Fire Tornado in sky
+→ counter must be fired toward sky.
+
+Fire Circle field
+→ counter may target field / ground zone.
+
+Do not automatically convert Counter Astra into correct cast type.
+
+Player must aim appropriately.
+
+==================================================
+SPIRIT CHARGE
+==================================================
+
+Counter Astras should work with the existing Spirit Charge architecture if their data says Spirit Charge is supported.
+
+Do not build a second charge system.
+
+A Counter Astra may have:
+
+Normal Counter
+
+or
+
+Spirit Counter
+
+depending on the interaction.
+
+Example:
+
+Normal water Astra:
+WEAKEN fire field
+
+Spirit water Astra:
+CANCEL / TRANSFORM large fire field
+
+Use the Step-1 interaction metadata where possible.
+
+==================================================
+COUNTER RELATIONSHIP RESOLUTION
+==================================================
+
+When Counter Astra interacts with enemy Astra:
+
+query the Step-1 database.
+
+Conceptual flow:
+
+attackingAstraId
++
+counterAstraId
+→ CounterResolver
+→ interaction metadata
+→ result
+
+Do not hard-code:
+
+if Agneya then Varuna
+
+inside combat files.
+
+==================================================
+COUNTER RESOLVER
+==================================================
+
+Create a reusable CounterResolver or equivalent.
+
+Inputs:
+
+sourceAstraId
+counterAstraId
+
+sourceTags
+counterTags
+
+chargeLevel
+castType
+field/projectile state
+
+Outputs:
+
+VALID
+INVALID
+
+interactionType
+
+strength
+
+futureTransformId if applicable
+
+==================================================
+SUPPORTED INTERACTION RESULTS
+==================================================
+
+For this milestone, support actual runtime behavior for:
+
+CANCEL
+
+WEAKEN
+
+SHORTEN_DURATION
+
+DISPLACE if already supported safely
+
+Do NOT implement all advanced transformed battlefield fields yet unless they already exist.
+
+For TRANSFORM relationships:
+
+the system may initially call an existing transform implementation where already present.
+
+Otherwise:
+
+record/notify the transform request cleanly and use a safe fallback such as WEAKEN or CANCEL according to data.
+
+Report incomplete transform visuals in final report.
+
+==================================================
+EXISTING TRANSFORMATIONS
+==================================================
+
+If the current combat already supports:
+
+Steam Cloud
+Electrified Water
+Ember Storm
+Mist
+
+reuse them.
+
+Do not rebuild them.
+
+If Step 1 only contains their metadata and combat implementation is not present:
+
+do not expand this milestone massively.
+
+Step 3 will handle richer transformation behavior.
+
+==================================================
+EXAMPLES
+==================================================
+
+Example 1:
+
+Enemy Drona:
+Agneya Astra Spirit Direct
+→ Fire Circle
+
+Player equipped:
+Varuna Counter Astra
+
+Player fires valid counter at field.
+
+Result:
+fire field canceled/strongly weakened according to database.
+
+Counter charge consumed.
+
+==================================================
+
+Example 2:
+
+Enemy Karna:
+Nagastra
+
+Player equipped:
+GARUDA-tag Counter Astra
+
+Valid collision/intercept:
+
+HARD_COUNTER
+
+Nagastra manifestation destroyed.
+
+Counter consumed.
+
+==================================================
+
+Example 3:
+
+Enemy uses FIRE.
+
+Player equipped WIND.
+
+Relationship:
+
+TRANSFORM:
+EMBER_STORM
+
+If full transformation behavior already exists:
+use it.
+
+If not:
+use safe interim WEAKEN behavior and emit transform event hook for Step 3.
+
+==================================================
+INVALID COUNTER
+==================================================
+
+If player fires Counter Astra against an incompatible attack:
+
+do not magically cancel it.
+
+The Counter Astra performs its normal limited counter-slot behavior and is consumed if released.
+
+This prevents players from spamming the button until something works.
+
+==================================================
+COUNTER CANCEL BEFORE RELEASE
+==================================================
+
+If current Astra charge system allows canceling before release:
+
+do NOT consume the Counter charge until actual release.
+
+If released:
+consume.
+
+==================================================
+COUNTER VS NORMAL ARROWS
+==================================================
+
+Counter Astras are intended primarily for Astra interactions.
+
+Do not make them disproportionately powerful against ordinary arrows.
+
+==================================================
+COUNTER VS ULTIMATE
+==================================================
+
+CRITICAL RULE:
+
+Counter Astras CANNOT counter Ultimates.
+
+Preserve:
+
+ULTIMATE
+can only be countered by
+ULTIMATE.
+
+Counter Astra button must NOT highlight as valid during an Ultimate.
+
+Do not violate this rule.
+
+==================================================
+COUNTER VS SPIRIT ASTRA
+==================================================
+
+Allowed.
+
+But effectiveness can depend on:
+
+Normal Counter
+vs
+Spirit Astra
+
+Example:
+
+normal Counter:
+WEAKEN
+
+Spirit-charged Counter:
+CANCEL
+
+Make this data-driven.
+
+==================================================
+PRE-MATCH TIMER
+==================================================
+
+Recommended:
+
+10 seconds
+
+for Counter Astra selection.
+
+Do not make players wait indefinitely online.
+
+If timer expires:
+
+use current highlighted choice
+
+or
+
+auto-select a safe recommended/default Counter Astra.
+
+Make default behavior configurable.
+
+==================================================
+CASUAL / SOLO AUTO-SELECT
+==================================================
+
+For Solo Arcade:
+
+allow:
+
+AUTO COUNTER
+
+option.
+
+AI/system selects a sensible Counter Astra based on opponent.
+
+This helps new players.
+
+Advanced players may manually choose.
+
+==================================================
+LOCAL 1V1
+==================================================
+
+Both players select a Counter Astra.
+
+Avoid letting Player 2 see Player 1's hidden selection if they are sharing the screen where practical.
+
+Possible solution:
+
+sequential selection with opponent choice hidden after lock.
+
+If hiding is awkward on one device:
+
+use quick blind-selection overlay.
+
+Do not reveal the locked Astra unnecessarily.
+
+==================================================
+ONLINE FRIEND
+==================================================
+
+Each client chooses locally.
+
+Synchronize only:
+
+selected Counter Astra ID
+locked status
+
+The opponent should NOT receive/display the actual Counter Astra selection until match starts or the Astra is used.
+
+If networking architecture requires server knowledge:
+
+server may know it,
+client opponent UI should not.
+
+==================================================
+NETWORK AUTHORITY
+==================================================
+
+Authoritative state controls:
+
+selected Counter Astra
+available charges
+release
+counter collision
+interaction result
+charge consumption
+
+Do not let both clients independently decide whether the counter succeeded.
+
+==================================================
+RECONNECT
+==================================================
+
+Reconnect state must restore:
+
+equipped Counter Astra
+remaining uses
+consumed state
+
+Do not reset Counter charge during reconnect.
+
+==================================================
+ROUND RESET
+==================================================
+
+Default:
+
+Counter Astra charge resets each ROUND.
+
+Example:
+
+Round 1:
+used
+
+Round 2:
+available again
+
+Best-of-three should therefore provide one tactical counter opportunity per round.
+
+==================================================
+CHARACTER PASSIVE INTERACTIONS
+==================================================
+
+Do not redesign passives.
+
+But ensure:
+
+Drona Mastery can later query equipped counter data.
+
+Karna post-Wheel repair:
+if current balance design disables his special Astras after repair,
+also determine whether Counter Astra should be disabled.
+
+Recommended:
+
+YES.
+
+After successful Wheel Fate repair:
+
+Karna loses:
+
+signature special Astras
+AND
+Counter Astra
+
+He becomes pure base-archery + retained Ultimate state according to existing Karna balance rules.
+
+==================================================
+ASHWATTHAMA
+==================================================
+
+Do not allow Counter Astra system to bypass his Ultimate restrictions.
+
+His Ultimate counter remains separate.
+
+Counter Astra:
+handles ordinary/Spirit Astras.
+
+Ultimate:
+handles Ultimates.
+
+==================================================
+AI
+==================================================
+
+AI should choose a reasonable Counter Astra from compatible options.
+
+Do not let AI know the player's hidden Counter Astra selection when deciding its own choice unless architecture requires a symmetrical deterministic setup.
+
+During combat:
+
+AI may use the Counter Astra when appropriate.
+
+Use reaction delay.
+
+Do NOT make AI instantly counter every valid Astra.
+
+Difficulty can alter:
+
+recognition delay
+decision accuracy
+timing
+
+not hidden cheating.
+
+==================================================
+UI — OPPONENT ASTRA INFO
+==================================================
+
+Do NOT permanently display:
+
+"USE VARUNA NOW"
+
+unless tutorial mode.
+
+Normal PvP UI should only give modest feedback:
+
+COUNTER AVAILABLE
+
+or button pulse.
+
+Experienced players should learn from the Codex.
+
+==================================================
+TUTORIAL SUPPORT
+==================================================
+
+For beginner/tutorial mode:
+
+allow more explicit hint:
+
+Agneya Astra detected
+Water Counter effective
+
+Do not show this level of assistance in competitive mode by default.
+
+==================================================
+CODEX INTEGRATION
+==================================================
+
+From Counter Selection screen:
+
+allow an optional info/details action that opens the Step-1 Codex entry.
+
+Do not force players out of matchmaking.
+
+Use compact overlay or back navigation.
+
+==================================================
+LOADOUT DATA
+==================================================
+
+Add/extend match loadout data:
+
+characterId
+
+signatureAstraIds[3]
+
+counterAstraId
+
+ultimateId
+
+counterUsesRemaining
+
+Do not save opponent-specific temporary loadouts permanently unless current game flow needs it.
+
+==================================================
+PERSISTED PREFERENCE
+==================================================
+
+Optionally remember the player's most recently selected Counter Astra per character.
+
+Example:
+
+Arjuna:
+lastCounterAstraId
+
+But when entering a matchup:
+
+still show selection screen.
+
+Do not automatically lock the previous choice without player confirmation in PvP.
+
+==================================================
+VISUAL DIFFERENTIATION
+==================================================
+
+Counter Astra needs its own HUD styling.
+
+Suggested:
+
+gold + cool cyan defensive ring
+or
+
+shield-shaped small border
+
+Do not make it look like an Ultimate.
+
+Ultimate remains visually dominant.
+
+==================================================
+AUDIO FEEDBACK
+==================================================
+
+Add/reuse lightweight audio events:
+
+counter_select
+
+counter_lock
+
+counter_ready
+
+counter_release
+
+counter_success
+
+counter_failed
+
+counter_consumed
+
+Use current audio system.
+
+==================================================
+COUNTER SUCCESS FEEDBACK
+==================================================
+
+When valid Counter succeeds:
+
+brief UI:
+
+COUNTERED
+
+or
+
+ASTRA COUNTER
+
+Keep short.
+
+Do not obstruct combat.
+
+==================================================
+HARD COUNTER FEEDBACK
+==================================================
+
+For HARD_COUNTER:
+
+stronger audiovisual response.
+
+Example:
+
+- impact flash
+- distinct sound
+- short camera response
+- counter text
+
+No long cinematic.
+
+==================================================
+SOFT COUNTER FEEDBACK
+==================================================
+
+For WEAKEN / SHORTEN_DURATION:
+
+show:
+
+WEAKENED
+
+or relevant effect.
+
+Player should understand the counter helped but did not completely remove the attack.
+
+==================================================
+FAILURE FEEDBACK
+==================================================
+
+If player releases wrong Counter Astra:
+
+do not show giant punishment screen.
+
+Use subtle:
+
+INEFFECTIVE
+
+or no special interaction.
+
+Counter charge remains consumed because the weapon was invoked.
+
+==================================================
+BALANCE
+==================================================
+
+The Counter slot must create options, not dominate combat.
+
+Target:
+
+one meaningful counter opportunity
+per player
+per round.
+
+Do not let it invalidate all three opponent Signature Astras.
+
+==================================================
+COMPATIBILITY BALANCE
+==================================================
+
+Each character should ideally have multiple viable Counter choices.
+
+Avoid a situation where:
+
+one Counter Astra is objectively best against every matchup.
+
+==================================================
+DEBUG PANEL
+==================================================
+
+Extend dev/debug tools with:
+
+COUNTER LOADOUT
+
+Set P1 Counter Astra
+
+Set P2 Counter Astra
+
+Set uses remaining
+
+Reset Counter
+
+Consume Counter
+
+Force valid counter opportunity
+
+Force invalid counter
+
+Show CounterResolver result
+
+Show interaction type
+
+Show tags
+
+Show authority owner
+
+==================================================
+COUNTER DATABASE VALIDATION
+==================================================
+
+Validate:
+
+equipped Astra exists
+
+isCounterEligible == true
+
+character is eligible
+
+stable ID valid
+
+counter relationship exists
+
+Counter Astra does not target Ultimate class illegally
+
+==================================================
+TEST MATRIX
+==================================================
+
+At minimum test:
+
+Agneya vs WATER counter
+
+Agneya vs WIND counter
+
+Nagastra vs GARUDA counter
+
+Ganga's Guard vs FIRE interaction
+
+Kuru Thunder vs WATER interaction
+
+Rudra Ember vs WATER
+
+Rudra Ember vs DIVINE
+
+Nishada Flame vs WATER
+
+Brahmastra vs ordinary elemental Counter
+→ should NOT be trivially canceled
+
+Pashupata high-tier interaction
+→ should respect high-tier rules
+
+Ultimate vs Counter Astra
+→ Counter Astra must fail / not activate as valid Ultimate counter
+
+==================================================
+MATCH FLOW TESTS
+==================================================
+
+SOLO:
+
+Character Select
+→ Counter Select
+→ lock
+→ VS
+→ fight
+
+LOCAL:
+
+P1 Select
+P2 Select
+→ Counter Select
+→ both lock
+→ VS
+→ fight
+
+ONLINE:
+
+both character selections sync
+→ both Counter selections lock
+→ selection remains hidden
+→ VS starts
+→ combat
+→ authoritative Counter use works
+
+==================================================
+MOBILE TESTS
+==================================================
+
+Verify:
+
+Counter selection cards tappable
+
+Counter HUD button accessible
+
+does not overlap aim
+
+does not overlap Ultimate
+
+does not reduce battlefield significantly
+
+Spirit Charge works where applicable
+
+==================================================
+DO NOT IMPLEMENT
+==================================================
+
+Do NOT implement:
+
+Astra Stability
+
+complex battlefield field transformations beyond existing support
+
+war-event system
+
+new chariot mechanics
+
+new army interactions
+
+new progression
+
+new economy
+
+new home-menu features
+
+==================================================
+DEFINITION OF DONE
+==================================================
+
+Step 2 is complete when:
+
+1. Counter Astra selection happens after Character Select.
+2. Compatible choices come from Step-1 database.
+3. One Counter Astra can be equipped.
+4. Opponent choice stays hidden.
+5. Counter appears as dedicated combat slot.
+6. Mobile control exists.
+7. Keyboard control exists.
+8. Counter can interact with ordinary Astras.
+9. Hard/soft counter metadata is respected.
+10. Counter cannot stop Ultimates.
+11. Counter is consumed on release.
+12. Default uses = 1 per round.
+13. Charge resets next round.
+14. Solo works.
+15. Local 1v1 works.
+16. Online works.
+17. AI can choose/use Counter Astras.
+18. Karna post-Wheel restrictions remain correct.
+19. Existing Signature Astras remain unchanged.
+20. Existing Ultimates remain separate.
+21. Existing combat does not break.
+
+==================================================
+FINAL REPORT
+==================================================
+
+After implementation report:
+
+FILES CREATED
+
+FILES MODIFIED
+
+COUNTER LOADOUT ARCHITECTURE
+
+COUNTER SELECTION SCREEN
+
+CHARACTER COMPATIBILITY TABLE
+
+FINAL COUNTER ASTRA POOL PER CHARACTER
+
+LOADOUT DATA STRUCTURE
+
+HUD BUTTON IMPLEMENTATION
+
+KEYBOARD INPUT
+
+TOUCH INPUT
+
+COUNTER RESOLVER
+
+SUPPORTED INTERACTION RESULTS
+
+ULTIMATE PROTECTION RULE
+
+SPIRIT ASTRA INTERACTION
+
+SOLO FLOW
+
+LOCAL FLOW
+
+ONLINE FLOW
+
+AI BEHAVIOR
+
+ROUND RESET
+
+KARNA INTERACTION
+
+DEBUG TOOLS
+
+TEST RESULTS
+
+KNOWN LIMITATIONS
+
+TRANSFORM INTERACTIONS DEFERRED TO STEP 3
+
+Do not start Step 3.
+
+Complete only the Counter Astra Loadout System.

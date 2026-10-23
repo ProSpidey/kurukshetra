@@ -1,0 +1,7 @@
+# Progressive Arcade and Ultimate aftermath
+
+Arcade selects only the player's warrior, then runs seven best-of-three matches with every other warrior. Encounter order: Ekalavya, Satyaki, Abhimanyu, Drona, Ashwatthama, Arjuna, Karna, Bhishma, excluding the selected hero. Bhishma is the authored final boss; Karna is last when playing Bhishma. Normal-shot aim error and cadence improve every stage; tactical AI transitions Apprentice → Warrior → Maharathi. Player damage, health and saved difficulty preference are unchanged. Victory advances through the existing preload and VS screens; defeat retries the current challenger; the final victory offers a new run. CPU quiver and counter loadouts refresh for each opponent.
+
+An actual Ultimate collision or direct impact sets battlefieldShattered. The flag is captured in rollback and legacy snapshots and reconstructed by the server referee. It persists across rounds, clears on new match, and never applies hidden environmental damage. Black clouds, irregular lava fissures, sparks and steam render behind the warriors. Low-effects and reduced-motion settings are supported. Existing storm artwork is reused; no new generated assets required.
+
+Verification: eight ladder configurations, progression/retry/champion result, monotonic difficulty, both Ultimate triggers, round 2/3 persistence, rollback restoration, new-match reset, Canvas render state purity, 100/300 ms network replay and server referee equivalence passed. Physical Android/browser playthrough remains manual QA. Protocol 39; service-worker cache v47.

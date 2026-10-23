@@ -1,0 +1,8 @@
+PASS 50ms delay, roles normal, duplicate/reordered inputs, state hashes, exactly-once consumption and checkpoint preserves uses
+PASS 50ms delay, roles swapped, duplicate/reordered inputs, state hashes, exactly-once consumption and checkpoint preserves uses
+PASS 100ms delay, roles normal, duplicate/reordered inputs, state hashes, exactly-once consumption and checkpoint preserves uses
+PASS 100ms delay, roles swapped, duplicate/reordered inputs, state hashes, exactly-once consumption and checkpoint preserves uses
+PASS 150ms delay, roles normal, duplicate/reordered inputs, state hashes, exactly-once consumption and checkpoint preserves uses
+PASS 150ms delay, roles swapped, duplicate/reordered inputs, state hashes, exactly-once consumption and checkpoint preserves uses
+PASS 250ms delay, roles normal, duplicate/reordered inputs, state hashes, exactly-once consumption and checkpoint preserves uses
+PASS 250ms delay, roles swapped, duplicate/reordered inputs, state hashes, exactly-once consumption and checkpoint preserves uses

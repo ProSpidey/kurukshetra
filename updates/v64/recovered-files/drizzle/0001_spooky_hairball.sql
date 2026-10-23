@@ -1,0 +1,1 @@
+ALTER TABLE `rooms` ADD `host_ack` integer DEFAULT 0 NOT NULL;

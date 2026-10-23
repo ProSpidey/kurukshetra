@@ -1,0 +1,1082 @@
+[
+  {
+    "pair": "Bhishma vs Arjun",
+    "trial": 0,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 39.45,
+    "shots": [
+      25,
+      32
+    ],
+    "hits": [
+      10,
+      5
+    ],
+    "hp": [
+      123.36,
+      0
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Bhishma vs Arjun",
+    "trial": 1,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 44.8,
+    "shots": [
+      35,
+      27
+    ],
+    "hits": [
+      6,
+      8
+    ],
+    "hp": [
+      0,
+      79.14
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Bhishma vs Arjun",
+    "trial": 2,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 36.4,
+    "shots": [
+      22,
+      29
+    ],
+    "hits": [
+      9,
+      8
+    ],
+    "hp": [
+      59.09,
+      0
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Bhishma vs Arjun",
+    "trial": 3,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 34.95,
+    "shots": [
+      28,
+      21
+    ],
+    "hits": [
+      6,
+      10
+    ],
+    "hp": [
+      0,
+      118.05
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Bhishma vs Arjun",
+    "trial": 4,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 45.9,
+    "shots": [
+      28,
+      37
+    ],
+    "hits": [
+      8,
+      5
+    ],
+    "hp": [
+      130.59,
+      0
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Bhishma vs Arjun",
+    "trial": 5,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 38.5,
+    "shots": [
+      31,
+      24
+    ],
+    "hits": [
+      5,
+      10
+    ],
+    "hp": [
+      0,
+      107.81
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Bhishma vs Abhimanyu",
+    "trial": 0,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 44.2,
+    "shots": [
+      28,
+      37
+    ],
+    "hits": [
+      7,
+      12
+    ],
+    "hp": [
+      1.76,
+      0
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Bhishma vs Abhimanyu",
+    "trial": 1,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 36.55,
+    "shots": [
+      31,
+      23
+    ],
+    "hits": [
+      15,
+      8
+    ],
+    "hp": [
+      0,
+      1.76
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Bhishma vs Abhimanyu",
+    "trial": 2,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 28.5,
+    "shots": [
+      18,
+      26
+    ],
+    "hits": [
+      6,
+      11
+    ],
+    "hp": [
+      40.48,
+      0
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Bhishma vs Abhimanyu",
+    "trial": 3,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 39.6,
+    "shots": [
+      33,
+      25
+    ],
+    "hits": [
+      16,
+      9
+    ],
+    "hp": [
+      0,
+      1.76
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Bhishma vs Abhimanyu",
+    "trial": 4,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 45.3,
+    "shots": [
+      29,
+      40
+    ],
+    "hits": [
+      4,
+      15
+    ],
+    "hp": [
+      0,
+      49.8
+    ],
+    "winner": "Abhimanyu"
+  },
+  {
+    "pair": "Bhishma vs Abhimanyu",
+    "trial": 5,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 43.05,
+    "shots": [
+      39,
+      27
+    ],
+    "hits": [
+      14,
+      7
+    ],
+    "hp": [
+      0,
+      17.64
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Karna vs Arjun",
+    "trial": 0,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 89.9,
+    "shots": [
+      65,
+      72
+    ],
+    "hits": [
+      12,
+      12
+    ],
+    "hp": [
+      32.97,
+      0
+    ],
+    "winner": "Karna"
+  },
+  {
+    "pair": "Karna vs Arjun",
+    "trial": 1,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 66.4,
+    "shots": [
+      53,
+      47
+    ],
+    "hits": [
+      8,
+      11
+    ],
+    "hp": [
+      0,
+      49.22
+    ],
+    "winner": "Karna"
+  },
+  {
+    "pair": "Karna vs Arjun",
+    "trial": 2,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 42.65,
+    "shots": [
+      31,
+      34
+    ],
+    "hits": [
+      10,
+      6
+    ],
+    "hp": [
+      87.6,
+      0
+    ],
+    "winner": "Karna"
+  },
+  {
+    "pair": "Karna vs Arjun",
+    "trial": 3,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 86.15,
+    "shots": [
+      68,
+      62
+    ],
+    "hits": [
+      12,
+      11
+    ],
+    "hp": [
+      0,
+      32.03
+    ],
+    "winner": "Karna"
+  },
+  {
+    "pair": "Karna vs Arjun",
+    "trial": 4,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 78.6,
+    "shots": [
+      57,
+      63
+    ],
+    "hits": [
+      12,
+      10
+    ],
+    "hp": [
+      39.15,
+      0
+    ],
+    "winner": "Karna"
+  },
+  {
+    "pair": "Karna vs Arjun",
+    "trial": 5,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 60.9,
+    "shots": [
+      49,
+      44
+    ],
+    "hits": [
+      5,
+      10
+    ],
+    "hp": [
+      0,
+      87.91
+    ],
+    "winner": "Karna"
+  },
+  {
+    "pair": "Karna vs Ekalavya",
+    "trial": 0,
+    "swapped": false,
+    "scenario": "post-repair Karna",
+    "duration": 34.85,
+    "shots": [
+      26,
+      28
+    ],
+    "hits": [
+      3,
+      7
+    ],
+    "hp": [
+      0,
+      92.63
+    ],
+    "winner": "Ekalavya"
+  },
+  {
+    "pair": "Karna vs Ekalavya",
+    "trial": 1,
+    "swapped": true,
+    "scenario": "post-repair Karna",
+    "duration": 29.95,
+    "shots": [
+      24,
+      22
+    ],
+    "hits": [
+      7,
+      5
+    ],
+    "hp": [
+      63.54,
+      0
+    ],
+    "winner": "Ekalavya"
+  },
+  {
+    "pair": "Karna vs Ekalavya",
+    "trial": 2,
+    "swapped": false,
+    "scenario": "post-repair Karna",
+    "duration": 30.65,
+    "shots": [
+      22,
+      24
+    ],
+    "hits": [
+      5,
+      7
+    ],
+    "hp": [
+      0,
+      84.83
+    ],
+    "winner": "Ekalavya"
+  },
+  {
+    "pair": "Karna vs Ekalavya",
+    "trial": 3,
+    "swapped": true,
+    "scenario": "post-repair Karna",
+    "duration": 29.45,
+    "shots": [
+      24,
+      21
+    ],
+    "hits": [
+      7,
+      4
+    ],
+    "hp": [
+      93.19,
+      0
+    ],
+    "winner": "Ekalavya"
+  },
+  {
+    "pair": "Karna vs Ekalavya",
+    "trial": 4,
+    "swapped": false,
+    "scenario": "post-repair Karna",
+    "duration": 52.2,
+    "shots": [
+      38,
+      41
+    ],
+    "hits": [
+      8,
+      6
+    ],
+    "hp": [
+      4.93,
+      0
+    ],
+    "winner": "Karna"
+  },
+  {
+    "pair": "Karna vs Ekalavya",
+    "trial": 5,
+    "swapped": true,
+    "scenario": "post-repair Karna",
+    "duration": 33.8,
+    "shots": [
+      27,
+      25
+    ],
+    "hits": [
+      7,
+      4
+    ],
+    "hp": [
+      91.04,
+      0
+    ],
+    "winner": "Ekalavya"
+  },
+  {
+    "pair": "Ashwatthama vs Arjun",
+    "trial": 0,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 50.6,
+    "shots": [
+      37,
+      40
+    ],
+    "hits": [
+      9,
+      4
+    ],
+    "hp": [
+      106.55,
+      0
+    ],
+    "winner": "Ashwatthama"
+  },
+  {
+    "pair": "Ashwatthama vs Arjun",
+    "trial": 1,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 38.5,
+    "shots": [
+      31,
+      28
+    ],
+    "hits": [
+      3,
+      12
+    ],
+    "hp": [
+      0,
+      126.31
+    ],
+    "winner": "Ashwatthama"
+  },
+  {
+    "pair": "Ashwatthama vs Arjun",
+    "trial": 2,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 31.15,
+    "shots": [
+      23,
+      25
+    ],
+    "hits": [
+      10,
+      7
+    ],
+    "hp": [
+      66.71,
+      0
+    ],
+    "winner": "Ashwatthama"
+  },
+  {
+    "pair": "Ashwatthama vs Arjun",
+    "trial": 3,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 35.75,
+    "shots": [
+      29,
+      26
+    ],
+    "hits": [
+      5,
+      10
+    ],
+    "hp": [
+      0,
+      107.36
+    ],
+    "winner": "Ashwatthama"
+  },
+  {
+    "pair": "Ashwatthama vs Arjun",
+    "trial": 4,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 39.15,
+    "shots": [
+      29,
+      31
+    ],
+    "hits": [
+      9,
+      3
+    ],
+    "hp": [
+      121.28,
+      0
+    ],
+    "winner": "Ashwatthama"
+  },
+  {
+    "pair": "Ashwatthama vs Arjun",
+    "trial": 5,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 38.55,
+    "shots": [
+      31,
+      28
+    ],
+    "hits": [
+      6,
+      9
+    ],
+    "hp": [
+      0,
+      86.47
+    ],
+    "winner": "Ashwatthama"
+  },
+  {
+    "pair": "Ashwatthama vs Bhishma",
+    "trial": 0,
+    "swapped": false,
+    "scenario": "cursed Ashwatthama",
+    "duration": 19.65,
+    "shots": [
+      15,
+      12
+    ],
+    "hits": [
+      5,
+      2
+    ],
+    "hp": [
+      0,
+      117.7
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Ashwatthama vs Bhishma",
+    "trial": 1,
+    "swapped": true,
+    "scenario": "cursed Ashwatthama",
+    "duration": 5.55,
+    "shots": [
+      4,
+      4
+    ],
+    "hits": [
+      1,
+      1
+    ],
+    "hp": [
+      148.81,
+      0
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Ashwatthama vs Bhishma",
+    "trial": 2,
+    "swapped": false,
+    "scenario": "cursed Ashwatthama",
+    "duration": 4.1,
+    "shots": [
+      3,
+      3
+    ],
+    "hits": [
+      1,
+      2
+    ],
+    "hp": [
+      0,
+      148.81
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Ashwatthama vs Bhishma",
+    "trial": 3,
+    "swapped": true,
+    "scenario": "cursed Ashwatthama",
+    "duration": 8.5,
+    "shots": [
+      5,
+      6
+    ],
+    "hits": [
+      2,
+      2
+    ],
+    "hp": [
+      139.85,
+      0
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Ashwatthama vs Bhishma",
+    "trial": 4,
+    "swapped": false,
+    "scenario": "cursed Ashwatthama",
+    "duration": 19.8,
+    "shots": [
+      15,
+      12
+    ],
+    "hits": [
+      8,
+      1
+    ],
+    "hp": [
+      0,
+      94.27
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Ashwatthama vs Bhishma",
+    "trial": 5,
+    "swapped": true,
+    "scenario": "cursed Ashwatthama",
+    "duration": 5.55,
+    "shots": [
+      4,
+      4
+    ],
+    "hits": [
+      1,
+      2
+    ],
+    "hp": [
+      140.57,
+      0
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Drona vs Arjun",
+    "trial": 0,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 50.6,
+    "shots": [
+      37,
+      40
+    ],
+    "hits": [
+      10,
+      3
+    ],
+    "hp": [
+      122.09,
+      0
+    ],
+    "winner": "Drona"
+  },
+  {
+    "pair": "Drona vs Arjun",
+    "trial": 1,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 49.6,
+    "shots": [
+      40,
+      36
+    ],
+    "hits": [
+      2,
+      10
+    ],
+    "hp": [
+      0,
+      123.5
+    ],
+    "winner": "Drona"
+  },
+  {
+    "pair": "Drona vs Arjun",
+    "trial": 2,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 36.85,
+    "shots": [
+      27,
+      29
+    ],
+    "hits": [
+      12,
+      7
+    ],
+    "hp": [
+      59.73,
+      0
+    ],
+    "winner": "Drona"
+  },
+  {
+    "pair": "Drona vs Arjun",
+    "trial": 3,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 35.75,
+    "shots": [
+      29,
+      26
+    ],
+    "hits": [
+      6,
+      11
+    ],
+    "hp": [
+      0,
+      97.82
+    ],
+    "winner": "Drona"
+  },
+  {
+    "pair": "Drona vs Arjun",
+    "trial": 4,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 50.15,
+    "shots": [
+      37,
+      40
+    ],
+    "hits": [
+      12,
+      4
+    ],
+    "hp": [
+      110.65,
+      0
+    ],
+    "winner": "Drona"
+  },
+  {
+    "pair": "Drona vs Arjun",
+    "trial": 5,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 38.55,
+    "shots": [
+      31,
+      28
+    ],
+    "hits": [
+      6,
+      10
+    ],
+    "hp": [
+      0,
+      85.59
+    ],
+    "winner": "Drona"
+  },
+  {
+    "pair": "Satyaki vs Abhimanyu",
+    "trial": 0,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 51,
+    "shots": [
+      43,
+      45
+    ],
+    "hits": [
+      8,
+      14
+    ],
+    "hp": [
+      0,
+      47.87
+    ],
+    "winner": "Abhimanyu"
+  },
+  {
+    "pair": "Satyaki vs Abhimanyu",
+    "trial": 1,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 45.55,
+    "shots": [
+      40,
+      38
+    ],
+    "hits": [
+      11,
+      4
+    ],
+    "hp": [
+      119.33,
+      0
+    ],
+    "winner": "Abhimanyu"
+  },
+  {
+    "pair": "Satyaki vs Abhimanyu",
+    "trial": 2,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 44.5,
+    "shots": [
+      38,
+      39
+    ],
+    "hits": [
+      8,
+      12
+    ],
+    "hp": [
+      0,
+      23.74
+    ],
+    "winner": "Abhimanyu"
+  },
+  {
+    "pair": "Satyaki vs Abhimanyu",
+    "trial": 3,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 48.65,
+    "shots": [
+      40,
+      41
+    ],
+    "hits": [
+      12,
+      12
+    ],
+    "hp": [
+      0,
+      5.68
+    ],
+    "winner": "Satyaki"
+  },
+  {
+    "pair": "Satyaki vs Abhimanyu",
+    "trial": 4,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 41.4,
+    "shots": [
+      35,
+      37
+    ],
+    "hits": [
+      8,
+      14
+    ],
+    "hp": [
+      0,
+      30.19
+    ],
+    "winner": "Abhimanyu"
+  },
+  {
+    "pair": "Satyaki vs Abhimanyu",
+    "trial": 5,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 40.7,
+    "shots": [
+      33,
+      34
+    ],
+    "hits": [
+      8,
+      11
+    ],
+    "hp": [
+      0,
+      37.4
+    ],
+    "winner": "Satyaki"
+  },
+  {
+    "pair": "Ekalavya vs Bhishma",
+    "trial": 0,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 39.65,
+    "shots": [
+      32,
+      25
+    ],
+    "hits": [
+      9,
+      7
+    ],
+    "hp": [
+      0,
+      53.76
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Ekalavya vs Bhishma",
+    "trial": 1,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 44.75,
+    "shots": [
+      27,
+      35
+    ],
+    "hits": [
+      6,
+      7
+    ],
+    "hp": [
+      61.79,
+      0
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Ekalavya vs Bhishma",
+    "trial": 2,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 28.25,
+    "shots": [
+      22,
+      18
+    ],
+    "hits": [
+      6,
+      10
+    ],
+    "hp": [
+      0,
+      107.67
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Ekalavya vs Bhishma",
+    "trial": 3,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 26.7,
+    "shots": [
+      17,
+      21
+    ],
+    "hits": [
+      7,
+      5
+    ],
+    "hp": [
+      106.28,
+      0
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Ekalavya vs Bhishma",
+    "trial": 4,
+    "swapped": false,
+    "scenario": "normal arrows with passives",
+    "duration": 39.6,
+    "shots": [
+      32,
+      25
+    ],
+    "hits": [
+      9,
+      7
+    ],
+    "hp": [
+      0,
+      76.12
+    ],
+    "winner": "Bhishma"
+  },
+  {
+    "pair": "Ekalavya vs Bhishma",
+    "trial": 5,
+    "swapped": true,
+    "scenario": "normal arrows with passives",
+    "duration": 44.5,
+    "shots": [
+      27,
+      35
+    ],
+    "hits": [
+      7,
+      6
+    ],
+    "hp": [
+      120.91,
+      0
+    ],
+    "winner": "Bhishma"
+  }
+]

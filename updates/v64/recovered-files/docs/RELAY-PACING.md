@@ -1,0 +1,7 @@
+# Relay pacing and rollback batching
+
+Observed production relay wall times were 414–495ms. The previous loop allowed only 12 frames (200ms) of prediction, waited another 150ms after each relay response, generated about 30 input packets per second, and drained at most eight per request. This could fall behind and repeatedly exhaust prediction. Each received input also independently replayed the predicted timeline.
+
+Changes: coalesce unsent inputs into packets of up to 48 frames, preserve in-flight requests unchanged, remove the 150ms idle gap (20ms scheduling gap), join room/session metadata in one database read, and reconcile a complete input batch with one replay. Relay prediction is bounded at 72–108 frames based on request RTT; direct connections use 18 frames. History remains 180 frames. Replays skip UI refresh work; visible HUD updates are capped at 10Hz. Physics and damage rules are unchanged. Protocol 45 gates the larger packet format.
+
+Verification: actual game-state two-client simulation with 600–1000ms batched delivery over 360 ticks: baseline advanced 96 frames, 528 combined blocked ticks and 84 corrections; revised loop advanced 360 frames, zero blocked ticks and 13 corrections. Confirmed hashes matched throughout. Input coalescing/in-flight immutability, authenticated relay handshake, direct signaling, 100/300ms reordered-input regression, and complete server-verified best-of-three checks passed. These are simulations, not a two-device carrier-network performance guarantee. Remote corrections remain possible with very high latency.

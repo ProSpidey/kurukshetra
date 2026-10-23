@@ -1,0 +1,42 @@
+[
+  {
+    "test": "test-game.cjs",
+    "exit": 0,
+    "output": "PASS: rage gate, ultimate-only counters, puzzle authority/order/timeout, failure retains ammo and Resolve, successful spend, cutscene freeze/end, no-response attack, ultimate penetration, online guest puzzle and reset.\n"
+  },
+  {
+    "test": "test-spirit-arrows.cjs",
+    "exit": 0,
+    "output": "PASS countdown/input lock/pause/reset, quick/spirit balance, sky rain, spirit cleansing, Ultimate priority and host/guest countdown state.\n"
+  },
+  {
+    "test": "test-abhimanyu.cjs",
+    "exit": 0,
+    "output": "PASS Abhimanyu: bow/sword/wheel, permanent restrictions, queued shots, windups, misses, one impact, death/reset, equipment destruction, walking separation, host/client/reconnect, stale and forged actions.\n"
+  },
+  {
+    "test": "test-fate-integration.cjs",
+    "exit": 0,
+    "output": "PASS integrated: seven character pairings, normal projectiles, simultaneous lethal triggers, guest authority, snapshot/reconnect reconstruction, duplicate repair commands, repair death, Bhishma round end, Ultimate puzzle bonus and retained ammo.\n"
+  },
+  {
+    "test": "test-astra-presentation.cjs",
+    "exit": 0,
+    "output": "PASS: atlas rendering, all quality levels, HUD and read-only presentation.\n"
+  },
+  {
+    "test": "test-rollback-presentation.cjs",
+    "exit": 0,
+    "output": "PASS isolated rollback: out-of-order corrections, exactly-once confirmation, duplicate conflict and future-window rejection.\nPASS all eight warriors: unequal draw rates, image loading, local control hints, passive transitions and reordered input preserve confirmed combat hashes.\nPASS fixed-count rune shuffle and real health divergence detection.\n"
+  },
+  {
+    "test": "test-online-render.cjs",
+    "exit": 0,
+    "output": "PASS: immediate skill feedback, command acknowledgment, aim preservation, delayed snapshot animation, pause/disconnect, smooth correction, projectile removal and host HUD throttling.\n"
+  },
+  {
+    "test": "test-voice-runtime.cjs",
+    "exit": 0,
+    "output": "PASS: WebAudio unlock, playback, subtitles, complete playback, duplicate suppression, uncut late playback, stale skip, complete conversation, mute and home cleanup.\n"
+  }
+]

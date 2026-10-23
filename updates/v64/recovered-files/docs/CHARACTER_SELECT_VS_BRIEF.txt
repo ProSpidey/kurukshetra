@@ -1,0 +1,1232 @@
+Continue working inside my existing **Kurukshetra Astra Warfare** project.
+
+This is an existing playable game.
+
+Do NOT rebuild the project from scratch.
+
+This milestone is ONLY for:
+
+1. CHARACTER SELECTION SCREEN
+2. DYNAMIC VS INTRO SCREEN
+3. SHARED CHARACTER DATA / ASSET CONFIGURATION
+4. CLEAN TRANSITION FLOW BETWEEN CHARACTER SELECT → VS INTRO → MATCH
+
+Do NOT modify:
+
+- combat balance
+- passive mechanics
+- Astra mechanics
+- Ultimate mechanics
+- winner animation
+- networking authority
+- unrelated menus
+- Play Store packaging
+
+I am supplying the final character artwork PNGs and VS assets.
+
+Use those supplied assets.
+
+Do NOT regenerate or redraw the character artwork.
+
+==================================================
+ROSTER
+==================================================
+
+Current playable characters:
+
+- Arjuna
+- Karna
+- Bhishma
+- Drona
+- Abhimanyu
+- Ashwatthama
+- Satyaki
+- Ekalavya
+
+==================================================
+SUPPLIED ASSETS
+==================================================
+
+I have supplied:
+
+- Arjuna PNG
+- Karna PNG
+- Bhishma PNG
+- Drona PNG
+- Abhimanyu PNG
+- Ashwatthama PNG
+- Satyaki PNG
+- Ekalavya PNG
+- VS logo PNG
+- lightning sprite sheet
+- reference VS video
+- character-select visual example
+
+IMPORTANT:
+
+Inspect all supplied assets before implementation.
+
+Use the supplied PNGs exactly as provided.
+
+Do NOT:
+
+- redraw them
+- alter facial identity
+- recolor them
+- distort them
+- stretch them
+- badly crop faces
+- replace them with generated artwork
+
+==================================================
+PRIMARY ARCHITECTURE GOAL
+==================================================
+
+Create ONE shared character configuration system that powers both:
+
+- Character Selection Screen
+- VS Intro Screen
+
+Do NOT maintain two unrelated data sources.
+
+Conceptual structure:
+
+characterId
+displayName
+title
+
+stats:
+  attack
+  speed
+  critical
+
+passive:
+  name
+  summary
+
+astras:
+  astra1
+  astra2
+  astra3
+
+assets:
+  selectPreviewImage
+  vsImage
+  vsImageLeftOverride
+  vsImageRightOverride
+  rosterPortrait
+
+selectTransform:
+  scale
+  offsetX
+  offsetY
+  anchorX
+  anchorY
+
+vsLeftTransform:
+  scale
+  offsetX
+  offsetY
+  anchorX
+  anchorY
+  flipX
+
+vsRightTransform:
+  scale
+  offsetX
+  offsetY
+  anchorX
+  anchorY
+  flipX
+
+accentColor / accentStyle if current project supports it.
+
+Use existing project data patterns where possible.
+
+==================================================
+IMPORTANT ASSET REUSE RULE
+==================================================
+
+The SAME supplied large PNG should be reusable for:
+
+- character select large preview
+- VS screen
+
+Do not force me to manually make separate full-size preview artwork unless needed.
+
+For VS mode:
+
+support horizontal flipping in code.
+
+Each side must support:
+
+flipX: true/false
+
+However, because these supplied PNGs are composition-heavy and include battlefield background, diagonal black space, lighting and weapon direction, DO NOT blindly flip every image.
+
+Allow:
+
+vsImageLeftOverride
+vsImageRightOverride
+
+If no side-specific image is supplied:
+
+fallback to the main vsImage
+and apply flipX based on configuration.
+
+==================================================
+PART 1 — CHARACTER SELECTION SCREEN
+==================================================
+
+Build a polished fighting-game style character select screen.
+
+Use the supplied visual example as the presentation reference.
+
+The screen should contain:
+
+1. LARGE CHARACTER PREVIEW
+2. CHARACTER NAME / TITLE
+3. CHARACTER STATS
+4. PASSIVE INFO
+5. ASTRA LIST
+6. 8-CHARACTER ROSTER SELECTOR
+7. PLAYER 1 / PLAYER 2 SELECTION STATE
+8. READY / LOCKED-IN STATE
+
+==================================================
+CHARACTER SELECT LAYOUT
+==================================================
+
+Preferred landscape layout:
+
+LEFT / MAIN AREA:
+large selected character PNG
+
+RIGHT:
+character information
+
+BOTTOM:
+roster selector
+
+The supplied PNGs already contain large cinematic character art and black negative-space areas.
+
+Use this composition intelligently.
+
+For artwork that already has black panel space, place information inside that negative space where appropriate.
+
+Do not place text over faces or important weapons.
+
+==================================================
+CHARACTER INFO
+==================================================
+
+Display:
+
+Character Name
+
+Character Title
+
+Stats:
+- Attack
+- Speed
+- Critical
+
+Passive:
+- passive name
+- short gameplay description
+
+Astras:
+- Astra 1
+- Astra 2
+- Astra 3
+
+Do not show huge paragraphs.
+
+Keep passive descriptions concise.
+
+==================================================
+STAT PRESENTATION
+==================================================
+
+Use the game's real current stats.
+
+Do NOT invent fake stat values if exact values already exist.
+
+If stat data exists numerically:
+
+use it.
+
+Presentation can be:
+
+- simple numeric value
+- rating bar
+- segmented bar
+
+Keep it readable on mobile.
+
+==================================================
+ROSTER SELECTOR
+==================================================
+
+Show all 8 warriors.
+
+Preferred structure:
+
+horizontal row or compact 2×4 grid.
+
+Each roster entry should support:
+
+idle
+hover/focus
+selected
+locked
+other-player-selected
+
+If small portrait assets do not currently exist:
+
+initial implementation may automatically crop or use the supplied large art as a thumbnail.
+
+Do not block implementation.
+
+Structure the config so custom `rosterPortrait` assets can be provided later.
+
+==================================================
+ROSTER INTERACTION
+==================================================
+
+Desktop:
+
+keyboard arrows / WASD where appropriate
+mouse hover/click
+
+Mobile:
+
+tap roster slot
+
+Controller if current game already supports it:
+D-pad / stick
+confirm
+cancel
+
+Hover/focus should immediately update:
+
+- large preview
+- name
+- stats
+- passive
+- Astras
+
+==================================================
+PLAYER 1 / PLAYER 2 FLOW
+==================================================
+
+SOLO:
+
+Player chooses their warrior.
+
+CPU opponent may be selected through existing game logic.
+
+If current game lets player choose CPU opponent, preserve it.
+
+LOCAL 1V1:
+
+Player 1 and Player 2 have separate selection cursors/states.
+
+Both must lock in.
+
+ONLINE FRIEND:
+
+Each player selects their own warrior.
+
+Synchronize selection/ready state.
+
+Both clients must display the correct selections.
+
+Do not rebuild networking architecture.
+
+Use existing room/player state.
+
+==================================================
+LOCK-IN
+==================================================
+
+On confirm:
+
+mark character as:
+
+LOCKED / READY
+
+Show:
+
+- clear visual highlight
+- subtle confirmation pulse
+- optional SFX
+
+Allow cancel/unlock before both players are ready if existing flow permits.
+
+When required participants are locked:
+
+trigger transition to VS intro.
+
+==================================================
+CHARACTER PREVIEW TRANSITION
+==================================================
+
+When changing highlighted character:
+
+do not hard-cut if avoidable.
+
+Use a quick:
+
+opacity fade
++
+small horizontal slide
++
+subtle scale transition
+
+Target:
+
+150–250 ms
+
+Keep interface responsive.
+
+==================================================
+PER-CHARACTER PREVIEW ALIGNMENT
+==================================================
+
+The supplied PNGs have different composition/framing.
+
+Support individual preview:
+
+scale
+offsetX
+offsetY
+anchorX
+anchorY
+
+Do NOT force identical positioning.
+
+Create easy-to-edit config values.
+
+==================================================
+PART 2 — VS INTRO SCREEN
+==================================================
+
+After characters are locked:
+
+Character Select
+→ VS Intro
+→ Match
+
+Do NOT use prerendered VS videos.
+
+Recreate the supplied reference video dynamically using code.
+
+==================================================
+REFERENCE VS STYLE
+==================================================
+
+The supplied VS reference video is the visual authority.
+
+Key behavior:
+
+- initially wide black central space
+- Player 1 panel enters from left
+- Player 2 panel enters from right
+- diagonal inner panel edges
+- panels close toward center
+- animated lightning appears on the center split
+- supplied VS PNG pops over center
+- brief impact shake
+- final matchup composition holds
+- transition into gameplay
+
+Recreate this real-time.
+
+==================================================
+VS SCREEN ASSET USE
+==================================================
+
+For each selected character:
+
+load their configured VS panel artwork.
+
+Do NOT generate matchup-specific poster images.
+
+Any character should be able to fight any other character.
+
+==================================================
+DIAGONAL PANEL LAYOUT
+==================================================
+
+Use a diagonal split similar to supplied images/reference.
+
+PLAYER 1:
+left side
+
+PLAYER 2:
+right side
+
+Use:
+
+clip-path
+canvas mask
+polygon clipping
+or equivalent efficient project-native solution.
+
+Do NOT simply divide into rectangular 50/50 halves.
+
+==================================================
+VS PANEL ANIMATION
+==================================================
+
+Target total sequence:
+
+approximately 3–4 sec for first encounter.
+
+Suggested timing:
+
+0.00–0.15
+dark/black initial state
+
+0.15–0.90
+both panels enter
+
+P1:
+from left
+
+P2:
+from right
+
+Use strong cinematic ease-out.
+
+Very mild overshoot is acceptable.
+
+No cartoon bouncing.
+
+0.75–1.10
+panels settle
+
+central gap closes
+
+short impact
+
+1.00+
+lightning begins
+
+1.35–1.75
+VS logo appears
+
+1.70–3.00
+final composition hold / subtle parallax
+
+3.00–3.60
+transition to battle
+
+Tune timing against reference MP4.
+
+==================================================
+VS LOGO
+==================================================
+
+Use supplied VS PNG.
+
+Do NOT recreate it using text.
+
+Place above:
+
+- both player panels
+- lightning
+
+Suggested animation:
+
+opacity 0 → 1
+
+scale:
+0.4
+→ 1.2
+→ 1.0
+
+optional small rotation:
+-3° → 0°
+
+Add short impact.
+
+==================================================
+LIGHTNING SPRITE
+==================================================
+
+Use supplied lightning sprite sheet.
+
+Inspect the sheet and determine:
+
+frame count
+frame dimensions
+layout
+correct FPS
+
+Animate frames properly.
+
+Do NOT display the whole sprite sheet.
+
+Position lightning along the center diagonal split.
+
+Layer order:
+
+background/panels
+→ lightning
+→ VS logo
+→ optional UI
+
+==================================================
+LIGHTNING BEHAVIOR
+==================================================
+
+Lightning should:
+
+- appear after panels mostly settle
+- flash through multiple frames
+- scale/rotate to match center division
+- not cover character faces
+- support mobile resolution
+
+Optional:
+
+small secondary glow
+
+Do not create excessive particle layers.
+
+==================================================
+VS CHARACTER ALIGNMENT
+==================================================
+
+Each character may need different positioning.
+
+Support per-character LEFT and RIGHT transforms.
+
+Example:
+
+Arjuna:
+vsLeft:
+ scale
+ x
+ y
+ flipX
+
+vsRight:
+ scale
+ x
+ y
+ flipX
+
+This is mandatory.
+
+A character may appear on either side.
+
+==================================================
+MIRRORING RULE
+==================================================
+
+Support:
+
+flipX true/false
+
+But do not assume mirroring is always visually correct.
+
+If dedicated:
+
+vsImageLeftOverride
+
+or
+
+vsImageRightOverride
+
+exists:
+
+use that instead.
+
+Priority:
+
+side override
+→ main VS image + configured flip
+→ fallback character preview image
+
+==================================================
+VS NAMES / TITLES
+==================================================
+
+Optional but supported:
+
+Player 1:
+name / title
+
+Player 2:
+name / title
+
+Render these as UI text.
+
+Do not bake text into art.
+
+If current reference style looks cleaner without text:
+
+allow text visibility to be config-controlled.
+
+==================================================
+VS AUDIO EVENTS
+==================================================
+
+Use/reuse centralized audio hooks.
+
+Examples:
+
+vs_intro_start
+vs_panel_slide
+vs_panel_hit
+vs_lightning
+vs_logo_hit
+vs_transition
+
+Do not hard-code audio file playback inside layout code.
+
+==================================================
+VS SKIP
+==================================================
+
+Allow skip after a minimum lockout.
+
+Starting target:
+
+0.6–0.8 sec
+
+Solo/local:
+skip presentation immediately.
+
+Online:
+local presentation may skip,
+but gameplay control must not activate before authoritative match start.
+
+No competitive advantage from skipping.
+
+==================================================
+QUICK REMATCH MODE
+==================================================
+
+Support configurable quick VS intro for rematches.
+
+Full intro:
+~3–4 sec
+
+Quick:
+~1–1.5 sec
+
+Quick version:
+
+fast panel slam
+lightning burst
+VS pop
+battle transition
+
+==================================================
+PART 3 — SHARED TRANSITION FLOW
+==================================================
+
+Implement clean state flow:
+
+CHARACTER_SELECT
+→ CHARACTER_LOCKED
+→ ALL_READY
+→ PRELOAD_MATCH_ASSETS
+→ VS_INTRO
+→ VS_COMPLETE
+→ MATCH_START
+
+Do not use arbitrary timeout chains scattered through code.
+
+Use an explicit state/event flow.
+
+==================================================
+ASSET PRELOADING
+==================================================
+
+Before VS intro:
+
+preload:
+
+P1 VS image
+P2 VS image
+VS PNG
+lightning sprite sheet
+battlefield assets required immediately after intro
+
+Use the VS sequence to hide match loading where practical.
+
+Do not show empty frame.
+
+==================================================
+ONLINE START SYNCHRONIZATION
+==================================================
+
+In online mode:
+
+server/host authoritative match-start timing remains unchanged.
+
+Synchronize:
+
+selected characters
+ready state
+VS start / match-start time if existing architecture requires it
+
+Do NOT send animation frame updates.
+
+Both clients animate locally.
+
+==================================================
+SOLO / LOCAL / ONLINE SHARED SYSTEM
+==================================================
+
+Do not create three entirely separate implementations.
+
+Reuse the same:
+
+character config
+select UI
+VS screen
+transition controller
+
+with mode-specific state adapters.
+
+==================================================
+PART 4 — RESPONSIVE DESIGN
+==================================================
+
+Primary target:
+
+landscape.
+
+Must support:
+
+1920×1080
+reference ~16:9
+mobile landscape
+Android wrapper
+wide browser layouts
+
+Use normalized positioning / responsive scaling.
+
+Protect:
+
+faces
+hands
+bows
+main silhouettes
+names
+roster controls
+
+==================================================
+SAFE AREAS
+==================================================
+
+Respect device safe areas/notches where relevant.
+
+Do not place confirm/back controls against inaccessible screen edges.
+
+==================================================
+PART 5 — DEBUG TOOLS
+==================================================
+
+If current project has a developer/debug panel, extend it.
+
+CHARACTER SELECT DEBUG:
+
+- open select directly
+- force mode Solo/Local/Online
+- set P1
+- set P2
+- preview hover
+- lock P1
+- lock P2
+- unlock
+- jump to VS
+
+PREVIEW ALIGNMENT:
+
+- preview X
+- preview Y
+- preview scale
+
+VS ALIGNMENT:
+
+- P1 X
+- P1 Y
+- P1 scale
+- P1 flipX
+
+- P2 X
+- P2 Y
+- P2 scale
+- P2 flipX
+
+VS TIMELINE:
+
+- replay
+- pause
+- 0.25x
+- 0.5x
+- 1x
+- jump to panel settle
+- jump to lightning
+- jump to VS logo
+- final frame
+
+DEBUG OVERLAYS:
+
+- panel masks
+- safe area
+- anchors
+- image bounds
+- center split
+- lightning bounds
+
+==================================================
+PART 6 — PERFORMANCE
+==================================================
+
+Do NOT use prerendered MP4 for VS.
+
+Prefer GPU-friendly:
+
+transform
+translate3d
+scale
+opacity
+
+or equivalent rendering system.
+
+Avoid:
+
+- per-frame layout recalculation
+- huge particle systems
+- duplicated large textures
+- memory leaks
+
+Cache/preload character art.
+
+==================================================
+PART 7 — DATA INTEGRITY
+==================================================
+
+Character select UI should read current actual game data where it already exists.
+
+Do NOT create conflicting copies of:
+
+- stats
+- passive names
+- Astra names
+
+If the game already has canonical character data:
+
+extend that.
+
+If it does not:
+
+create one authoritative roster config.
+
+==================================================
+CURRENT ASTRA LOADOUT DISPLAY
+==================================================
+
+Use these current Astra groups unless existing game data already supersedes them:
+
+ARJUNA
+- Aindrastra
+- Gandiva Gale
+- Pashupata Radiance
+
+KARNA
+- Surya Shaft
+- Nagastra
+- Vasavi Shakti
+
+BHISHMA
+- Ganga's Guard
+- Kuru Thunder
+- Prabhasa Radiance
+
+DRONA
+- Agneya Astra
+- Brahmastra
+- Acharya's Judgment
+
+ABHIMANYU
+- Chakra Volley
+- Rudra Rush
+- Subhadra Tempest
+
+ASHWATTHAMA
+- Rudra Ember
+- Narayana Burst
+- Brahmashira
+
+SATYAKI
+- Vrishni Wind
+- Varuna's Tide
+- Yuyudhana Storm
+
+EKALAVYA
+- Forest Fang
+- Nishada Flame
+- Aranya Cyclone
+
+Use current implemented names if spelling has already been migrated.
+
+==================================================
+PASSIVE DISPLAY
+==================================================
+
+Use current implemented passive data.
+
+Expected identities include:
+
+Arjuna:
+Krishna's Guidance
+
+Karna:
+Curse of the Earth / Kavacha + Wheel Fate
+
+Bhishma:
+Icchamrityu
+
+Drona:
+Master of Weapons
+
+Abhimanyu:
+The Last Warrior
+
+Ashwatthama:
+Mani
+
+Satyaki:
+Unbroken Pursuit
+
+Ekalavya:
+Self-Taught / Focus
+
+Do NOT duplicate gameplay logic here.
+
+Display only.
+
+==================================================
+PART 8 — TEST REQUIREMENTS
+==================================================
+
+CHARACTER SELECT:
+
+test all 8 characters.
+
+Verify:
+
+correct image
+correct name
+correct title
+correct stats
+correct passive
+correct Astras
+correct alignment
+
+Test:
+
+Solo
+Local 1v1
+Online Friend
+
+VS INTRO:
+
+test at least:
+
+Arjuna vs Karna
+Bhishma vs Drona
+Abhimanyu vs Ashwatthama
+Satyaki vs Ekalavya
+Karna vs Arjuna
+Drona vs Bhishma
+
+Important:
+
+test reversed sides.
+
+For example:
+
+Arjuna left / Karna right
+
+and
+
+Karna left / Arjuna right
+
+Verify flip/override behavior.
+
+==================================================
+MOBILE TESTING
+==================================================
+
+Verify:
+
+roster buttons remain tappable
+
+large preview does not hide controls
+
+text remains readable
+
+VS panels align correctly
+
+lightning scales correctly
+
+VS logo remains centered
+
+no significant frame drops
+
+==================================================
+ONLINE TESTING
+==================================================
+
+Verify:
+
+P1 sees correct P1/P2 choices
+
+P2 sees correct choices
+
+lock state synchronizes
+
+both clients reach VS intro
+
+both start gameplay at correct time
+
+skip does not alter match timing
+
+no extra network pauses introduced
+
+==================================================
+DO NOT IMPLEMENT
+==================================================
+
+Do NOT:
+
+modify combat
+
+modify passives
+
+modify Spirit Charge system
+
+modify Astra field effects
+
+modify Ultimate behavior
+
+modify winner cinematic
+
+generate new artwork
+
+build unrelated menus
+
+rewrite networking
+
+==================================================
+DEFINITION OF DONE
+==================================================
+
+This milestone is complete when:
+
+1. Shared roster data structure exists.
+2. All 8 characters appear in Character Select.
+3. Large supplied PNG preview works for all 8.
+4. Character stats display.
+5. Passive display works.
+6. 3 Astras display.
+7. Roster navigation works.
+8. Lock-in works.
+9. Solo selection works.
+10. Local 1v1 works.
+11. Online selection works.
+12. Both players ready triggers VS.
+13. VS intro dynamically loads both warriors.
+14. Diagonal panel composition works.
+15. Lightning sprite animation works.
+16. Supplied VS PNG works.
+17. Per-character transforms work.
+18. FlipX works.
+19. Left/right override assets are supported.
+20. Full intro works.
+21. Quick rematch intro works.
+22. Skip works safely.
+23. Mobile landscape works.
+24. Desktop works.
+25. Match begins correctly after VS intro.
+26. Existing gameplay is unaffected.
+
+==================================================
+FINAL REPORT
+==================================================
+
+After implementation return:
+
+FILES CREATED
+
+FILES MODIFIED
+
+SHARED CHARACTER CONFIG
+
+CHARACTER SELECT ARCHITECTURE
+
+ROSTER UI
+
+CHARACTER INFO UI
+
+STAT SOURCE
+
+PASSIVE SOURCE
+
+ASTRA SOURCE
+
+PNG ASSET MAPPING
+
+CHARACTER PREVIEW TRANSFORMS
+
+VS ARCHITECTURE
+
+DIAGONAL PANEL IMPLEMENTATION
+
+VS TIMELINE
+
+LIGHTNING SPRITE IMPLEMENTATION
+
+VS LOGO IMPLEMENTATION
+
+LEFT/RIGHT MIRRORING
+
+SIDE-SPECIFIC OVERRIDE SUPPORT
+
+TRANSITION FLOW
+
+SOLO INTEGRATION
+
+LOCAL 1V1 INTEGRATION
+
+ONLINE INTEGRATION
+
+MOBILE RESPONSIVE BEHAVIOR
+
+DEBUG TOOLS
+
+TEST RESULTS
+
+KNOWN ISSUES
+
+HOW TO ADD A NEW CHARACTER
+
+HOW TO REPLACE A CHARACTER PNG
+
+HOW TO TUNE CHARACTER SELECT ALIGNMENT
+
+HOW TO TUNE VS LEFT/RIGHT ALIGNMENT
+
+Do not begin another milestone after this.
+
+Proceed with the combined Character Selection + Dynamic VS Intro system only.

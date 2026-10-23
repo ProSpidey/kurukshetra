@@ -1,0 +1,2424 @@
+Continue working inside my existing **Kurukshetra Astra Warfare** project.
+
+This is an existing playable game.
+
+Do NOT rebuild the project from scratch.
+
+Do NOT remove working combat systems unless a small controlled refactor is necessary.
+
+Preserve:
+
+- normal bow combat
+- normal arrows
+- Astra selection
+- Rage
+- Ultimates
+- Ultimate-only Ultimate counters
+- timed Ultimate puzzle
+- Legendary Fate Passives
+- Fate Event cutscenes
+- Solo Arcade
+- Local 1v1
+- Online Friend mode
+- best-of-three
+- touch controls
+- keyboard controls
+- dialogue/audio
+- mobile/browser support
+
+This milestone is ONLY for upgrading the existing special-arrow/Astra combat into a deeper:
+
+# TWO-PHASE ASTRA SYSTEM
+
+==================================================
+PRIMARY DESIGN
+==================================================
+
+Every special Astra now has:
+
+1. NORMAL ASTRA
+2. SPIRIT-CHARGED ASTRA
+
+Where appropriate, both versions may also support:
+
+- DIRECT / GROUND CAST
+- SKY CAST
+
+Conceptually this allows:
+
+NORMAL DIRECT
+NORMAL SKY
+SPIRIT DIRECT
+SPIRIT SKY
+
+Not every Astra must use all four if it does not make gameplay sense.
+
+The architecture must support all four generically.
+
+==================================================
+IMPORTANT DESIGN PHILOSOPHY
+==================================================
+
+Normal Astras are:
+
+- quicker
+- cheaper
+- tactical
+- lower commitment
+- mostly projectile-based
+- easier to evade/counter
+
+Spirit-Charged Astras are:
+
+- slower to prepare
+- stronger
+- visually distinct
+- battlefield-changing
+- capable of persistent area effects
+- more strategic
+- more counter-dependent
+
+Spirit Astras are NOT Ultimates.
+
+Ultimates remain their own higher combat tier.
+
+==================================================
+TERMINOLOGY
+==================================================
+
+Use:
+
+**SPIRIT CHARGE**
+
+Do not use "sprite charge" in player-facing UI.
+
+Code naming may use:
+
+spiritCharge
+spiritReady
+spiritCast
+spiritField
+
+==================================================
+PHASE 1 — AUDIT EXISTING SYSTEM
+==================================================
+
+Before modifying code, inspect:
+
+- bow aiming
+- draw/charge system
+- Astra selection
+- projectile spawning
+- sky-shot detection
+- ground collision
+- player collision
+- damage handling
+- damage-over-time
+- stagger
+- movement
+- chariot movement
+- projectile barriers
+- Rage
+- Ultimate system
+- passive system
+- field effects
+- rollback/prediction
+- P2P/network authority
+- room synchronization
+- HUD
+- mobile controls
+- keyboard controls
+- AI
+- VFX
+- SFX
+- music events
+
+Extend existing systems rather than creating duplicate competing systems.
+
+==================================================
+PHASE 2 — GENERIC ASTRA DATA MODEL
+==================================================
+
+Create/reuse a data-driven Astra configuration system.
+
+Each Astra should be able to define:
+
+astraId
+displayName
+ownerCharacter
+element
+category
+tier
+
+normalChargeTime
+spiritChargeTime
+
+normalCooldown
+spiritCooldown
+
+normalEnergyCost
+spiritEnergyCost
+
+normalDirectBehavior
+normalSkyBehavior
+spiritDirectBehavior
+spiritSkyBehavior
+
+damage
+damageOverTime
+radius
+duration
+pulseInterval
+
+movementControlType
+movementModifier
+
+projectileBlockingRules
+
+counterTags
+weaknessTags
+resistanceTags
+
+fieldEffectId
+VFX IDs
+SFX IDs
+music IDs
+camera event IDs
+
+AI metadata
+
+Do not bury Astra values directly throughout gameplay code.
+
+==================================================
+PHASE 3 — CHARGE SYSTEM
+==================================================
+
+Aiming and Spirit charging must remain distinct.
+
+Do NOT make ordinary aiming automatically charge a Spirit Astra.
+
+Preferred flow:
+
+Select Astra
+→ aim
+→ hold Astra-charge input
+→ normal Astra becomes available quickly
+→ continue holding
+→ Spirit meter fills
+→ full Spirit state activates
+→ release fires Spirit Astra
+
+Player may release early to use Normal Astra.
+
+==================================================
+CHARGE STATES
+==================================================
+
+Suggested state machine:
+
+ASTRA_SELECTED
+AIMING
+NORMAL_READY
+SPIRIT_CHARGING
+SPIRIT_READY
+RELEASED
+RECOVERY
+COOLDOWN
+
+==================================================
+SPIRIT CHARGE TIMES
+==================================================
+
+Make charge time configurable per Astra.
+
+Starting target:
+
+approximately 1.5–3 seconds
+
+depending on power.
+
+High-tier weapons may require longer.
+
+Do not give every Astra identical charge timing.
+
+==================================================
+SPIRIT CHARGE SHIELD
+==================================================
+
+While the player is actively Spirit charging:
+
+create a visible temporary energy shield.
+
+Purpose:
+
+The opponent should have time to recognize:
+
+"the enemy is preparing a Spirit Astra."
+
+Suggested behavior:
+
+Normal arrows cannot deal normal direct HP damage through the charge shield.
+
+Normal arrows MAY reduce shield integrity slightly.
+
+Special Astras may interact based on their normal combat rules.
+
+Ultimates remain unaffected by ordinary Spirit shield protection.
+
+The Spirit shield ends immediately when:
+
+- charge released
+- charge cancelled
+- heavy stagger breaks charge
+- character dies
+- round ends
+
+Do NOT create permanent invulnerability.
+
+==================================================
+CHARGE INTERRUPT RULES
+==================================================
+
+Do not cancel Spirit Charge from every small hit.
+
+Configurable interruption sources:
+
+- heavy attack
+- critical stagger
+- certain control Astra
+- dodge
+- Astra switch
+- Ultimate activation
+
+==================================================
+TELEGRAPHING
+==================================================
+
+The opponent must clearly see charge state.
+
+Use:
+
+- character aura
+- bow glow
+- Spirit particles
+- charge sound
+- growing visual sigil
+- HUD warning
+- full-charge flash
+
+Enemy UI may show:
+
+ASTRA CHARGING
+
+then:
+
+SPIRIT READY
+
+Keep readable without clutter.
+
+==================================================
+DIRECT/GROUND VS SKY CAST
+==================================================
+
+Create reliable cast classification.
+
+Avoid accidental sky cast from merely shooting at a high angle.
+
+Preferred solution:
+
+aim-zone or configurable angle threshold.
+
+Optionally show:
+
+GROUND CAST
+or
+SKY CAST
+
+while Astra is selected.
+
+==================================================
+ASTRA FIELD EFFECT SYSTEM
+==================================================
+
+Create a reusable:
+
+AstraFieldEffect
+
+Fields may support:
+
+owner
+fieldId
+element
+center
+radius
+duration
+
+damage
+DOT
+slow
+push
+pull
+containment
+movement lock
+
+projectile blocking
+projectile distortion
+visibility effects
+
+counter tags
+transform rules
+
+VFX
+SFX
+music loop
+
+network state
+
+Fields must be authoritative gameplay objects.
+
+VFX remain local.
+
+==================================================
+GLOBAL CONTROL SYSTEM
+==================================================
+
+Spirit fields must NOT all immobilize the opponent.
+
+Use these control levels:
+
+LEVEL 0
+NO CONTROL
+
+LEVEL 1
+PRESSURE
+
+LEVEL 2
+SLOW
+
+LEVEL 3
+DIRECTIONAL CONTROL
+
+Examples:
+push
+pull
+wind drift
+trajectory interference
+
+LEVEL 4
+CONTAINMENT
+
+Player can move within an area but crossing boundary is difficult/damaging.
+
+LEVEL 5
+HARD LOCK
+
+Movement temporarily disabled.
+
+LEVEL 5 must be rare.
+
+==================================================
+ANTI-STUNLOCK SYSTEM
+==================================================
+
+After leaving a LEVEL 5 hard-lock state, grant:
+
+CONTROL RESISTANCE
+
+Starting target:
+
+1.5–2.5 seconds
+
+During Control Resistance:
+
+- damage still applies
+- slow still applies
+- push/pull may still apply
+- another normal Spirit field cannot immediately apply LEVEL 5 lock
+
+Make configurable.
+
+==================================================
+DIMINISHING RETURNS
+==================================================
+
+Support optional crowd-control diminishing returns.
+
+Example:
+
+first hard control:
+100%
+
+second:
+70%
+
+third:
+40%
+
+after repeated controls:
+temporary hard-control immunity
+
+Reset after configurable time without control.
+
+==================================================
+IMPORTANT INPUT RULE
+==================================================
+
+MOVEMENT LOCK does NOT equal TOTAL INPUT LOCK.
+
+When movement is locked:
+
+player may still:
+
+- aim
+- select Astra
+- charge
+- fire
+- use allowed counters
+- use permitted defensive abilities
+
+This is essential.
+
+==================================================
+COUNTER SYSTEM
+==================================================
+
+Create reusable Astra counter tags.
+
+Core tags:
+
+FIRE
+WATER
+WIND
+THUNDER
+DIVINE
+SERPENT
+STORM
+RADIANCE
+CURSE
+BARRIER
+FOREST
+
+Support result types:
+
+CANCEL
+WEAKEN
+TRANSFORM
+DISPLACE
+SHORTEN_DURATION
+REFLECT
+
+Avoid simplistic universal rock-paper-scissors.
+
+Some counters should only weaken rather than fully cancel.
+
+==================================================
+FIELD TRANSFORM SYSTEM
+==================================================
+
+Counters should sometimes create a new battlefield state.
+
+Examples:
+
+FIRE + WATER
+→ STEAM CLOUD
+
+WATER + THUNDER
+→ ELECTRIFIED WATER
+
+FIRE + WIND
+→ EMBER STORM
+
+WATER + WIND
+→ MIST / DISPERSED WATER
+
+Create these through data-driven interaction rules.
+
+==================================================
+STEAM CLOUD
+==================================================
+
+Effects:
+
+- low/no damage
+- reduced visibility
+- harder trajectory reading
+- short duration
+
+The original fire/water field ends and Steam Cloud replaces it.
+
+==================================================
+ELECTRIFIED WATER
+==================================================
+
+Water hit by Thunder:
+
+transform into:
+
+ELECTRIFIED WATER
+
+Effects:
+
+- periodic shock
+- movement slowdown
+- visible electricity through water
+
+Can affect both players depending on ownership configuration.
+
+==================================================
+EMBER STORM
+==================================================
+
+Fire hit by strong Wind:
+
+do not always completely erase it.
+
+Possible result:
+
+fire wall/tornado collapses
+→ burning embers spread outward
+
+Effects:
+
+- light random fire impacts
+- shorter duration
+- larger but weaker area
+
+==================================================
+FIELD OWNERSHIP
+==================================================
+
+Each field may define:
+
+affectsOwner
+affectsOpponent
+affectsBoth
+
+Examples:
+
+Fire Circle:
+primarily opponent
+
+Electrified Water:
+both
+
+Wind Corridor:
+directional based on owner
+
+==================================================
+PROJECTILE BLOCK RULES
+==================================================
+
+Fields may define:
+
+blocksNormalArrow
+blocksChargedNormalArrow
+blocksNormalAstra
+blocksSpiritAstra
+blocksUltimate
+
+Default rule:
+
+ordinary Spirit fields MUST NOT block Ultimates.
+
+Ultimate rules remain separate.
+
+==================================================
+ULTIMATE RULES
+==================================================
+
+Preserve:
+
+Ultimate can only be countered by Ultimate.
+
+Spirit Astra is NOT Ultimate.
+
+Spirit fields normally cannot cancel Ultimate.
+
+If Ultimate passes through a Spirit field:
+
+field may visually react
+but Ultimate remains authoritative.
+
+==================================================
+==================================================
+ARJUNA
+==================================================
+==================================================
+
+--------------------------------------------------
+1. AINDRASTRA
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Celestial arrow barrage concentrated around opponent.
+
+Effects:
+
+moderate multi-hit damage
+small danger zone
+
+Control:
+LEVEL 1
+
+NORMAL SKY
+
+Brief luminous arrow rain from above.
+
+Control:
+LEVEL 1
+
+SPIRIT DIRECT
+
+Create:
+
+CELESTIAL STORM ZONE
+
+Effects:
+
+repeated arrow strikes
+occasional lightning
+danger zones around enemy
+movement remains available
+
+Control:
+LEVEL 1–2
+
+SPIRIT SKY
+
+Create prolonged:
+
+THUNDER ARROW STORM
+
+Effects:
+
+larger area
+arrow rain
+lightning pulses
+normal projectile disruption
+
+Control:
+LEVEL 2
+
+Counters:
+
+WIND
+strong BARRIER
+appropriate DIVINE defense
+
+Wind interaction:
+
+WEAKEN storm
+reduce cloud duration
+
+--------------------------------------------------
+2. GANDIVA GALE
+--------------------------------------------------
+
+NORMAL DIRECT
+
+High-speed wind arrow.
+
+Effects:
+
+pushback
+projectile disturbance
+
+Control:
+LEVEL 3
+
+NORMAL SKY
+
+Short overhead wind burst.
+
+SPIRIT DIRECT
+
+Create:
+
+WIND CORRIDOR
+
+Effects:
+
+strong directional wind
+enemy movement drift
+normal arrow deflection
+aim instability
+
+Control:
+LEVEL 3
+
+SPIRIT SKY
+
+Create:
+
+CYCLONE DOME
+
+Effects:
+
+bent trajectories
+projectile redirection
+wind drift
+reduced accuracy
+
+Control:
+LEVEL 3
+
+No hard lock.
+
+--------------------------------------------------
+3. PASHUPATA RADIANCE
+--------------------------------------------------
+
+Treat as extremely high-tier.
+
+NORMAL DIRECT
+
+Massive divine projectile.
+
+Control:
+LEVEL 0–1
+
+NORMAL SKY
+
+Delayed celestial descent.
+
+SPIRIT DIRECT
+
+Create:
+
+DIVINE ANNIHILATION FIELD
+
+Effects:
+
+ground fracture
+energy pillars
+high repeated divine damage
+
+Control:
+LEVEL 1
+
+The player escapes through movement rather than artificial stun.
+
+SPIRIT SKY
+
+Large celestial vortex
+followed by catastrophic descent.
+
+Counters:
+
+high-tier DIVINE
+Ultimate-level interactions if existing design requires
+
+Do not let normal Astras casually cancel this.
+
+==================================================
+==================================================
+KARNA
+==================================================
+==================================================
+
+--------------------------------------------------
+4. SURYA SHAFT
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Solar piercing arrow.
+
+Effects:
+
+burn
+high precision damage
+
+NORMAL SKY
+
+Small radiant shaft rain.
+
+SPIRIT DIRECT
+
+Create:
+
+SOLAR FLARE ZONE
+
+Effects:
+
+large solar burst
+burn
+brief glare
+heat distortion
+small movement slow
+
+Control:
+LEVEL 1–2
+
+SPIRIT SKY
+
+Create:
+
+SUN DISC
+
+Repeated radiant shafts strike downward.
+
+Control:
+LEVEL 1
+
+Counters:
+
+WATER
+BARRIER
+DIVINE
+
+--------------------------------------------------
+5. NAGASTRA
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Tracking serpent projectile.
+
+Tracking must be avoidable.
+
+NORMAL SKY
+
+Single serpent dive.
+
+SPIRIT DIRECT
+
+Create:
+
+SERPENT BIND
+
+Control:
+
+LEVEL 5 for approximately 1.5–2.5 sec
+
+Then transition to:
+
+LEVEL 2 slow
+
+Visual:
+
+spectral serpent coils around chariot.
+
+Enemy may still:
+
+aim
+select counter
+fire counter
+
+Apply Control Resistance afterward.
+
+SPIRIT SKY
+
+Summon multiple serpent dives from above.
+
+Control:
+LEVEL 2–3
+
+Counters:
+
+specific DIVINE
+strong WIND
+future Garuda-type counter if added
+
+--------------------------------------------------
+6. VASAVI SHAKTI
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Extremely powerful single-target divine spear.
+
+Control:
+LEVEL 0
+
+NORMAL SKY
+
+Descending divine spear.
+
+SPIRIT DIRECT
+
+Create massive golden lightning impact.
+
+Effects:
+
+very high damage
+radiant crater
+brief residual damage
+
+Control:
+LEVEL 0–1
+
+SPIRIT SKY
+
+Heavenly spear descent.
+
+No artificial crowd control.
+
+==================================================
+==================================================
+BHISHMA
+==================================================
+==================================================
+
+--------------------------------------------------
+7. GANGA'S GUARD
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Water barrier.
+
+Effects:
+
+absorbs/redirects incoming attacks.
+
+NORMAL SKY
+
+Falling water curtain.
+
+SPIRIT DIRECT
+
+Create:
+
+FLOWING RIVER CIRCLE
+
+Effects:
+
+blocks normal arrows
+reduces fire
+pushes weak projectiles
+
+Control vs enemy:
+LEVEL 3 push
+
+SPIRIT SKY
+
+Create:
+
+DIVINE WATER CURTAIN
+
+Effects:
+
+large defensive field
+extinguishes FIRE
+creates WET state
+
+Interaction:
+
+WET + THUNDER
+→ ELECTRIFIED WATER
+
+--------------------------------------------------
+8. KURU THUNDER
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Localized lightning strike.
+
+NORMAL SKY
+
+Small storm cloud.
+
+SPIRIT DIRECT
+
+Create:
+
+THUNDER FIELD
+
+Effects:
+
+electrified ground
+moving through field increases shock risk
+periodic lightning
+
+Control:
+LEVEL 1–2
+
+Allow small micro-stagger.
+
+Prevent stagger chaining.
+
+SPIRIT SKY
+
+Storm cloud repeatedly targets opponent area.
+
+Control:
+LEVEL 2
+
+Wind may disperse/shorten storm.
+
+--------------------------------------------------
+9. PRABHASA RADIANCE
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Radiant projectile.
+
+Effects:
+
+flash
+strong impact
+
+NORMAL SKY
+
+Radiant shafts.
+
+SPIRIT DIRECT
+
+Create:
+
+RADIANCE FIELD
+
+Effects:
+
+light damage pulses
+aim pressure
+reveals targets through smoke/mist
+
+Control:
+LEVEL 1
+
+SPIRIT SKY
+
+Expanding celestial light-spears.
+
+No hard movement restriction.
+
+==================================================
+==================================================
+DRONA
+==================================================
+==================================================
+
+--------------------------------------------------
+10. AGNEYA ASTRA
+--------------------------------------------------
+
+This is the main reference implementation.
+
+NORMAL DIRECT
+
+Fire arrow.
+
+Direct hit:
+
+burn opponent.
+
+NORMAL SKY
+
+Keep current sky-fire behavior if already working.
+
+SPIRIT DIRECT
+
+Projectile hits ground around opponent.
+
+Create:
+
+# FIRE CIRCLE PRISON
+
+Control:
+
+LEVEL 5 — HARD MOVEMENT LOCK
+
+Duration starting target:
+
+4–5 sec
+
+Opponent chariot cannot leave circle.
+
+IMPORTANT:
+
+enemy can still:
+
+aim
+select Astra
+charge Astra
+fire counter
+use valid defense
+
+Do not disable all controls.
+
+Effects:
+
+burn DOT
+fire wall
+chariot trapped
+normal arrows cannot safely pass through wall
+
+Counter:
+
+VARUNA'S TIDE
+GANGA'S GUARD
+
+Strong Wind:
+
+TRANSFORM
+→ EMBER STORM
+
+Do not let normal arrows destroy Fire Circle.
+
+When valid counter succeeds:
+
+movement restriction ends immediately.
+
+Apply Control Resistance afterward.
+
+SPIRIT SKY
+
+Create:
+
+# FIRE TORNADO
+
+Effects:
+
+rotating fire vortex
+constant fireball attacks
+blocks normal arrows
+blocks ordinary charged arrows
+strong projectile disruption
+
+Control:
+LEVEL 3–4
+
+Do NOT hard-lock player.
+
+Player can move but tornado dominates projectile space.
+
+Counter:
+
+VARUNA'S TIDE sky/Spirit
+→ transforms into STEAM CLOUD
+
+GANGA'S GUARD
+→ extinguishes/weaken
+
+Strong WIND
+→ transforms into EMBER STORM
+
+Normal arrows cannot destroy Fire Tornado.
+
+--------------------------------------------------
+11. BRAHMASTRA
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Large celestial explosion.
+
+NORMAL SKY
+
+Delayed celestial strike.
+
+SPIRIT DIRECT
+
+Create:
+
+BRAHMA SHOCK FIELD
+
+Effects:
+
+radial energy pulses
+high pressure
+repeated damage
+projectile disruption
+
+Control:
+LEVEL 3 push
+
+No hard lock.
+
+SPIRIT SKY
+
+Celestial descent
+with expanding shock rings.
+
+Counter:
+
+high-tier DIVINE.
+
+--------------------------------------------------
+12. ACHARYA'S JUDGMENT
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Adaptive projectile based on Drona's learned opponent patterns.
+
+NORMAL SKY
+
+Temporary analysis sigil.
+
+SPIRIT DIRECT
+
+Create:
+
+COUNTER SEAL ZONE
+
+Effects:
+
+enemy special-charge preparation slowed
+mastered Astra easier to counter
+projectile stability reduced
+
+Control:
+LEVEL 0–2
+
+SPIRIT SKY
+
+Large tactical sigil.
+
+Effects:
+
+weakens/intercepts repeated learned projectile types.
+
+Must integrate with Drona's existing passive.
+
+==================================================
+==================================================
+ABHIMANYU
+==================================================
+==================================================
+
+--------------------------------------------------
+13. CHAKRA VOLLEY
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Rapid spread.
+
+NORMAL SKY
+
+Small circular arrow rain.
+
+SPIRIT DIRECT
+
+Create:
+
+ROTATING ARROW RING
+
+Effects:
+
+arrows orbit opponent
+then converge inward
+multiple attack phases
+
+Control:
+LEVEL 1
+
+Player can move through openings.
+
+SPIRIT SKY
+
+Descending circular arrow formations.
+
+Counters:
+
+WIND
+BARRIER
+
+--------------------------------------------------
+14. RUDRA RUSH
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Fast aggressive projectile sequence.
+
+NORMAL SKY
+
+Rudra bolts.
+
+SPIRIT DIRECT
+
+Create:
+
+DESTRUCTION LANE
+
+Effects:
+
+linear repeated impacts
+directional knockback
+stagger pressure
+
+Control:
+LEVEL 3
+
+No hard lock.
+
+SPIRIT SKY
+
+Repeated descending Rudra strikes.
+
+--------------------------------------------------
+15. SUBHADRA TEMPEST
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Arrow storm.
+
+NORMAL SKY
+
+Storm formation.
+
+SPIRIT DIRECT
+
+Create:
+
+TEMPEST PRISON
+
+Effects:
+
+storm surrounds enemy
+inward pull
+projectile distortion
+repeated damage
+
+Control:
+LEVEL 3–4
+
+Player can move and fight against pull.
+
+No hard lock.
+
+SPIRIT SKY
+
+Descending spiral storm.
+
+Counters:
+
+strong WIND
+DIVINE
+BARRIER
+
+==================================================
+==================================================
+ASHWATTHAMA
+==================================================
+==================================================
+
+--------------------------------------------------
+16. RUDRA EMBER
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Dark ember projectile.
+
+NORMAL SKY
+
+Ember rain.
+
+SPIRIT DIRECT
+
+Create:
+
+CURSED FLAME ZONE
+
+Effects:
+
+persistent cursed fire
+periodic eruptions
+DOT
+Rage disruption
+
+Control:
+LEVEL 1
+
+SPIRIT SKY
+
+Dark ember cloud.
+
+Control:
+LEVEL 1
+
+Counter:
+
+WATER
+DIVINE cleansing
+
+--------------------------------------------------
+17. NARAYANA BURST
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Multiple celestial weapon strikes.
+
+NORMAL SKY
+
+Celestial weapon rain.
+
+SPIRIT DIRECT
+
+Create:
+
+NARAYANA SUPPRESSION FIELD
+
+No movement lock.
+
+Special behavioral mechanic:
+
+If enemy continues attacking:
+
+threat increases.
+
+More celestial weapons spawn.
+
+If enemy follows correct defensive behavior:
+
+field weakens.
+
+Control:
+
+SPECIAL BEHAVIOR
+
+SPIRIT SKY
+
+Large-area weapon rain.
+
+This should reward knowledge instead of brute force.
+
+--------------------------------------------------
+18. BRAHMASHIRA
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Catastrophic celestial strike.
+
+NORMAL SKY
+
+Delayed divine descent.
+
+SPIRIT DIRECT
+
+Create:
+
+FOUR-DIRECTION ANNIHILATION
+
+Effects:
+
+center impact
+four energy pillars
+large blast zone
+
+Control:
+LEVEL 1–3 shock push
+
+SPIRIT SKY
+
+Celestial rift/formation.
+
+No artificial hard lock.
+
+Counter:
+
+top-tier DIVINE / Ultimate interaction where appropriate.
+
+==================================================
+==================================================
+SATYAKI
+==================================================
+==================================================
+
+--------------------------------------------------
+19. VRISHNI WIND
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Fast wind projectile.
+
+Effects:
+
+pushback.
+
+NORMAL SKY
+
+Small slicing vortex.
+
+SPIRIT DIRECT
+
+Create:
+
+HIGH-SPEED WIND TUNNEL
+
+Effects:
+
+projectile deflection
+movement drift
+Satyaki mobility advantage
+
+Control:
+LEVEL 3
+
+SPIRIT SKY
+
+Large slicing vortex.
+
+No hard lock.
+
+--------------------------------------------------
+20. VARUNA'S TIDE
+--------------------------------------------------
+
+Primary FIRE counter.
+
+NORMAL DIRECT
+
+Water wave.
+
+Effects:
+
+push
+extinguish basic fire
+
+NORMAL SKY
+
+Rainfall suppressing sky fire.
+
+SPIRIT DIRECT
+
+Create:
+
+FLOOD ZONE
+
+Effects:
+
+heavy movement slowdown
+water drag
+slight directional push
+extinguish fire
+apply WET
+
+Control:
+LEVEL 2–3
+
+Do NOT immobilize.
+
+SPIRIT SKY
+
+Create:
+
+TIDAL RAINFALL
+
+Effects:
+
+large rainfall
+extinguishes Fire Tornado
+
+Interaction:
+
+FIRE TORNADO
++
+VARUNA SKY/SPIRIT
+→ STEAM CLOUD
+
+Interaction:
+
+FLOOD/WET
++
+KURU THUNDER
+→ ELECTRIFIED WATER
+
+--------------------------------------------------
+21. YUYUDHANA STORM
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Wind/water projectile storm.
+
+NORMAL SKY
+
+Cloudburst.
+
+SPIRIT DIRECT
+
+Create:
+
+STORM ASSAULT SPHERE
+
+Effects:
+
+multi-directional projectile pressure
+movement danger
+repeated strikes
+
+Control:
+LEVEL 2–3
+
+SPIRIT SKY
+
+Large cloudburst barrage.
+
+At max Pursuit:
+
+visual enhancement allowed.
+
+Do not create huge hidden damage bonus unless configured.
+
+==================================================
+==================================================
+EKALAVYA
+==================================================
+==================================================
+
+--------------------------------------------------
+22. FOREST FANG
+--------------------------------------------------
+
+NORMAL DIRECT
+
+High-precision weak-point arrow.
+
+NORMAL SKY
+
+Small thorn-arrow descent.
+
+SPIRIT DIRECT
+
+Create:
+
+THORN TRAP ZONE
+
+Control:
+
+LEVEL 4 — CONTAINMENT
+
+Player can move inside zone.
+
+Attempt to cross boundary:
+
+damage
+stagger
+or temporary slow
+
+Do NOT completely immobilize.
+
+SPIRIT SKY
+
+Descending spectral thorn arrows.
+
+--------------------------------------------------
+23. NISHADA FLAME
+--------------------------------------------------
+
+Migrate old display spelling "Nisgada Flame" safely if required.
+
+NORMAL DIRECT
+
+Persistent green-orange flame arrow.
+
+NORMAL SKY
+
+Burning ember/leaf effect.
+
+SPIRIT DIRECT
+
+Create:
+
+WILDFIRE CIRCLE
+
+Effects:
+
+spreading fire patches
+DOT
+movement pressure
+
+Control:
+LEVEL 1–2
+
+No full lock.
+
+SPIRIT SKY
+
+Create:
+
+FLAMING LEAF STORM
+
+Effects:
+
+falling burning leaves
+multiple small fire zones
+
+Counter:
+
+WATER
+
+Wind may transform spread rather than simply erase it.
+
+--------------------------------------------------
+24. ARANYA CYCLONE
+--------------------------------------------------
+
+NORMAL DIRECT
+
+Small forest cyclone.
+
+NORMAL SKY
+
+Short aerial vortex.
+
+SPIRIT DIRECT
+
+Create:
+
+MASSIVE FOREST TEMPEST
+
+Effects:
+
+inward pull
+visibility disruption
+projectile deflection/trapping
+spectral-arrow hits
+
+Control:
+LEVEL 3–4
+
+Player can move against pull.
+
+SPIRIT SKY
+
+Larger cyclone.
+
+Final phase:
+
+Ekalavya receives special precision-shot opportunity through cyclone eye.
+
+Counter:
+
+strong WIND
+DIVINE
+field-breaking Astra
+
+==================================================
+UI
+==================================================
+
+Update Astra HUD.
+
+Display:
+
+Astra name
+Normal Ready
+Spirit Charge meter
+Spirit Ready
+Ground/Sky indication
+Cooldown
+
+Do not overcrowd mobile HUD.
+
+Use clear charge feedback.
+
+==================================================
+SPIRIT CHARGE VISUAL LANGUAGE
+==================================================
+
+Normal Astra:
+
+smaller trail
+smaller aura
+
+Spirit Astra:
+
+larger aura
+distinct charge sigil
+stronger arrow trail
+character aura
+camera accent
+field creation
+
+Spirit versions must be recognizable immediately.
+
+==================================================
+AUDIO
+==================================================
+
+Create/reuse event hooks for:
+
+SpiritChargeStart
+SpiritChargeLoop
+SpiritChargeReady
+SpiritRelease
+GroundCast
+SkyCast
+FieldSpawn
+FieldLoop
+FieldCounter
+FieldTransform
+FieldExpire
+
+Do not directly hard-code audio files inside Astra logic.
+
+==================================================
+CAMERA
+==================================================
+
+Normal Astra:
+
+minimal/no cinematic interruption.
+
+Spirit release:
+
+short punch-in/recoil.
+
+Major field spawn:
+
+brief wide emphasis.
+
+Keep PvP interruption short.
+
+==================================================
+AI
+==================================================
+
+Update Solo AI to understand:
+
+- Spirit charge telegraph
+- preparing a counter
+- moving out of danger
+- avoiding Fire Circle boundary
+- fighting wind pull
+- avoiding thorn containment
+- not shooting useless normal arrows into blocking fields
+- using valid counter Astra
+- using sky counter when required
+- Narayana passive-response rule
+
+AI must use reaction delay.
+
+Do not let AI cheat by instantly reading player action.
+
+==================================================
+NETWORKING
+==================================================
+
+Gameplay state must be authoritative.
+
+Synchronize:
+
+selected Astra
+charge start
+charge level
+Spirit Ready
+release
+cast type
+projectile
+field creation
+field location
+duration
+DOT
+movement control
+field transformation
+counter result
+field removal
+
+Use:
+
+castId
+fieldId
+stateVersion
+authoritative timestamp
+
+Do not network particle effects individually.
+
+==================================================
+ROLLBACK / PREDICTION
+==================================================
+
+Local charging/aiming should remain responsive.
+
+Predict cosmetic charge state locally.
+
+Authoritative release/field results must reconcile.
+
+If mismatch occurs:
+
+correct field state
+
+Do NOT display:
+
+"State mismatch. Please start a new room."
+
+for recoverable Astra mismatches.
+
+Do not duplicate:
+
+fields
+DOT
+damage
+audio events
+VFX events
+
+during rollback.
+
+==================================================
+SIMULTANEOUS INTERACTION RULES
+==================================================
+
+Handle deterministically:
+
+two fields spawning same frame
+
+two counters hitting same field
+
+field expiration during counter
+
+counter impact during Spirit release
+
+Ultimate crossing a field
+
+round ending while fields remain
+
+movement-control transition at exact hit frame
+
+Karna Wheel Fate inside a field
+
+Bhishma Ichhamrityu while DOT active
+
+Arjuna Krishna Intervention from Spirit field lethal damage
+
+Ashwatthama Mani triggering from DOT
+
+==================================================
+PASSIVE INTERACTION
+==================================================
+
+Existing character passives must remain authoritative.
+
+Examples:
+
+Karna:
+Wheel Fate may trigger from Spirit damage.
+
+Bhishma:
+DOT cannot bypass Ichhamrityu logic.
+
+Arjuna:
+Krishna Intervention can intercept eligible lethal field damage.
+
+Ashwatthama:
+Mani may intercept eligible lethal damage.
+
+Do not duplicate death-interception logic inside Astra code.
+
+Use existing lethal-damage pipeline.
+
+==================================================
+BEST-OF-THREE CLEANUP
+==================================================
+
+On round end:
+
+destroy all fields
+remove DOT
+remove movement effects
+remove control resistance
+clear charge shield
+reset charge states
+stop looping field SFX
+clear temporary VFX
+reset field IDs
+cancel pending counters
+
+No state may leak into next round.
+
+==================================================
+DEBUG PANEL
+==================================================
+
+Add development-only controls.
+
+Character selector.
+
+Astra selector.
+
+Controls:
+
+Force Normal Ready
+Set Spirit Charge %
+Force Spirit Ready
+Release Direct
+Release Sky
+Spawn Normal Effect
+Spawn Spirit Direct
+Spawn Spirit Sky
+Trigger valid counter
+Trigger invalid counter
+Transform field
+Expire field
+Clear all fields
+
+Also display:
+
+fieldId
+castId
+owner
+element
+control level
+counter tags
+block rules
+remaining duration
+network authority
+state version
+
+==================================================
+DEBUG VISUALIZATION
+==================================================
+
+Development only:
+
+field radius
+field boundary
+control zone
+safe zone
+pull direction
+push direction
+counter tags
+projectile-block rules
+
+==================================================
+BALANCE CONFIG
+==================================================
+
+Expose all major values.
+
+Per Astra:
+
+normalDamage
+spiritDamage
+normalCooldown
+spiritCooldown
+SpiritChargeTime
+radius
+duration
+DOT
+pulseInterval
+slow
+push
+pull
+lockDuration
+containmentDamage
+projectileBlockRules
+fieldTransformRules
+counterStrength
+
+Global:
+
+ControlResistanceDuration
+DiminishingReturnsWindow
+hardControlDR
+fieldLimit
+mobileParticleMultiplier
+
+==================================================
+PERFORMANCE
+==================================================
+
+Target browser/mobile.
+
+Avoid:
+
+per-frame network messages
+uncapped particles
+hundreds of simultaneous projectiles
+persistent unused fields
+memory leaks
+duplicate timers
+
+Use:
+
+pooling
+fixed field limits
+field cleanup
+simplified mobile VFX
+timestamp-driven synchronization
+
+==================================================
+QUALITY LEVELS
+==================================================
+
+HIGH
+
+full VFX
+
+MEDIUM
+
+reduced particle count
+
+LOW
+
+simplified graphics
+
+Gameplay behavior/hitboxes/timing must remain identical across quality settings.
+
+==================================================
+REQUIRED TEST MATRIX
+==================================================
+
+Test all supported Astras in:
+
+NORMAL DIRECT
+NORMAL SKY
+SPIRIT DIRECT
+SPIRIT SKY
+
+Test counter interactions.
+
+High priority:
+
+Agneya Fire Circle
+Agneya Fire Tornado
+Varuna vs Fire Circle
+Varuna vs Fire Tornado
+Ganga's Guard vs Fire
+Wind vs Fire Tornado
+Steam Cloud
+Electrified Water
+Ember Storm
+Nagastra Bind
+Control Resistance
+Diminishing Returns
+Forest Fang Containment
+Subhadra Tempest pull
+Aranya Cyclone pull
+Narayana behavioral response
+
+==================================================
+MULTIPLAYER TESTS
+==================================================
+
+Host casts Spirit Astra.
+
+Client casts Spirit Astra.
+
+Host counters client.
+
+Client counters host.
+
+Both cast simultaneously.
+
+Test:
+
+50ms
+100ms
+150ms
+250ms
+
+and packet loss where supported.
+
+Verify:
+
+charge state
+Spirit shield
+cast type
+field position
+field duration
+DOT
+movement control
+counter transformation
+audio/VFX
+field cleanup
+
+==================================================
+REGRESSION TEST
+==================================================
+
+Confirm:
+
+normal aiming works
+
+normal arrows work
+
+bow draw works
+
+Astra selection works
+
+Rage works
+
+Ultimate works
+
+Ultimate counter puzzle works
+
+Legendary Passives work
+
+Fate Events work
+
+Solo works
+
+Local 1v1 works
+
+Online Friend works
+
+best-of-three works
+
+touch works
+
+keyboard works
+
+dialogue/audio works
+
+==================================================
+DO NOT DO
+==================================================
+
+Do NOT:
+
+rebuild the game
+
+turn every Spirit Astra into a stun
+
+hard-lock total input
+
+make normal arrows irrelevant
+
+allow infinite stun-lock
+
+allow ordinary Spirit fields to cancel Ultimates
+
+replace all existing visual assets unnecessarily
+
+add unrelated characters
+
+add new game modes
+
+start Play Store work
+
+==================================================
+DEFINITION OF DONE
+==================================================
+
+Complete only when:
+
+1. Two-phase Astra architecture works.
+2. Spirit Charge works.
+3. Aim and Spirit Charge are separate.
+4. Charge shield works.
+5. Charge telegraphing works.
+6. Normal release works.
+7. Spirit release works.
+8. Direct cast works.
+9. Sky cast works.
+10. Persistent fields work.
+11. Soft-control system works.
+12. Hard lock is restricted to approved cases.
+13. Anti-stunlock works.
+14. Control Resistance works.
+15. Counter system works.
+16. Transform system works.
+17. Steam Cloud works.
+18. Electrified Water works.
+19. Ember Storm works.
+20. Agneya Fire Circle works.
+21. Agneya Fire Tornado works.
+22. Nagastra short bind works.
+23. Forest Fang containment works.
+24. Subhadra Tempest pull works.
+25. Aranya Cyclone pull works.
+26. All 24 Astras are configured.
+27. AI responds correctly.
+28. Online state remains synchronized.
+29. Rollback does not duplicate fields.
+30. Ultimates retain current rules.
+31. Passives retain current rules.
+32. Round cleanup works.
+33. Mobile performance remains acceptable.
+34. Existing combat remains functional.
+
+==================================================
+FINAL ENGINEERING REPORT
+==================================================
+
+When finished, report:
+
+FILES CREATED
+
+FILES MODIFIED
+
+TWO-PHASE ARCHITECTURE
+
+SPIRIT CHARGE SYSTEM
+
+CHARGE SHIELD
+
+CAST DETECTION
+
+FIELD EFFECT SYSTEM
+
+CROWD CONTROL SYSTEM
+
+ANTI-STUNLOCK
+
+COUNTER SYSTEM
+
+FIELD TRANSFORMS
+
+ALL 24 ASTRAS
+
+NORMAL DIRECT behavior
+
+NORMAL SKY behavior
+
+SPIRIT DIRECT behavior
+
+SPIRIT SKY behavior
+
+COUNTERS
+
+CONTROL LEVEL
+
+BALANCE DATA
+
+UI
+
+AI
+
+VFX
+
+AUDIO
+
+NETWORKING
+
+ROLLBACK
+
+DEBUG TOOLS
+
+PERFORMANCE
+
+ONLINE TESTS
+
+REGRESSION TESTS
+
+KNOWN ISSUES
+
+PLACEHOLDERS
+
+NEXT RECOMMENDED MILESTONE
+
+Do not automatically begin another milestone.
+
+==================================================
+USAGE EFFICIENCY
+==================================================
+
+Complete as much implementation as possible within this run.
+
+Avoid repeatedly rereading unchanged files.
+
+Batch related edits where safe.
+
+Avoid unnecessary repository-wide searches.
+
+Avoid repeatedly regenerating existing working assets.
+
+Prioritize working implementation and validation over verbose commentary.
+
+Do not stop at planning if implementation can continue.
+
+Proceed now with the complete Two-Phase Astra + Spirit Charge + Battlefield Counter System.

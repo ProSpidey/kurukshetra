@@ -1,0 +1,1537 @@
+{
+  "roster": [
+    {
+      "name": "Arjun",
+      "hp": 160,
+      "damage": 8,
+      "speed": 1.12,
+      "cooldown": 0.68
+    },
+    {
+      "name": "Karna",
+      "hp": 184,
+      "damage": 10,
+      "speed": 1,
+      "cooldown": 1.05
+    },
+    {
+      "name": "Bhishma",
+      "hp": 232,
+      "damage": 7,
+      "speed": 0.97,
+      "cooldown": 1
+    },
+    {
+      "name": "Drona",
+      "hp": 168,
+      "damage": 8,
+      "speed": 1.04,
+      "cooldown": 0.9
+    },
+    {
+      "name": "Abhimanyu",
+      "hp": 160,
+      "damage": 7,
+      "speed": 1.1,
+      "cooldown": 0.62
+    },
+    {
+      "name": "Ashwatthama",
+      "hp": 192,
+      "damage": 9,
+      "speed": 1,
+      "cooldown": 1.05
+    },
+    {
+      "name": "Satyaki",
+      "hp": 176,
+      "damage": 8,
+      "speed": 1.08,
+      "cooldown": 0.8
+    },
+    {
+      "name": "Ekalavya",
+      "hp": 168,
+      "damage": 8,
+      "speed": 1.05,
+      "cooldown": 0.76
+    }
+  ],
+  "passives": {
+    "karna": {
+      "threshold": 0.3,
+      "armourDurability": 0.18,
+      "incoming": 0.35,
+      "criticalResistance": 0.4,
+      "repairDuration": 7,
+      "wheelEnterDuration": 0.8,
+      "remountDuration": 0.6,
+      "repairWindow": 0.42,
+      "repairHits": 4,
+      "repairTimeout": 12,
+      "entryHealth": 0.08,
+      "heal": 0.25,
+      "comebackDuration": 8,
+      "damage": 1.15,
+      "draw": 1.2,
+      "rage": 1.3
+    },
+    "bhishma": {
+      "threshold": 0.01,
+      "duration": 10,
+      "damage": 1.35,
+      "draw": 1.35,
+      "cooldown": 0.6
+    },
+    "arjuna": {
+      "lowerDuration": 1.2,
+      "health": 0.13,
+      "duration": 7,
+      "draw": 1.12,
+      "puzzle": 1.5,
+      "perfect": 1.25
+    },
+    "drona": {
+      "mastery": 3,
+      "incoming": 0.8,
+      "puzzle": 1.2,
+      "cooldown": 0.75
+    },
+    "abhimanyu": {
+      "swordThreshold": 0.15,
+      "wheelThreshold": 0.08,
+      "threshold": 0.22,
+      "movement": 1.35,
+      "draw": 1.25,
+      "rage": 1.25,
+      "dodge": 1.3,
+      "minimumStage": 2.5,
+      "transition": 1,
+      "bowWear": 0.07,
+      "swordWear": 0.06,
+      "wheelHits": 2,
+      "walkSpeed": 240,
+      "step": 110,
+      "moveCooldown": 0.22,
+      "separation": 76,
+      "sword": {
+        "reach": 170,
+        "windup": 0.23,
+        "recovery": 0.65,
+        "damage": 1.45
+      },
+      "wheel": {
+        "reach": 195,
+        "windup": 0.42,
+        "recovery": 1.05,
+        "damage": 2.1
+      }
+    },
+    "ashwatthama": {
+      "floor": 0.01,
+      "duration": 5,
+      "heal": 0.12,
+      "incoming": 0.9,
+      "elemental": 0.85,
+      "status": 0.65,
+      "rage": 1.15,
+      "movement": 1.25,
+      "charge": 1.3,
+      "vulnerable": 1.12
+    },
+    "satyaki": {
+      "maximum": 5,
+      "duration": 6,
+      "drawPerStack": 0.04,
+      "movementPerStack": 0.035,
+      "velocityPerStack": 0.02,
+      "furyDraw": 1.3,
+      "cooldown": 0.7,
+      "perfect": 1.2
+    },
+    "ekalavya": {
+      "gain": 25,
+      "loss": 20,
+      "duration": 8,
+      "draw": 1.25,
+      "perfect": 1.35,
+      "penalty": 0.85,
+      "cooldown": 0.8,
+      "puzzle": 1.5,
+      "decay": 1,
+      "sacrificeDecay": 0.25
+    }
+  },
+  "arrows": {
+    "focus": 1.5,
+    "spiritSpeed": 1.32,
+    "spiritDamage": 1.65,
+    "quickCooldown": 0.22,
+    "skyAngle": 65,
+    "rainCount": 3,
+    "rainDamage": 0.22,
+    "rainCap": 36,
+    "chargedRainCount": 10,
+    "chargedRainDamage": 0.32,
+    "chargedRainWarning": 0.9,
+    "chargedRainStagger": 0.055
+  },
+  "charge": {
+    "chargeTime": 0.65,
+    "maxHold": 2.4,
+    "rearm": 0.4,
+    "dragEnter": 230,
+    "dragExit": 190,
+    "skyWarmup": 0.12,
+    "fireInterval": 0.18,
+    "rainWarning": 0.65,
+    "remoteLease": 0.65
+  },
+  "astras": {
+    "gandiva_gale": {
+      "astraId": "gandiva_gale",
+      "displayName": "Gandiva Gale",
+      "ownerCharacter": 0,
+      "element": "wind",
+      "category": "astra",
+      "tier": 0,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 1.5,
+      "normalCooldown": 0.65,
+      "spiritCooldown": 1.15,
+      "normalEnergyCost": 0,
+      "spiritEnergyCost": 12,
+      "normalDamage": 9.24,
+      "spiritDamage": 11.440000000000001,
+      "fieldEffectId": "wind",
+      "skyFieldId": "wind",
+      "normalDirectBehavior": "Fast wind arrow with pushback",
+      "normalSkyBehavior": "Overhead wind burst",
+      "spiritDirectBehavior": "Wind Corridor",
+      "spiritSkyBehavior": "Cyclone Dome",
+      "counterTags": [
+        "WIND"
+      ],
+      "counterStrength": 1,
+      "weaknessTags": [],
+      "resistanceTags": [],
+      "radius": 160,
+      "duration": 5,
+      "damageOverTime": 1.3,
+      "pulseInterval": 0.9,
+      "movementControlType": 3,
+      "movementModifier": 1,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "forest",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "indra_storm": {
+      "astraId": "indra_storm",
+      "displayName": "Aindrastra",
+      "ownerCharacter": 0,
+      "element": "thunder",
+      "category": "astra",
+      "tier": 1,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 2.1,
+      "normalCooldown": 0.9,
+      "spiritCooldown": 1.5,
+      "normalEnergyCost": 20,
+      "spiritEnergyCost": 32,
+      "normalDamage": 5.46,
+      "spiritDamage": 6.76,
+      "fieldEffectId": "storm",
+      "skyFieldId": "storm",
+      "normalDirectBehavior": "Celestial three-arrow barrage",
+      "normalSkyBehavior": "Luminous arrow rain",
+      "spiritDirectBehavior": "Celestial Storm Zone",
+      "spiritSkyBehavior": "Thunder Arrow Storm",
+      "counterTags": [
+        "THUNDER",
+        "STORM"
+      ],
+      "counterStrength": 1,
+      "weaknessTags": [
+        "WIND",
+        "BARRIER"
+      ],
+      "resistanceTags": [],
+      "radius": 155,
+      "duration": 6,
+      "damageOverTime": 2.2,
+      "pulseInterval": 0.8,
+      "movementControlType": 2,
+      "movementModifier": 0.85,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "electric",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "pashupata": {
+      "astraId": "pashupata",
+      "displayName": "Pashupata Radiance",
+      "ownerCharacter": 0,
+      "element": "cosmic",
+      "category": "astra",
+      "tier": 2,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 3,
+      "normalCooldown": 1.15,
+      "spiritCooldown": 1.8499999999999999,
+      "normalEnergyCost": 65,
+      "spiritEnergyCost": 80,
+      "normalDamage": 26.04,
+      "spiritDamage": 32.24,
+      "fieldEffectId": "divine",
+      "skyFieldId": "divine",
+      "normalDirectBehavior": "Massive divine projectile",
+      "normalSkyBehavior": "Delayed celestial descent",
+      "spiritDirectBehavior": "Divine Annihilation Field",
+      "spiritSkyBehavior": "Celestial Annihilation Vortex",
+      "counterTags": [
+        "DIVINE"
+      ],
+      "counterStrength": 3,
+      "weaknessTags": [
+        "DIVINE"
+      ],
+      "resistanceTags": [
+        "NON_ULTIMATE"
+      ],
+      "radius": 190,
+      "duration": 5,
+      "damageOverTime": 4,
+      "pulseInterval": 0.85,
+      "movementControlType": 1,
+      "movementModifier": 1,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "electric",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "solar_shaft": {
+      "astraId": "solar_shaft",
+      "displayName": "Surya Shaft",
+      "ownerCharacter": 1,
+      "element": "solar",
+      "category": "astra",
+      "tier": 0,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 1.7,
+      "normalCooldown": 0.65,
+      "spiritCooldown": 1.15,
+      "normalEnergyCost": 0,
+      "spiritEnergyCost": 12,
+      "normalDamage": 10.5,
+      "spiritDamage": 13,
+      "fieldEffectId": "solar",
+      "skyFieldId": "solar",
+      "normalDirectBehavior": "Piercing solar arrow",
+      "normalSkyBehavior": "Radiant shaft rain",
+      "spiritDirectBehavior": "Solar Flare Zone",
+      "spiritSkyBehavior": "Sun Disc",
+      "counterTags": [
+        "RADIANCE",
+        "FIRE"
+      ],
+      "counterStrength": 1,
+      "weaknessTags": [
+        "WATER",
+        "WIND",
+        "BARRIER"
+      ],
+      "resistanceTags": [],
+      "radius": 145,
+      "duration": 5,
+      "damageOverTime": 2,
+      "pulseInterval": 0.75,
+      "movementControlType": 2,
+      "movementModifier": 0.88,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "embers",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "naga": {
+      "astraId": "naga",
+      "displayName": "Nagastra",
+      "ownerCharacter": 1,
+      "element": "venom",
+      "category": "astra",
+      "tier": 1,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 2.2,
+      "normalCooldown": 0.9,
+      "spiritCooldown": 1.5,
+      "normalEnergyCost": 20,
+      "spiritEnergyCost": 32,
+      "normalDamage": 12.18,
+      "spiritDamage": 15.08,
+      "fieldEffectId": "serpent",
+      "skyFieldId": "serpent",
+      "normalDirectBehavior": "Avoidable serpent tracking",
+      "normalSkyBehavior": "Single serpent dive",
+      "spiritDirectBehavior": "Serpent Bind",
+      "spiritSkyBehavior": "Serpent Dive Formation",
+      "counterTags": [
+        "SERPENT"
+      ],
+      "counterStrength": 1,
+      "weaknessTags": [
+        "DIVINE",
+        "WIND"
+      ],
+      "resistanceTags": [],
+      "radius": 115,
+      "duration": 5,
+      "damageOverTime": 1.5,
+      "pulseInterval": 0.8,
+      "movementControlType": 5,
+      "movementModifier": 0.65,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "serpent",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "shakti": {
+      "astraId": "shakti",
+      "displayName": "Vasavi Shakti",
+      "ownerCharacter": 1,
+      "element": "solar",
+      "category": "astra",
+      "tier": 2,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 2.8,
+      "normalCooldown": 1.15,
+      "spiritCooldown": 1.8499999999999999,
+      "normalEnergyCost": 65,
+      "spiritEnergyCost": 80,
+      "normalDamage": 27.72,
+      "spiritDamage": 34.32,
+      "fieldEffectId": "crater",
+      "skyFieldId": "crater",
+      "normalDirectBehavior": "Divine spear impact",
+      "normalSkyBehavior": "Descending divine spear",
+      "spiritDirectBehavior": "Radiant Crater",
+      "spiritSkyBehavior": "Heavenly Spear Descent",
+      "counterTags": [
+        "DIVINE",
+        "THUNDER"
+      ],
+      "counterStrength": 3,
+      "weaknessTags": [
+        "DIVINE"
+      ],
+      "resistanceTags": [
+        "NON_ULTIMATE"
+      ],
+      "radius": 155,
+      "duration": 3,
+      "damageOverTime": 3,
+      "pulseInterval": 0.75,
+      "movementControlType": 1,
+      "movementModifier": 1,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "electric",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "ganga": {
+      "astraId": "ganga",
+      "displayName": "Ganga’s Guard",
+      "ownerCharacter": 2,
+      "element": "water",
+      "category": "astra",
+      "tier": 0,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 1.6,
+      "normalCooldown": 0.65,
+      "spiritCooldown": 1.15,
+      "normalEnergyCost": 0,
+      "spiritEnergyCost": 12,
+      "normalDamage": 9.24,
+      "spiritDamage": 11.440000000000001,
+      "fieldEffectId": "river",
+      "skyFieldId": "river",
+      "normalDirectBehavior": "Protective water barrier",
+      "normalSkyBehavior": "Falling water curtain",
+      "spiritDirectBehavior": "Flowing River Circle",
+      "spiritSkyBehavior": "Divine Water Curtain",
+      "counterTags": [
+        "WATER",
+        "BARRIER",
+        "DIVINE"
+      ],
+      "counterStrength": 1,
+      "weaknessTags": [
+        "THUNDER",
+        "WIND"
+      ],
+      "resistanceTags": [],
+      "radius": 180,
+      "duration": 6,
+      "damageOverTime": 0.7,
+      "pulseInterval": 1,
+      "movementControlType": 3,
+      "movementModifier": 1,
+      "projectileBlockingRules": {
+        "normal": true,
+        "charged": true,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "water",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "kuru_storm": {
+      "astraId": "kuru_storm",
+      "displayName": "Kuru Thunder",
+      "ownerCharacter": 2,
+      "element": "thunder",
+      "category": "astra",
+      "tier": 1,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 2.1,
+      "normalCooldown": 0.9,
+      "spiritCooldown": 1.5,
+      "normalEnergyCost": 20,
+      "spiritEnergyCost": 32,
+      "normalDamage": 13.02,
+      "spiritDamage": 16.12,
+      "fieldEffectId": "thunder",
+      "skyFieldId": "thunder",
+      "normalDirectBehavior": "Localized lightning",
+      "normalSkyBehavior": "Small storm cloud",
+      "spiritDirectBehavior": "Thunder Field",
+      "spiritSkyBehavior": "Pursuing Thundercloud",
+      "counterTags": [
+        "THUNDER",
+        "STORM"
+      ],
+      "counterStrength": 1,
+      "weaknessTags": [
+        "WIND",
+        "BARRIER"
+      ],
+      "resistanceTags": [],
+      "radius": 155,
+      "duration": 6,
+      "damageOverTime": 2.2,
+      "pulseInterval": 0.8,
+      "movementControlType": 2,
+      "movementModifier": 0.8,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "electric",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "prabhasa": {
+      "astraId": "prabhasa",
+      "displayName": "Prabhasa Radiance",
+      "ownerCharacter": 2,
+      "element": "cosmic",
+      "category": "astra",
+      "tier": 2,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 2.7,
+      "normalCooldown": 1.15,
+      "spiritCooldown": 1.8499999999999999,
+      "normalEnergyCost": 65,
+      "spiritEnergyCost": 80,
+      "normalDamage": 23.939999999999998,
+      "spiritDamage": 29.64,
+      "fieldEffectId": "radiance",
+      "skyFieldId": "radiance",
+      "normalDirectBehavior": "Radiant projectile",
+      "normalSkyBehavior": "Radiant shaft descent",
+      "spiritDirectBehavior": "Radiance Field",
+      "spiritSkyBehavior": "Celestial Light Spears",
+      "counterTags": [
+        "RADIANCE",
+        "DIVINE"
+      ],
+      "counterStrength": 3,
+      "weaknessTags": [
+        "BARRIER",
+        "DIVINE"
+      ],
+      "resistanceTags": [
+        "NON_ULTIMATE"
+      ],
+      "radius": 185,
+      "duration": 5,
+      "damageOverTime": 2,
+      "pulseInterval": 0.7,
+      "movementControlType": 1,
+      "movementModifier": 1,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "electric",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "agni": {
+      "astraId": "agni",
+      "displayName": "Agneya",
+      "ownerCharacter": 3,
+      "element": "fire",
+      "category": "astra",
+      "tier": 0,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 2,
+      "normalCooldown": 0.65,
+      "spiritCooldown": 1.15,
+      "normalEnergyCost": 0,
+      "spiritEnergyCost": 12,
+      "normalDamage": 10.08,
+      "spiritDamage": 12.48,
+      "fieldEffectId": "fireCircle",
+      "skyFieldId": "fireTornado",
+      "normalDirectBehavior": "Fire arrow and burn",
+      "normalSkyBehavior": "Brief sky fire",
+      "spiritDirectBehavior": "Fire Circle Prison",
+      "spiritSkyBehavior": "Fire Tornado",
+      "counterTags": [
+        "FIRE",
+        "BARRIER"
+      ],
+      "counterStrength": 1,
+      "weaknessTags": [
+        "WATER",
+        "WIND"
+      ],
+      "resistanceTags": [],
+      "radius": 125,
+      "duration": 4.5,
+      "damageOverTime": 2,
+      "pulseInterval": 0.7,
+      "movementControlType": 5,
+      "movementModifier": 1,
+      "projectileBlockingRules": {
+        "normal": true,
+        "charged": true,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "fireCircle",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "brahma": {
+      "astraId": "brahma",
+      "displayName": "Brahmastra",
+      "ownerCharacter": 3,
+      "element": "cosmic",
+      "category": "astra",
+      "tier": 1,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 2.5,
+      "normalCooldown": 0.9,
+      "spiritCooldown": 1.5,
+      "normalEnergyCost": 20,
+      "spiritEnergyCost": 32,
+      "normalDamage": 15.12,
+      "spiritDamage": 18.72,
+      "fieldEffectId": "shock",
+      "skyFieldId": "shock",
+      "normalDirectBehavior": "Celestial explosion",
+      "normalSkyBehavior": "Delayed shock strike",
+      "spiritDirectBehavior": "Brahma Shock Field",
+      "spiritSkyBehavior": "Celestial Shock Descent",
+      "counterTags": [
+        "DIVINE"
+      ],
+      "counterStrength": 1,
+      "weaknessTags": [
+        "DIVINE"
+      ],
+      "resistanceTags": [],
+      "radius": 160,
+      "duration": 5,
+      "damageOverTime": 3,
+      "pulseInterval": 0.85,
+      "movementControlType": 3,
+      "movementModifier": 1,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "electric",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "acharya": {
+      "astraId": "acharya",
+      "displayName": "Acharya’s Judgment",
+      "ownerCharacter": 3,
+      "element": "thunder",
+      "category": "astra",
+      "tier": 2,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 2.8,
+      "normalCooldown": 1.15,
+      "spiritCooldown": 1.8499999999999999,
+      "normalEnergyCost": 65,
+      "spiritEnergyCost": 80,
+      "normalDamage": 8.4,
+      "spiritDamage": 10.4,
+      "fieldEffectId": "seal",
+      "skyFieldId": "seal",
+      "normalDirectBehavior": "Learned-pattern projectile",
+      "normalSkyBehavior": "Temporary analysis sigil",
+      "spiritDirectBehavior": "Counter Seal Zone",
+      "spiritSkyBehavior": "Acharya Analysis Sigil",
+      "counterTags": [
+        "DIVINE",
+        "BARRIER"
+      ],
+      "counterStrength": 3,
+      "weaknessTags": [
+        "DIVINE"
+      ],
+      "resistanceTags": [
+        "NON_ULTIMATE"
+      ],
+      "radius": 175,
+      "duration": 6,
+      "damageOverTime": 1,
+      "pulseInterval": 1,
+      "movementControlType": 2,
+      "movementModifier": 0.9,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "electric",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "chakra": {
+      "astraId": "chakra",
+      "displayName": "Chakra Volley",
+      "ownerCharacter": 4,
+      "element": "wind",
+      "category": "astra",
+      "tier": 0,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 1.5,
+      "normalCooldown": 0.65,
+      "spiritCooldown": 1.15,
+      "normalEnergyCost": 0,
+      "spiritEnergyCost": 12,
+      "normalDamage": 4.2,
+      "spiritDamage": 5.2,
+      "fieldEffectId": "ring",
+      "skyFieldId": "ring",
+      "normalDirectBehavior": "Rapid arrow spread",
+      "normalSkyBehavior": "Circular arrow rain",
+      "spiritDirectBehavior": "Rotating Arrow Ring",
+      "spiritSkyBehavior": "Descending Arrow Formation",
+      "counterTags": [
+        "WIND",
+        "STORM"
+      ],
+      "counterStrength": 1,
+      "weaknessTags": [
+        "WIND",
+        "BARRIER"
+      ],
+      "resistanceTags": [],
+      "radius": 135,
+      "duration": 5,
+      "damageOverTime": 2,
+      "pulseInterval": 0.8,
+      "movementControlType": 1,
+      "movementModifier": 1,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "forest",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "raudh": {
+      "astraId": "raudh",
+      "displayName": "Rudra Rush",
+      "ownerCharacter": 4,
+      "element": "fire",
+      "category": "astra",
+      "tier": 1,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 1.8,
+      "normalCooldown": 0.9,
+      "spiritCooldown": 1.5,
+      "normalEnergyCost": 20,
+      "spiritEnergyCost": 32,
+      "normalDamage": 4.06,
+      "spiritDamage": 15.08,
+      "fieldEffectId": "lane",
+      "skyFieldId": "lane",
+      "normalDirectBehavior": "Fast projectile sequence",
+      "normalSkyBehavior": "Descending Rudra bolts",
+      "spiritDirectBehavior": "Destruction Lane",
+      "spiritSkyBehavior": "Descending Rudra Strikes",
+      "counterTags": [
+        "FIRE"
+      ],
+      "counterStrength": 1,
+      "weaknessTags": [
+        "WATER",
+        "WIND"
+      ],
+      "resistanceTags": [],
+      "radius": 180,
+      "duration": 5,
+      "damageOverTime": 2,
+      "pulseInterval": 0.65,
+      "movementControlType": 3,
+      "movementModifier": 1,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "embers",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "saubhadra": {
+      "astraId": "saubhadra",
+      "displayName": "Subhadra Tempest",
+      "ownerCharacter": 4,
+      "element": "thunder",
+      "category": "astra",
+      "tier": 2,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 2.7,
+      "normalCooldown": 1.15,
+      "spiritCooldown": 1.8499999999999999,
+      "normalEnergyCost": 65,
+      "spiritEnergyCost": 80,
+      "normalDamage": 7.9799999999999995,
+      "spiritDamage": 9.88,
+      "fieldEffectId": "tempest",
+      "skyFieldId": "tempest",
+      "normalDirectBehavior": "Arrow storm",
+      "normalSkyBehavior": "Storm formation",
+      "spiritDirectBehavior": "Tempest Prison",
+      "spiritSkyBehavior": "Descending Spiral Storm",
+      "counterTags": [
+        "STORM",
+        "WIND"
+      ],
+      "counterStrength": 3,
+      "weaknessTags": [
+        "WIND",
+        "BARRIER"
+      ],
+      "resistanceTags": [
+        "NON_ULTIMATE"
+      ],
+      "radius": 180,
+      "duration": 6,
+      "damageOverTime": 2,
+      "pulseInterval": 0.75,
+      "movementControlType": 4,
+      "movementModifier": 1,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "forest",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "raudra": {
+      "astraId": "raudra",
+      "displayName": "Rudra Ember",
+      "ownerCharacter": 5,
+      "element": "fire",
+      "category": "astra",
+      "tier": 0,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 1.8,
+      "normalCooldown": 0.65,
+      "spiritCooldown": 1.15,
+      "normalEnergyCost": 0,
+      "spiritEnergyCost": 12,
+      "normalDamage": 10.92,
+      "spiritDamage": 13.52,
+      "fieldEffectId": "curse",
+      "skyFieldId": "curse",
+      "normalDirectBehavior": "Cursed ember projectile",
+      "normalSkyBehavior": "Ember rain",
+      "spiritDirectBehavior": "Cursed Flame Zone",
+      "spiritSkyBehavior": "Dark Ember Cloud",
+      "counterTags": [
+        "FIRE",
+        "CURSE"
+      ],
+      "counterStrength": 1,
+      "weaknessTags": [
+        "WATER",
+        "WIND",
+        "DIVINE"
+      ],
+      "resistanceTags": [],
+      "radius": 145,
+      "duration": 6,
+      "damageOverTime": 2.2,
+      "pulseInterval": 0.8,
+      "movementControlType": 1,
+      "movementModifier": 1,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "fireCircle",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "narayana": {
+      "astraId": "narayana",
+      "displayName": "Narayana Burst",
+      "ownerCharacter": 5,
+      "element": "solar",
+      "category": "astra",
+      "tier": 1,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 2.4,
+      "normalCooldown": 0.9,
+      "spiritCooldown": 1.5,
+      "normalEnergyCost": 20,
+      "spiritEnergyCost": 32,
+      "normalDamage": 5.319999999999999,
+      "spiritDamage": 19.76,
+      "fieldEffectId": "suppression",
+      "skyFieldId": "suppression",
+      "normalDirectBehavior": "Celestial weapon sequence",
+      "normalSkyBehavior": "Celestial weapon rain",
+      "spiritDirectBehavior": "Narayana Suppression Field",
+      "spiritSkyBehavior": "Celestial Weapon Rain",
+      "counterTags": [
+        "DIVINE"
+      ],
+      "counterStrength": 1,
+      "weaknessTags": [
+        "DIVINE"
+      ],
+      "resistanceTags": [],
+      "radius": 190,
+      "duration": 7,
+      "damageOverTime": 1.3,
+      "pulseInterval": 0.7,
+      "movementControlType": 1,
+      "movementModifier": 1,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "electric",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "brahmashira": {
+      "astraId": "brahmashira",
+      "displayName": "Brahmashira",
+      "ownerCharacter": 5,
+      "element": "cosmic",
+      "category": "astra",
+      "tier": 2,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 3,
+      "normalCooldown": 1.15,
+      "spiritCooldown": 1.8499999999999999,
+      "normalEnergyCost": 65,
+      "spiritEnergyCost": 80,
+      "normalDamage": 27.3,
+      "spiritDamage": 33.800000000000004,
+      "fieldEffectId": "four",
+      "skyFieldId": "four",
+      "normalDirectBehavior": "Catastrophic celestial strike",
+      "normalSkyBehavior": "Delayed divine descent",
+      "spiritDirectBehavior": "Four-Direction Annihilation",
+      "spiritSkyBehavior": "Celestial Rift",
+      "counterTags": [
+        "DIVINE"
+      ],
+      "counterStrength": 3,
+      "weaknessTags": [
+        "DIVINE"
+      ],
+      "resistanceTags": [
+        "NON_ULTIMATE"
+      ],
+      "radius": 200,
+      "duration": 5,
+      "damageOverTime": 3.5,
+      "pulseInterval": 1,
+      "movementControlType": 3,
+      "movementModifier": 1,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "electric",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "vrishni": {
+      "astraId": "vrishni",
+      "displayName": "Vrishni Wind",
+      "ownerCharacter": 6,
+      "element": "wind",
+      "category": "astra",
+      "tier": 0,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 1.5,
+      "normalCooldown": 0.65,
+      "spiritCooldown": 1.15,
+      "normalEnergyCost": 0,
+      "spiritEnergyCost": 12,
+      "normalDamage": 9.66,
+      "spiritDamage": 11.96,
+      "fieldEffectId": "tunnel",
+      "skyFieldId": "tunnel",
+      "normalDirectBehavior": "Fast wind arrow with pushback",
+      "normalSkyBehavior": "Slicing wind burst",
+      "spiritDirectBehavior": "High-Speed Wind Tunnel",
+      "spiritSkyBehavior": "Slicing Vortex",
+      "counterTags": [
+        "WIND"
+      ],
+      "counterStrength": 1,
+      "weaknessTags": [],
+      "resistanceTags": [],
+      "radius": 160,
+      "duration": 5,
+      "damageOverTime": 1.4,
+      "pulseInterval": 0.8,
+      "movementControlType": 3,
+      "movementModifier": 1,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "forest",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "satyaki_tide": {
+      "astraId": "satyaki_tide",
+      "displayName": "Varuna’s Tide",
+      "ownerCharacter": 6,
+      "element": "water",
+      "category": "astra",
+      "tier": 1,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 2,
+      "normalCooldown": 0.9,
+      "spiritCooldown": 1.5,
+      "normalEnergyCost": 20,
+      "spiritEnergyCost": 32,
+      "normalDamage": 12.6,
+      "spiritDamage": 15.600000000000001,
+      "fieldEffectId": "flood",
+      "skyFieldId": "flood",
+      "normalDirectBehavior": "Extinguishing water wave",
+      "normalSkyBehavior": "Fire-suppressing rainfall",
+      "spiritDirectBehavior": "Flood Zone",
+      "spiritSkyBehavior": "Tidal Rainfall",
+      "counterTags": [
+        "WATER"
+      ],
+      "counterStrength": 1,
+      "weaknessTags": [
+        "THUNDER",
+        "WIND"
+      ],
+      "resistanceTags": [],
+      "radius": 190,
+      "duration": 6,
+      "damageOverTime": 1,
+      "pulseInterval": 0.8,
+      "movementControlType": 2,
+      "movementModifier": 0.55,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "water",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "yuyudhana": {
+      "astraId": "yuyudhana",
+      "displayName": "Yuyudhana Storm",
+      "ownerCharacter": 6,
+      "element": "thunder",
+      "category": "astra",
+      "tier": 2,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 2.7,
+      "normalCooldown": 1.15,
+      "spiritCooldown": 1.8499999999999999,
+      "normalEnergyCost": 65,
+      "spiritEnergyCost": 80,
+      "normalDamage": 8.82,
+      "spiritDamage": 10.92,
+      "fieldEffectId": "assault",
+      "skyFieldId": "assault",
+      "normalDirectBehavior": "Wind-water storm",
+      "normalSkyBehavior": "Cloudburst",
+      "spiritDirectBehavior": "Storm Assault Sphere",
+      "spiritSkyBehavior": "Cloudburst Barrage",
+      "counterTags": [
+        "STORM",
+        "THUNDER",
+        "WATER"
+      ],
+      "counterStrength": 3,
+      "weaknessTags": [
+        "THUNDER",
+        "WIND",
+        "WIND",
+        "BARRIER"
+      ],
+      "resistanceTags": [
+        "NON_ULTIMATE"
+      ],
+      "radius": 185,
+      "duration": 6,
+      "damageOverTime": 2.7,
+      "pulseInterval": 0.7,
+      "movementControlType": 3,
+      "movementModifier": 0.85,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "electric",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "forest_fang": {
+      "astraId": "forest_fang",
+      "displayName": "Forest Fang",
+      "ownerCharacter": 7,
+      "element": "venom",
+      "category": "astra",
+      "tier": 0,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 1.6,
+      "normalCooldown": 0.65,
+      "spiritCooldown": 1.15,
+      "normalEnergyCost": 0,
+      "spiritEnergyCost": 12,
+      "normalDamage": 8.82,
+      "spiritDamage": 10.92,
+      "fieldEffectId": "thorns",
+      "skyFieldId": "thorns",
+      "normalDirectBehavior": "Precision weak-point arrow",
+      "normalSkyBehavior": "Thorn arrow descent",
+      "spiritDirectBehavior": "Thorn Trap Zone",
+      "spiritSkyBehavior": "Spectral Thorn Descent",
+      "counterTags": [
+        "FOREST"
+      ],
+      "counterStrength": 1,
+      "weaknessTags": [
+        "DIVINE",
+        "WIND",
+        "DIVINE"
+      ],
+      "resistanceTags": [],
+      "radius": 100,
+      "duration": 5,
+      "damageOverTime": 1,
+      "pulseInterval": 1,
+      "movementControlType": 4,
+      "movementModifier": 1,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "forest",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "nishada": {
+      "astraId": "nishada",
+      "displayName": "Nishada Flame",
+      "ownerCharacter": 7,
+      "element": "fire",
+      "category": "astra",
+      "tier": 1,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 2,
+      "normalCooldown": 0.9,
+      "spiritCooldown": 1.5,
+      "normalEnergyCost": 20,
+      "spiritEnergyCost": 32,
+      "normalDamage": 12.6,
+      "spiritDamage": 15.600000000000001,
+      "fieldEffectId": "wildfire",
+      "skyFieldId": "wildfire",
+      "normalDirectBehavior": "Green-orange flame arrow",
+      "normalSkyBehavior": "Burning leaves",
+      "spiritDirectBehavior": "Wildfire Circle",
+      "spiritSkyBehavior": "Flaming Leaf Storm",
+      "counterTags": [
+        "FOREST",
+        "FIRE"
+      ],
+      "counterStrength": 1,
+      "weaknessTags": [
+        "WATER",
+        "WIND",
+        "DIVINE"
+      ],
+      "resistanceTags": [],
+      "radius": 165,
+      "duration": 6,
+      "damageOverTime": 1.8,
+      "pulseInterval": 0.7,
+      "movementControlType": 2,
+      "movementModifier": 0.9,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "embers",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    },
+    "aranya": {
+      "astraId": "aranya",
+      "displayName": "Aranya Cyclone",
+      "ownerCharacter": 7,
+      "element": "wind",
+      "category": "astra",
+      "tier": 2,
+      "normalChargeTime": 0,
+      "spiritChargeTime": 2.8,
+      "normalCooldown": 1.15,
+      "spiritCooldown": 1.8499999999999999,
+      "normalEnergyCost": 65,
+      "spiritEnergyCost": 80,
+      "normalDamage": 8.4,
+      "spiritDamage": 10.4,
+      "fieldEffectId": "forest",
+      "skyFieldId": "forest",
+      "normalDirectBehavior": "Forest cyclone projectile",
+      "normalSkyBehavior": "Short aerial vortex",
+      "spiritDirectBehavior": "Massive Forest Tempest",
+      "spiritSkyBehavior": "Great Forest Cyclone",
+      "counterTags": [
+        "FOREST",
+        "WIND"
+      ],
+      "counterStrength": 3,
+      "weaknessTags": [
+        "DIVINE"
+      ],
+      "resistanceTags": [
+        "NON_ULTIMATE"
+      ],
+      "radius": 195,
+      "duration": 6,
+      "damageOverTime": 2,
+      "pulseInterval": 0.8,
+      "movementControlType": 4,
+      "movementModifier": 1,
+      "projectileBlockingRules": {
+        "normal": false,
+        "charged": false,
+        "astra": false,
+        "spirit": false,
+        "ultimate": false
+      },
+      "vfxId": "forest",
+      "sfxId": "SpiritRelease",
+      "musicId": null,
+      "cameraId": "brief-recoil",
+      "ai": {
+        "reaction": {
+          "easy": 1.1,
+          "normal": 0.7,
+          "hard": 0.4
+        }
+      }
+    }
+  }
+}

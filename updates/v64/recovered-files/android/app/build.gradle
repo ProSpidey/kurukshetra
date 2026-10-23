@@ -1,0 +1,10 @@
+plugins { id 'com.android.application' }
+android {
+ namespace 'com.vertexline.kurukshetra'
+ compileSdk 36
+ defaultConfig { applicationId 'com.vertexline.kurukshetra'; minSdk 26; targetSdk 36; versionCode 60; versionName '0.60.0-test' }
+ buildTypes { release { minifyEnabled false } }
+}
+
+tasks.register('syncWebAssets', Copy) { from rootProject.file('../web'); into 'src/main/assets/www' }
+preBuild.dependsOn syncWebAssets

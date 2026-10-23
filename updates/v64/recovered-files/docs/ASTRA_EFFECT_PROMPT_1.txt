@@ -1,0 +1,8 @@
+Use case: stylized-concept
+Asset type: production sprite animation atlas for Canvas side-view fantasy game Kurukshetra Astra Warfare.
+Create one square 1024x1024 transparent PNG atlas, exactly 4 columns by 4 rows of equal 256x256 invisible square cells. Sixteen isolated VFX sprites total. Each row depicts FOUR consecutive looping animation frames of ONE effect, ordered left to right. Every effect centered within its own cell, with stable anchor and scale across all four frames. Effects stay inside central 80% of each cell, ample transparent gutters. No drawn grid.
+Row 1 (top): fiery orange elliptical ground circle prison with a rising flame wall around its circumference. Side-view ring, visible hollow center, intensely luminous flame tongues shift across four frames.
+Row 2: tall orange fire tornado, narrow base at cell bottom, twisting luminous flame vortex widening upward, four rotation phases.
+Row 3: flowing blue divine water curtain, an upright curved curtain of cascading cyan water streams and luminous droplets, four flow phases.
+Row 4 (bottom): pale smoky white-blue steam cloud, a compact wispy billowing cloud, four rolling vapor phases.
+Style: rich smooth hand-painted fantasy spell effects, translucent inner shapes, fine luminous edges, vibrant colored illumination, polished 2D game sprites. Consistent side-view perspective. Real alpha transparency in all empty areas; no colored or checkerboard background. No characters, no people, no terrain, no floor, no text, no labels, no borders, no numbers, no watermark. This is a precisely spaced usable animation sheet, not an illustration or collage. All 16 sprite effects fully contained within their own cell.

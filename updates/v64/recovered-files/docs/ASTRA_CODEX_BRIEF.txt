@@ -1,0 +1,970 @@
+Continue working inside my existing **Kurukshetra Astra Warfare** project.
+
+This milestone is ONLY for **STEP 1: ASTRA ARSENAL / CODEX + TAG & COUNTER DATABASE FOUNDATION**.
+
+Do NOT start implementing the larger combat-expansion ideas yet.
+
+Do NOT add:
+- new battlefield events
+- new chariot systems
+- new loadout selection
+- Astra Stability
+- new Ultimate rules
+- new Spirit Charge behavior
+- new combat inputs
+- new progression systems
+
+This milestone is strictly the DATA + UI FOUNDATION for the Astra Arsenal and Counter ecosystem.
+
+==================================================
+PRIMARY GOAL
+==================================================
+
+Build a reusable **Astra Arsenal / Codex system** that:
+
+1. contains all current Astras in one authoritative data source
+2. classifies every Astra by family and tags
+3. defines what each Astra counters
+4. defines what counters each Astra
+5. supports hard counters
+6. supports soft counters
+7. supports transform interactions
+8. displays this information in a clean in-game Codex / Arsenal UI
+9. does NOT change actual combat behavior yet unless a tiny compatibility hook is needed
+10. is designed so future combat logic can query the same database
+
+The goal is to create one clean source of truth for current and future Astra interactions.
+
+==================================================
+IMPORTANT — INSPECT CURRENT PROJECT FIRST
+==================================================
+
+Before creating new structures:
+
+inspect the existing project and locate:
+
+- current character data
+- current Astra definitions
+- current Astra ownership
+- current Astra damage values
+- current Spirit Charge definitions
+- current elemental tags if any
+- current counter logic if any
+- current Ultimate definitions
+- current UI architecture
+- current settings/data/config patterns
+- current save/profile data if any
+- current Lore / codex / help screens if any
+
+Do NOT create duplicate sources of truth if the project already has an appropriate registry/config system.
+
+Prefer extending current architecture.
+
+==================================================
+CURRENT PLAYABLE ROSTER
+==================================================
+
+Current warriors:
+
+- Arjuna
+- Karna
+- Bhishma
+- Drona
+- Abhimanyu
+- Ashwatthama
+- Satyaki
+- Ekalavya
+
+==================================================
+CURRENT SIGNATURE ASTRA SET
+==================================================
+
+Use the current implemented names if the project already contains migrated spellings.
+
+ARJUNA
+- Aindrastra
+- Gandiva Gale
+- Pashupata Radiance
+
+KARNA
+- Surya Shaft
+- Nagastra
+- Vasavi Shakti
+
+BHISHMA
+- Ganga's Guard
+- Kuru Thunder
+- Prabhasa Radiance
+
+DRONA
+- Agneya Astra
+- Brahmastra
+- Acharya's Judgment
+
+ABHIMANYU
+- Chakra Volley
+- Rudra Rush
+- Subhadra Tempest
+
+ASHWATTHAMA
+- Rudra Ember
+- Narayana Burst
+- Brahmashira
+
+SATYAKI
+- Vrishni Wind
+- Varuna's Tide
+- Yuyudhana Storm
+
+EKALAVYA
+- Forest Fang
+- Nishada Flame
+- Aranya Cyclone
+
+Do not rename these unless the project already uses the corrected names.
+
+==================================================
+ASTRA FAMILY SYSTEM
+==================================================
+
+Create a reusable gameplay-family classification.
+
+Suggested families:
+
+ELEMENTAL
+DIVINE
+BINDING
+BARRIER
+TACTICAL
+CATACLYSMIC
+
+An Astra may belong to one primary family and optionally one secondary family.
+
+Examples:
+
+Agneya Astra
+primary:
+ELEMENTAL
+
+Nagastra
+primary:
+BINDING
+
+Ganga's Guard
+primary:
+BARRIER
+
+Acharya's Judgment
+primary:
+TACTICAL
+
+Brahmastra
+primary:
+CATACLYSMIC
+secondary:
+DIVINE
+
+Pashupata Radiance
+primary:
+CATACLYSMIC
+secondary:
+DIVINE
+
+==================================================
+TAG SYSTEM
+==================================================
+
+Create reusable tags.
+
+Initial supported tags should include at least:
+
+FIRE
+WATER
+WIND
+THUNDER
+DIVINE
+SERPENT
+GARUDA
+STORM
+RADIANCE
+CURSE
+BARRIER
+FOREST
+TACTICAL
+BINDING
+CATACLYSMIC
+
+Tags must be data-driven.
+
+Do NOT hard-code counter rules inside individual combat functions.
+
+Future systems should be able to query:
+
+astra.tags
+
+==================================================
+INTERACTION TYPES
+==================================================
+
+Create interaction categories:
+
+HARD_COUNTER
+
+SOFT_COUNTER
+
+TRANSFORM
+
+WEAKEN
+
+DISPLACE
+
+SHORTEN_DURATION
+
+CANCEL
+
+NO_SPECIAL_INTERACTION
+
+Do not implement the actual combat response yet unless the current game already has the system and only needs data wiring.
+
+This milestone primarily defines the interaction metadata.
+
+==================================================
+COUNTER DATABASE
+==================================================
+
+Each Astra entry must support:
+
+counters:
+[
+  {
+    targetTag or targetAstraId
+    interactionType
+    strength
+    notes
+  }
+]
+
+counteredBy:
+computed where practical
+or explicitly stored if architecture requires it
+
+Prefer deriving `counteredBy` from the central relationship graph so data does not become inconsistent.
+
+==================================================
+INITIAL COUNTER PHILOSOPHY
+==================================================
+
+Use these gameplay principles:
+
+FIRE
+strongly countered by WATER
+
+FIRE + WIND
+can TRANSFORM into EMBER_STORM
+
+WATER + THUNDER
+can TRANSFORM into ELECTRIFIED_WATER
+
+WATER + WIND
+can TRANSFORM into MIST / DISPERSED_WATER
+
+SERPENT
+hard-countered by GARUDA
+
+BARRIER
+may be weakened by CATACLYSMIC / DIVINE depending on specific Astra
+
+FOREST
+can interact with FIRE and WIND
+
+CURSE
+can be weakened/cleansed by DIVINE where appropriate
+
+CATACLYSMIC
+should generally require other high-tier DIVINE / CATACLYSMIC interactions
+
+Do not make every tag beat one other tag in a simple rock-paper-scissors loop.
+
+==================================================
+INITIAL KNOWN INTERACTION EXAMPLES
+==================================================
+
+Define metadata for at least these interactions:
+
+Agneya Astra
+tags:
+FIRE
+
+Strong counters:
+WATER
+
+Transform with WIND:
+EMBER_STORM
+
+Varuna's Tide
+tags:
+WATER
+
+Hard/strong counter against:
+FIRE
+
+Transform with THUNDER:
+ELECTRIFIED_WATER
+
+Transform with WIND:
+MIST or DISPERSED_WATER
+
+Kuru Thunder
+tags:
+THUNDER
+STORM
+
+Against WET/WATER field:
+TRANSFORM → ELECTRIFIED_WATER
+
+Nagastra
+tags:
+SERPENT
+BINDING
+
+Hard counter:
+GARUDA-type interaction
+
+Ganga's Guard
+tags:
+WATER
+BARRIER
+DIVINE
+
+Strong against:
+FIRE
+
+Can reduce / suppress:
+burning field effects
+
+Vrishni Wind
+tags:
+WIND
+
+Can:
+WEAKEN or DISPLACE some FIRE / STORM effects
+
+Can transform FIRE:
+EMBER_STORM
+
+Rudra Ember
+tags:
+FIRE
+CURSE
+
+Counter:
+WATER
+DIVINE cleanse
+
+Nishada Flame
+tags:
+FIRE
+FOREST
+
+Counter:
+WATER
+
+Wind interaction:
+can alter spread rather than simply cancel
+
+Aranya Cyclone
+tags:
+WIND
+FOREST
+STORM
+
+Can:
+DISPLACE fields
+distort projectiles
+
+Brahmastra
+tags:
+DIVINE
+CATACLYSMIC
+
+High-tier counter requirement:
+DIVINE or CATACLYSMIC
+
+Brahmashira
+tags:
+DIVINE
+CATACLYSMIC
+CURSE if current design supports it
+
+Should not be treated like an ordinary elemental Astra.
+
+Pashupata Radiance
+tags:
+DIVINE
+CATACLYSMIC
+RADIANCE
+
+Should require high-tier interaction.
+
+Narayana Burst
+tags:
+DIVINE
+TACTICAL
+
+Its special knowledge-based interaction should be documented but not redesigned in this milestone.
+
+==================================================
+ASTRA DATA STRUCTURE
+==================================================
+
+Create or extend a central Astra definition structure.
+
+Conceptually each Astra should support:
+
+id
+displayName
+ownerCharacterId
+descriptionShort
+descriptionLong
+
+primaryFamily
+secondaryFamily
+
+tags[]
+
+tier
+
+baseDamageReference
+if currently available
+
+spiritChargeSupported
+normalDirectSupported
+normalSkySupported
+spiritDirectSupported
+spiritSkySupported
+
+counterRelationships[]
+
+visualIcon
+optionalCodexImage
+
+loreText
+
+gameplayNotes
+
+isUltimate
+isSignature
+isCounterEligible
+
+Do not force fields that are meaningless in current architecture.
+
+Use the existing project style.
+
+==================================================
+TIER SYSTEM
+==================================================
+
+Add optional Astra tier metadata.
+
+Suggested:
+
+TIER_1
+TIER_2
+TIER_3
+DIVINE
+CATACLYSMIC
+
+This is not player progression.
+
+It is only a combat/data classification.
+
+Example:
+
+Gandiva Gale
+TIER_1 or TIER_2
+
+Agneya Astra
+TIER_2
+
+Brahmastra
+CATACLYSMIC
+
+Pashupata Radiance
+CATACLYSMIC
+
+Brahmashira
+CATACLYSMIC
+
+Do not use tier alone to determine damage.
+
+==================================================
+ASTRA CODEX UI
+==================================================
+
+Create a new **Astra Arsenal / Codex** screen or reuse an existing help/lore screen if architecture already supports it.
+
+The visual reference is the supplied Astra Arsenal screenshots:
+
+- category navigation
+- weapon display
+- Astra name
+- description
+- counter weapon / counter information
+
+Do NOT copy their exact art style blindly.
+
+Match **Kurukshetra Astra Warfare's** current visual language.
+
+==================================================
+CODEX LAYOUT
+==================================================
+
+Suggested landscape layout:
+
+TOP:
+category/filter tabs
+
+LEFT:
+selected Astra icon / visual
+
+CENTER:
+Astra name
+short description
+family
+tags
+owner
+
+RIGHT:
+COUNTERS
+COUNTERED BY
+
+BOTTOM:
+longer gameplay explanation / lore
+
+Optional:
+previous / next navigation
+
+==================================================
+FILTERS
+==================================================
+
+Support filters such as:
+
+ALL
+
+BY CHARACTER:
+Arjuna
+Karna
+Bhishma
+Drona
+Abhimanyu
+Ashwatthama
+Satyaki
+Ekalavya
+
+BY FAMILY:
+Elemental
+Divine
+Binding
+Barrier
+Tactical
+Cataclysmic
+
+Do NOT recreate the reference's:
+Celestial / Arrow / Axe / Mace / Sword / Gada / Spear categories unless they make sense for this game's actual Astra roster.
+
+The Codex should be designed for THIS game.
+
+==================================================
+COUNTER DISPLAY
+==================================================
+
+For selected Astra show:
+
+COUNTERS:
+- Astra names or tag classes it counters
+
+COUNTERED BY:
+- Astra names / families / tags that counter it
+
+INTERACTION:
+- HARD COUNTER
+- SOFT COUNTER
+- TRANSFORM
+- WEAKEN
+etc.
+
+Example:
+
+AGNEYA ASTRA
+
+Family:
+Elemental
+
+Tags:
+Fire
+
+COUNTERED BY:
+Varuna's Tide
+Ganga's Guard
+
+TRANSFORMS WITH:
+Vrishni Wind → Ember Storm
+
+This should help players learn matchups.
+
+==================================================
+TRANSFORM RECIPE DISPLAY
+==================================================
+
+Create support for interaction recipes.
+
+Examples:
+
+FIRE + WATER
+→ STEAM CLOUD
+
+WATER + THUNDER
+→ ELECTRIFIED WATER
+
+FIRE + WIND
+→ EMBER STORM
+
+WATER + WIND
+→ MIST
+
+These recipes should exist in central data.
+
+The Codex UI should be able to display them.
+
+Do NOT implement the resulting combat fields in this milestone if they are not already implemented.
+
+==================================================
+KNOWN / DISCOVERED STATE
+==================================================
+
+Prepare the Codex architecture to support future discovery/progression, but keep all current relevant Astras visible for now unless the current project already has unlock logic.
+
+Support metadata such as:
+
+isKnown
+isDiscovered
+
+but do not create progression requirements yet.
+
+==================================================
+TOOLTIP / QUICK INFO SUPPORT
+==================================================
+
+Design the data so later combat UI can quickly request:
+
+getAstraDisplayName
+getAstraTags
+getAstraCounters
+getAstraCounteredBy
+getAstraTransformRecipes
+
+No combat implementation yet.
+
+==================================================
+NETWORKING
+==================================================
+
+The Astra Codex itself does not need network replication.
+
+However the Astra IDs and counter database must use stable IDs so later multiplayer combat systems can reference them safely.
+
+Do not use displayName strings as gameplay identifiers.
+
+==================================================
+SAVE COMPATIBILITY
+==================================================
+
+Do not break existing saves.
+
+If Astra identifiers already exist:
+
+reuse them.
+
+If migration is needed:
+
+create safe mapping from old IDs/names.
+
+Especially preserve corrected spellings where current project already migrated them.
+
+==================================================
+DEBUG VALIDATION
+==================================================
+
+Add development validation for the Astra database.
+
+Check:
+
+- duplicate IDs
+- missing owner
+- missing family
+- invalid tag
+- invalid counter target
+- circular malformed relationships
+- missing display names
+- broken icon paths
+
+Also validate that:
+
+if A HARD_COUNTERS B
+
+then B's derived `counteredBy` shows A.
+
+==================================================
+DEBUG VIEW
+==================================================
+
+If a debug panel exists, add:
+
+ASTRA DATABASE
+
+Select Astra
+
+Show:
+ID
+owner
+family
+tags
+tier
+counters
+counteredBy
+transformRecipes
+
+Add:
+validate database
+
+Optional:
+export readable table to console/log
+
+==================================================
+DO NOT CHANGE COMBAT YET
+==================================================
+
+This is critical.
+
+Do NOT automatically make the new counter metadata affect live combat in this milestone unless equivalent counter behavior already exists and this is only wiring data into it.
+
+No new damage logic.
+
+No new cancel logic.
+
+No new transform effects.
+
+No new stun/control logic.
+
+The purpose of this step is to build the foundation cleanly first.
+
+==================================================
+FUTURE COMPATIBILITY
+==================================================
+
+Design this system so later milestones can use the same database for:
+
+- pre-match Counter Astra selection
+- Astra Recognition
+- Spirit Charge counter resolution
+- field transformations
+- AI counter choice
+- Drona Mastery
+- tutorial hints
+- Lore/Arsenal progression
+
+Do not implement those systems now.
+
+==================================================
+UI ACCESS
+==================================================
+
+Add the Astra Codex / Arsenal through an appropriate current menu location.
+
+Prefer:
+How to Play / Learn Controls / existing secondary menu
+
+or another clean nonintrusive location.
+
+Do NOT add a giant new home-screen feature if it disrupts the current menu.
+
+If there is no good entry point:
+
+add a small "Astra Arsenal" entry inside an existing help/lore/settings-adjacent screen.
+
+==================================================
+MOBILE
+==================================================
+
+Must support mobile landscape.
+
+Ensure:
+
+- Astra list is scrollable
+- tabs are tappable
+- descriptions are readable
+- counter lists do not overflow
+- no tiny text
+- no horizontal UI clipping
+
+==================================================
+PERFORMANCE
+==================================================
+
+This is primarily static data + UI.
+
+Do not create per-frame processing.
+
+Precompute:
+
+counteredBy maps
+tag indexes
+family indexes
+
+where useful.
+
+==================================================
+TEST REQUIREMENTS
+==================================================
+
+Verify all 24 current signature Astras appear correctly.
+
+For each:
+
+correct owner
+correct display name
+correct family
+correct tags
+correct counter relationships
+
+Test filters:
+
+ALL
+BY CHARACTER
+BY FAMILY
+
+Test:
+desktop
+mobile landscape
+
+Test:
+missing icon fallback
+
+Test:
+invalid data validation
+
+==================================================
+MINIMUM REQUIRED INTERACTION DATA
+==================================================
+
+At minimum, the database must correctly represent:
+
+Agneya Astra:
+FIRE
+
+Varuna's Tide:
+WATER
+
+Ganga's Guard:
+WATER + BARRIER
+
+Kuru Thunder:
+THUNDER + STORM
+
+Nagastra:
+SERPENT + BINDING
+
+Vrishni Wind:
+WIND
+
+Rudra Ember:
+FIRE + CURSE
+
+Nishada Flame:
+FIRE + FOREST
+
+Aranya Cyclone:
+WIND + FOREST + STORM
+
+Brahmastra:
+DIVINE + CATACLYSMIC
+
+Brahmashira:
+DIVINE + CATACLYSMIC
+
+Pashupata Radiance:
+DIVINE + CATACLYSMIC + RADIANCE
+
+==================================================
+DEFINITION OF DONE
+==================================================
+
+This milestone is complete when:
+
+1. One authoritative Astra database exists.
+2. All current 24 Astras are registered.
+3. Each Astra has stable ID.
+4. Each Astra has owner.
+5. Each Astra has family.
+6. Each Astra has tags.
+7. Counter relationships are represented.
+8. Countered-by data is available.
+9. Transform recipes are represented.
+10. No live combat behavior is unintentionally changed.
+11. Astra Codex / Arsenal UI exists.
+12. Filters work.
+13. Mobile landscape works.
+14. Desktop works.
+15. Data validation exists.
+16. Existing saves/gameplay are not broken.
+
+==================================================
+FINAL REPORT
+==================================================
+
+After implementation report:
+
+FILES CREATED
+
+FILES MODIFIED
+
+CURRENT ASTRA ARCHITECTURE FOUND
+
+FINAL ASTRA DATABASE ARCHITECTURE
+
+FULL LIST OF REGISTERED ASTRA IDS
+
+OWNER MAPPING
+
+FAMILY MAPPING
+
+TAG MAPPING
+
+COUNTER RELATIONSHIPS
+
+TRANSFORM RECIPES
+
+CODEX UI ARCHITECTURE
+
+FILTERS
+
+MOBILE SUPPORT
+
+SAVE / MIGRATION NOTES
+
+DEBUG VALIDATION
+
+TEST RESULTS
+
+KNOWN DATA GAPS
+
+WHICH COUNTER RELATIONSHIPS STILL NEED DESIGN DECISIONS
+
+Do not start Step 2.
+
+Do not implement Counter Astra loadout yet.
+
+Do not implement new combat behavior yet.
+
+Complete only the Astra Arsenal / Codex + Tag & Counter Database foundation.
