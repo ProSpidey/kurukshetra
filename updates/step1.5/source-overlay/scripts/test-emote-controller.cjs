@@ -1,0 +1,22 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const element=()=>({setAttribute(){},append(){},dataset:{},addEventListener(){}});
+let now=10000,requests=[];
+const s={console,Date,Map,Math,performance:{now:()=>now},document:{createElement:element,body:element(),addEventListener(){},hidden:false},$:()=>null,requestAnimationFrame(){},setInterval(fn){s.poll=fn},online:{active:false,started:false,seat:0},service:{profile:{cosmeticLoadout:{emotes:['emote_salute','emote_respect',null,null],hideOpponentEmotes:false}}},atHome:true,ended:false,serviceAPI:async(path,data)=>{requests.push({path,data});return {triggeredAt:Date.now(),match:s.service.match};}};
+vm.createContext(s);for(const f of ['cosmetic-catalog','emote-controller'])vm.runInContext(fs.readFileSync('web/'+f+'.js','utf8'),s);
+const run=code=>vm.runInContext(code,s);
+(async()=>{
+ await run('EmoteController.trigger(0)');assert(run('!!EmoteController.events[0]'));
+ await assert.rejects(run('EmoteController.trigger(1)'),/wait/);
+ now+=5000;await run('EmoteController.trigger(1)');assert.equal(run('EmoteController.events[0].id'),'emote_respect');
+ s.atHome=false;assert.equal(run('EmoteController.allowed()'),false);run('EmoteController.sync()');assert.equal(run('EmoteController.events[0]'),null);
+ s.online.active=true;s.service.connected='match';s.service.match={id:'match',status:'connecting'};
+ assert.equal(run('EmoteController.allowed()'),true);
+ s.online.started=true;assert.equal(run('EmoteController.allowed()'),false,'stale connecting status cannot show an emote during battle');
+ await s.poll();assert.equal(requests.length,0,'no emote polling in combat');
+ s.service.match.status='complete';assert.equal(run('EmoteController.allowed()'),false);
+ s.ended=true;assert.equal(run('EmoteController.allowed()'),true);await s.poll();assert.equal(requests[0].path,'match/status');
+ s.service.profile.cosmeticLoadout.hideOpponentEmotes=true;run("EmoteController.show(1,'emote_salute',1234)");assert.equal(run('EmoteController.events[1]'),null);
+ s.service.profile.cosmeticLoadout.hideOpponentEmotes=false;run("EmoteController.show(1,'emote_salute',1234)");assert(run('!!EmoteController.events[1]'));
+ const start=run('EmoteController.events[1].start');now+=100;run("EmoteController.show(1,'emote_salute',1234)");assert.equal(run('EmoteController.events[1].start'),start,'duplicate delivery must not restart animation');
+ console.log('PASS emote state boundaries, local cooldown, instant battle cancellation, no combat polling, post-match delivery, opponent hiding and event deduplication.');
+})().catch(e=>{console.error(e);process.exitCode=1;});

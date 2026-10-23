@@ -1,0 +1,17 @@
+'use strict';
+(function(root){
+ const characters=['arjuna','karna','bhishma','drona','abhimanyu','ashwatthama','satyaki','ekalavya'];
+ const animations=['idle','draw','release','charged','astra','ultimate','damage','dodge','movement','dismount','fate','victory','defeat'];
+ const skins=[['celestial_sapphire','Celestial Sapphire',3000,'#389cdb'],['solar_sovereign','Solar Sovereign',3200,'#dca435'],['silver_vow','Silver Vow',2800,'#a6c8db'],['acharya_ceremonial','Acharya Ceremonial',2600,'#e0b872'],['chakravyuha_vanguard','Chakravyuha Vanguard',2600,'#b74b52'],['mani_eclipse','Mani Eclipse',3400,'#8754b2'],['vrishni_windrider','Vrishni Windrider',2700,'#3da8a1'],['forest_sentinel','Forest Sentinel',2600,'#629959']];
+ const bows=[['moonlit_gandiva','Moonlit Gandiva',1400],['sunforged','Sunforged Bow',1400],['silver_oath','Silver Oath Bow',1100],['acharya_engraved','Acharya Engraved Bow',1000],['vanguard','Vanguard Bow',1000],['eclipse','Eclipse Bow',1300],['vrishni_wind','Vrishni Wind Bow',1000],['forest_carved','Forest-Carved Bow',900]];
+ const items=[];
+ function add(id,type,name,price,characterId,color,extra={}){items.push(Object.freeze({cosmeticId:id,cosmeticType:type,displayName:name,description:'Appearance only. All combat values and default appearances are preserved.',rarity:type==='WARRIOR_SKIN'?'EPIC':'RARE',priceSuvarna:price,assetId:'brocade-v1',characterId,compatibleCharacterIds:characterId?[characterId]:characters,isAvailable:true,releaseState:'RELEASED',purchasable:true,previewAsset:characterId?'matchup/'+characterId+'.png':'cosmetics/brocade.png',requiredAnimations:type==='WARRIOR_SKIN'?animations:[],defaultUnlocked:false,color,...extra}));}
+ skins.forEach((s,i)=>add('skin_'+s[0],'WARRIOR_SKIN',s[1],s[2],characters[i],s[3]));
+ bows.forEach((b,i)=>add('bow_'+b[0],'BOW_SKIN',b[1],b[2],characters[i],skins[i][3]));
+ [['royal_kuru','Royal Kuru',2500,'#bd8e38'],['forest_vanguard','Forest Vanguard',1800,'#5a8a52'],['storm_herald','Storm Herald',2800,'#638fca'],['solar_crest','Solar Crest',3200,'#e7a33b']].forEach(c=>add('chariot_'+c[0],'CHARIOT_SKIN',c[1],c[2],null,c[3]));
+ ['Warrior Salute','Divine Respect','Challenge Accepted','Victory Flourish','Warrior Meditation','Oath of Victory'].forEach((name,i)=>add('emote_'+['salute','respect','challenge','flourish','meditation','oath'][i],'EMOTE',name,i<2?0:500,null,'#e5bf70',{emoteId:'emote_'+['salute','respect','challenge','flourish','meditation','oath'][i],defaultUnlocked:i<2,rarity:i<2?'COMMON':'RARE',animationRef:'ceremonial_'+i,duration:1.6,triggerConditions:['PRE_ROUND','POST_ROUND'],cancellationBehavior:'IMMEDIATE_ON_COMBAT',cooldown:5,optionalSfx:null}));
+ const byId=Object.freeze(Object.fromEntries(items.map(x=>[x.cosmeticId,x])));
+ function defaults(){return {warriorSkins:{},bowSkins:{},chariotSkin:null,emotes:['emote_salute','emote_respect',null,null],hideOpponentEmotes:false};}
+ function owned(id,entitlements=[]){return !!byId[id]&&(byId[id].defaultUnlocked||entitlements.some(e=>e.entitlementType==='COSMETIC'&&e.targetId===id&&!e.expiresAt));}
+ root.CosmeticCatalog=Object.freeze({characters,animations,items:Object.freeze(items),byId,defaults,owned,sources:['SUVARNA_PURCHASE','SEASON_PASS','ACHIEVEMENT','PROMOTION','ADMIN_GRANT']});
+})(globalThis);

@@ -39,3 +39,10 @@ instructions once the full application's workflow is known.
 The linked Sites project is `appgprj_6ab42d4132f48191a8b8e7718ac80f9f`.
 No Sites project access/deployment tool is available in this session. No live Site
 was read, modified, or deployed as part of this import.
+
+## Additional import on 2026-10-23
+
+The Step 1.5 source overlay is now preserved at [`../step1.5/`](../step1.5/).
+It adds game and treasury code, but combining it with this v66 overlay still
+lacks the v64 baseline and cannot build. See that import report for current
+validation and the newly supplied archives that exceed the transfer limit.

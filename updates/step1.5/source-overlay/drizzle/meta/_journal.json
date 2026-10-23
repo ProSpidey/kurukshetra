@@ -1,0 +1,55 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1790322278722,
+      "tag": "0000_easy_paladin",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1790322518493,
+      "tag": "0001_spooky_hairball",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791736288394,
+      "tag": "0002_wet_captain_flint",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1791844800000,
+      "tag": "0003_tactical_quiver",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1792048533053,
+      "tag": "0004_connection_relay",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1792398958628,
+      "tag": "0005_useful_virginia_dare",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1792434600000,
+      "tag": "0006_war_treasury",
+      "breakpoints": true
+    }
+  ]
+}

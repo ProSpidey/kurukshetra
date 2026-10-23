@@ -1,0 +1,22 @@
+<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Treasury material verification</title><style>body{background:#111923;color:#eedbb6;font:14px Arial;margin:24px}section{display:flex;flex-wrap:wrap;gap:12px;border-bottom:1px solid #78603c;padding:15px}figure{margin:0}canvas{width:160px;height:160px;object-fit:contain;background:#1c2736}pre{white-space:pre-wrap}button{padding:15px}</style></head><body><h1>Treasury material verification</h1><p>Local test only. Original / cosmetic pairs, including Fate sprites. No account changes.</p><button id="run">Run material checks</button><pre id="report">Ready</pre><div id="gallery"></div><script src="/cosmetic-catalog.js"></script><script src="/cosmetic-renderer.js"></script><script src="/fate-assets.js"></script><script>
+const options={reduced:true},players=[],service={},images=new Map();
+const load=async src=>{if(images.has(src))return images.get(src);const im=new Image();im.src='/'+src;await im.decode();images.set(src,im);return im;};
+document.getElementById('run').onclick=async()=>{
+ try{document.getElementById('report').textContent='Checking…';document.getElementById('gallery').replaceChildren();cosmeticLoadMaterial();await cosmeticMaterial.decode();await new Promise(resolve=>requestAnimationFrame(resolve));const out=[];let checked=0,errors=0,zero=0;
+ for(const [i,hero] of CosmeticCatalog.characters.entries()){
+ const skin=CosmeticCatalog.items.find(c=>c.characterId===hero&&c.cosmeticType==='WARRIOR_SKIN'),bow=CosmeticCatalog.items.find(c=>c.characterId===hero&&c.cosmeticType==='BOW_SKIN');
+ const base=await load(i<4?'warriors.png':'warriors-extra.png'),cell=base.naturalWidth/4,tests=[0,1,2,3].map(n=>({im:base,rect:[n*cell,i%4*cell,cell,cell],label:['idle','draw','release','damage'][n],show:n<2}));
+ const slots=Object.entries(FATE_ASSET_SLOTS).filter(([name,s])=>name.startsWith(hero+'_')&&s.src);
+ const seen=new Set();for(const [name,s] of slots){for(const f of s.sequence||[0]){const key=s.src+':'+f;if(seen.has(key))continue;seen.add(key);const im=await load(s.src),cw=im.naturalWidth/(s.columns||4),ch=im.naturalHeight/(s.rows||4);tests.push({im,rect:s.frameRects?.[f]||[(f%(s.columns||4))*cw,Math.floor(f/(s.columns||4))*ch,cw,ch],label:name,show:seen.size===1});}}
+ const section=document.createElement('section'),heading=document.createElement('h2');heading.textContent=hero;section.append(heading);document.getElementById('gallery').append(section);
+ let changedFrames=0;
+ for(const t of tests){const altered=cosmeticFrame(t.im,t.rect,skin,bow,null);if(!altered){errors++;continue;}const c=document.createElement('canvas');c.width=altered.width;c.height=altered.height;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(t.im,...t.rect,0,0,c.width,c.height);const a=g.getImageData(0,0,c.width,c.height).data,b=altered.getContext('2d').getImageData(0,0,c.width,c.height).data;let changed=0,alpha=0;
+ for(let p=0;p<a.length;p+=4){if(a[p+3]!==b[p+3])alpha++;if(a[p]!==b[p]||a[p+1]!==b[p+1]||a[p+2]!==b[p+2])changed++;}
+ if(alpha)errors++;if(changed)changedFrames++;else zero++;checked++;
+ if(t.show){const fig=document.createElement('figure'),label=document.createElement('figcaption');label.textContent=t.label+' · '+changed+' changed pixels';const copy=document.createElement('canvas');copy.width=altered.width;copy.height=altered.height;copy.getContext('2d').drawImage(altered,0,0);fig.append(c,copy,label);section.append(fig);}
+ }
+ out.push(hero+': '+changedFrames+'/'+tests.length+' frames receive material');
+ }document.getElementById('report').textContent=out.join('\n')+'\nTOTAL '+checked+' frames; '+errors+' errors; '+zero+' frames with no eligible material pixels';
+ }catch(e){document.getElementById('report').textContent=e.stack;}
+};
+</script></body></html>
