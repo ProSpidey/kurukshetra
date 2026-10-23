@@ -1,0 +1,32 @@
+{
+  "archive": "Kurukshetra-v66-Source-Overlay.zip",
+  "archive_sha256": "b1023a5abbe4b7fbdde10e2254dabee237bff33068272ba39498458da8f40fa2",
+  "files": {
+    "docs/VERSION66-RELEASE-CANDIDATE.md": "25dc85afa9747a853c0e065935774a41c69e295e2373b54e912f314b4ccbfb9a",
+    "scripts/prepare-v66-menu-assets.mjs": "fe6531fb22b756d71e2a15fecb165f07d9cd876626904d795bc919d253bc8b26",
+    "scripts/test-battlefield-style.cjs": "acea7439eedd044e10b882bb16dad1536f1c862e3c232f7228ac0eee65cedc8d",
+    "scripts/test-cosmetics.mjs": "3cdd19d6050e87f8df0807b63bc77bb0b9f3bb0cac121ffc7595d181c4d8f582",
+    "scripts/test-emote-controller.cjs": "35f3d599fdaa754676a67a97bebdca9b1eea9b2486a71f3fcec594a825204a58",
+    "server/cosmetic-catalog.js": "c213043226965a5a9c593efdacea7f37277f8840956da889fad020e152af90a9",
+    "server/services/sessions.js": "ea46c6cca8d867e29fe95163c5294a3f6cd44e9dba9aec544629e0ed4fe1488c",
+    "web/battlefields.js": "173e7b3b77a91d98452339f74379e5deb1beab60966e812f9e9db5ea356785d7",
+    "web/cosmetic-catalog.js": "c213043226965a5a9c593efdacea7f37277f8840956da889fad020e152af90a9",
+    "web/emote-controller.js": "3314f0499aff384c4b96aab050134d384d77468d31e908b3b42b2f1abdc5115d",
+    "web/home-ui/background.webp": "1c0d2e3a2f5394f30c74ec9b669b61c77015a161790a28343b9dcec7a241f96f",
+    "web/home-ui/controls.webp": "0d7d4d69e2c98317c4bec7cca54ab46f5c35ad6edfae66e2ad40b24f120b1e8d",
+    "web/home-ui/how-to-play.webp": "53067cb4ccc92573e56344d2b9872c811070ceaefc346c17dcb18c5c6da1137e",
+    "web/home-ui/krishna-center.webp": "0cc5ac1d474699c2bcee1f5828f806066601835ebab8db981ac3e9f11434d771",
+    "web/home-ui/local.webp": "68672512e5c2b7604e39ff13ac64cdd1ec6c23ee50ac4206d067862d8e2d240e",
+    "web/home-ui/lore-duel.webp": "3a4aeb68b1ab6ec89c88d18dcfc43bf54dcc9058108eeb98206752444de31c34",
+    "web/home-ui/lore-trial.webp": "596b609d96a931dbdf37d1cd6981be9f5e9678a9ead3cc7cb3fb43877faaafe7",
+    "web/home-ui/offline-battle.webp": "107ee1efe6ae2863ca4763be679af128ba83bb76bd63a38d73f6d1bbb37f3a83",
+    "web/home-ui/online-battle.webp": "e98debaf2f2275882a9965923d48845832f81b496cbdf1258b66bae14507522e",
+    "web/home-ui/settings.webp": "70960ce8ae5f1bfaead6d24baf5769ac21982328abc6dea74a4deb60491e0bf8",
+    "web/home-ui/solo.webp": "842fc8a205902595f0a6823b7519ee897d49228e158293c58fb1989726535aa6",
+    "web/home-ui.js": "f36e3f8b9d90f34a8822dd4d0ace19aedaef42106c0435421163c27cf312ffe3",
+    "web/index.html": "52083801028561863be1538e309bb4d1e314a23683bbd2bec77d5a72974f0e24",
+    "web/sw.js": "fc06fdb00c2ae7e2a79d5d020a1560032d88f5fe8d03226ef4a1382928dcd3f5",
+    "web/war-treasury.css": "09529147a9c76c71faf195a723a4d9a190b6cf17b2675b6c1ca37e5141c7664a",
+    "web/war-treasury.js": "dcf5f614dd5e457f8003097b7b07780c96e427ad15b926b6af34bb8c864b9ffb"
+  }
+}
